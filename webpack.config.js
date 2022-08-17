@@ -40,7 +40,7 @@ const baseConfig = {
         filename: 'index.html',
     }),
     new EslingPlugin({ extensions: 'ts' }),
-    new CopyWebpackPlugin({ patterns: [{ from: 'src/resources/img', to: 'img' }] }),
+    new CopyWebpackPlugin({ patterns: [{ from: './src/resources/img', to: 'img' }] }),
   ],
 };
 
