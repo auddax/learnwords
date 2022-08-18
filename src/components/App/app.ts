@@ -12,9 +12,9 @@ class App implements IApp {
     this.pageContent = new PageContent(this.view);
   }
 
-  render() {
+  async render() {
     const root = document.querySelector('#root');
-    if (root) root.insertAdjacentHTML('afterbegin', this.pageContent.render());
+    if (root) root.insertAdjacentHTML('afterbegin', await this.pageContent.render());
   }
 }
 
