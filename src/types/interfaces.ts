@@ -15,7 +15,8 @@ export interface IParams {
 }
 
 export interface RequestParams {
-  [index: string]: IParams,
+  pathVars: IParams,
+  queryParams: IParams,
 }
 
 export interface ILoader {

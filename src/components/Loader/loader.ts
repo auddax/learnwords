@@ -8,8 +8,8 @@ class Loader implements ILoader {
   }
 
   makeUrl(params: RequestParams | undefined): string {
-    const queryParams = params?.queryParams;
     const pathVars = params?.pathVars;
+    const queryParams = params?.queryParams;
     let url = `${this.base}`;
 
     if (pathVars) {

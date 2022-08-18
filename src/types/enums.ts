@@ -3,7 +3,10 @@ export enum View {
 }
 
 export enum PATH {
-  WORDS = '/words',
-  USERS = '/users',
-  SIGNIN = '/signin',
+  WORDS = 'words',
+  USERS = 'users',
+  AGGREGATED_WORDS = 'aggregatedWords',
+  STATISTIC = 'statistic',
+  SETTING = 'setting',
+  SIGNIN = 'signin',
 }
