@@ -8,7 +8,7 @@ class PageContent implements IPageContent {
     this.view = view;
   }
 
-  render() {
+  async render() {
     return (`
       <h1>${this.view} page is under construction 🛠️</h1>
     `);
