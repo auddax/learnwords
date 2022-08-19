@@ -1,5 +1,9 @@
 export enum View {
   MAIN = 'main',
+  DICTIONARY = 'dictionary',
+  GAMES = 'games',
+  STATISTIC = 'statistic',
+  SIGNIN = 'signin',
 }
 
 export enum PATH {
