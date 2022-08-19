@@ -1,15 +1,8 @@
 /* eslint-disable class-methods-use-this */
-import { View } from '../../types/enums';
 import { IPageHeader } from '../../types/interfaces';
 import './pageHeader.scss';
 
 class PageHeader implements IPageHeader {
-  view: View;
-
-  constructor(view: View) {
-    this.view = view;
-  }
-
   render() {
     return (`
       <header class="page-header">

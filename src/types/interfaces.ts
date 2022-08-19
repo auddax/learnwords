@@ -1,7 +1,6 @@
 import { View } from './enums';
 
 export interface IApp {
-  view: View;
   root: HTMLElement;
   pageHeader: IPageHeader;
   pageContent: IPageContent;
@@ -14,7 +13,6 @@ export interface IPageContent {
 }
 
 export interface IPageHeader {
-  view: View;
   render: () => string;
 }
 
