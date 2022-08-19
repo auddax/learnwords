@@ -1,20 +1,22 @@
 /* eslint-disable class-methods-use-this */
+import { View } from '../../types/enums';
 import { IPageHeader } from '../../types/interfaces';
 import './pageHeader.scss';
 
 class PageHeader implements IPageHeader {
   render() {
-    return (`
-      <header class="page-header">
+    const header = document.querySelector('.page-header');
+    if (header) {
+      header.innerHTML = `
         <ul class="menu">
-          <li class="menu-item" id="main">Main</li>
-          <li class="menu-item" id="dictionary">Dictionary</li>
-          <li class="menu-item" id="games">Games</li>
-          <li class="menu-item" id="statistics">Statistics</li>
-          <li class="menu-item" id="signin">Sign in</li>
+          <li class="menu-item" id="${View.MAIN}">Main</li>
+          <li class="menu-item" id="${View.DICTIONARY}">Dictionary</li>
+          <li class="menu-item" id="${View.GAMES}">Games</li>
+          <li class="menu-item" id="${View.STATISTICS}">Statistics</li>
+          <li class="menu-item" id="${View.SIGNIN}">Sign in</li>
         <ul>
-      </header>
-    `);
+      `;
+    }
   }
 }
 

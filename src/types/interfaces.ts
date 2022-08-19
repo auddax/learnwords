@@ -9,11 +9,12 @@ export interface IApp {
 
 export interface IPageContent {
   view: View;
-  render: () => Promise<string>;
+  listen: (target: HTMLElement) => void;
+  render: () => void;
 }
 
 export interface IPageHeader {
-  render: () => string;
+  render: () => void;
 }
 
 export interface IParams {
