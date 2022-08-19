@@ -14,11 +14,11 @@ class PageHeader implements IPageHeader {
     return (`
       <header class="page-header">
         <ul class="menu">
-          <li class="menu-item">Main</li>
-          <li class="menu-item">Dictionary</li>
-          <li class="menu-item">Games</li>
-          <li class="menu-item">Statistics</li>
-          <li class="menu-item">Sign in</li>
+          <li class="menu-item" id="main">Main</li>
+          <li class="menu-item" id="dictionary">Dictionary</li>
+          <li class="menu-item" id="games">Games</li>
+          <li class="menu-item" id="statistics">Statistics</li>
+          <li class="menu-item" id="signin">Sign in</li>
         <ul>
       </header>
     `);

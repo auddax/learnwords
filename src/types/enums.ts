@@ -2,7 +2,7 @@ export enum View {
   MAIN = 'main',
   DICTIONARY = 'dictionary',
   GAMES = 'games',
-  STATISTIC = 'statistic',
+  STATISTICS = 'statistics',
   SIGNIN = 'signin',
 }
 

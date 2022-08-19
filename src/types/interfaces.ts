@@ -2,6 +2,7 @@ import { View } from './enums';
 
 export interface IApp {
   view: View;
+  root: HTMLElement;
   pageHeader: IPageHeader;
   pageContent: IPageContent;
   render: () => void;
