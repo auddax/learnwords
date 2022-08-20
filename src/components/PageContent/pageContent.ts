@@ -1,19 +1,24 @@
 import { View } from '../../types/enums';
-import { IPageContent, MainPage } from '../../types/interfaces';
+import { IPageContent, ISprint, MainPage } from '../../types/interfaces';
 import Main from '../Main/mainPage';
+import Sprint from '../Sprint/sprint';
 
 class PageContent implements IPageContent {
   view: View;
 
   main: MainPage;
 
+  sprint: ISprint;
+
   constructor(view: View) {
     this.view = view;
     this.main = new Main();
+    this.sprint = new Sprint();
   }
 
   listen(target: HTMLElement) {
     this.changeView(target);
+    this.sprint.listen(target);
   }
 
   changeView(target: HTMLElement) {
@@ -24,7 +29,18 @@ class PageContent implements IPageContent {
 
   async render() {
     const main = document.querySelector('.page-content');
-    if (main) main.innerHTML = this.main.render();
+    let content = this.main.render();
+    switch (this.view) {
+      case 'main':
+        content = this.main.render();
+        break;
+      case 'games':
+        this.sprint.render();
+        break;
+      default:
+        return;
+    }
+    if (main) main.innerHTML = content;
   }
 }
 

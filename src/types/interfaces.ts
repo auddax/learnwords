@@ -40,9 +40,16 @@ export interface MainPage {
 }
 
 export interface ISprint {
+  start: ISprintStart;
+  game: ISprintGame;
+  listen: (target: HTMLElement) => void;
   render: () => void;
 }
 
 export interface ISprintStart {
+  render: () => string;
+}
+
+export interface ISprintGame {
   render: () => string;
 }
