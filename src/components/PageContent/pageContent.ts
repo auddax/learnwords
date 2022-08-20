@@ -1,11 +1,15 @@
 import { View } from '../../types/enums';
-import { IPageContent } from '../../types/interfaces';
+import { IPageContent, MainPage } from '../../types/interfaces';
+import Main from '../Main/mainPage';
 
 class PageContent implements IPageContent {
   view: View;
 
+  main: MainPage;
+
   constructor(view: View) {
     this.view = view;
+    this.main = new Main();
   }
 
   listen(target: HTMLElement) {
@@ -20,7 +24,7 @@ class PageContent implements IPageContent {
 
   async render() {
     const main = document.querySelector('.page-content');
-    if (main) main.innerHTML = `<h1>${this.view} page is under construction 🛠️</h1>`;
+    if (main) main.innerHTML = this.main.render();
   }
 }
 

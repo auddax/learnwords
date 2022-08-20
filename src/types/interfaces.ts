@@ -34,3 +34,7 @@ export interface ILoader {
     options?: RequestInit
   ) => Promise<Response>;
 }
+
+export interface MainPage {
+  render: () => string;
+}
