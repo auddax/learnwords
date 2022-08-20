@@ -1,13 +1,20 @@
 import { View } from './enums';
 
 export interface IApp {
-  view: View;
+  root: HTMLElement;
+  pageHeader: IPageHeader;
+  pageContent: IPageContent;
   render: () => void;
 }
 
 export interface IPageContent {
   view: View;
-  render: () => Promise<string>;
+  listen: (target: HTMLElement) => void;
+  render: () => void;
+}
+
+export interface IPageHeader {
+  render: () => void;
 }
 
 export interface IParams {

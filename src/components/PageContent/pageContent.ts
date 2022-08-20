@@ -8,10 +8,19 @@ class PageContent implements IPageContent {
     this.view = view;
   }
 
+  listen(target: HTMLElement) {
+    this.changeView(target);
+  }
+
+  changeView(target: HTMLElement) {
+    if (!target.classList.contains('menu-item')) return;
+    this.view = target.id as View;
+    this.render();
+  }
+
   async render() {
-    return (`
-      <h1>${this.view} page is under construction 🛠️</h1>
-    `);
+    const main = document.querySelector('.page-content');
+    if (main) main.innerHTML = `<h1>${this.view} page is under construction 🛠️</h1>`;
   }
 }
 
