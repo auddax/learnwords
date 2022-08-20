@@ -38,3 +38,11 @@ export interface ILoader {
 export interface MainPage {
   render: () => string;
 }
+
+export interface ISprint {
+  render: () => void;
+}
+
+export interface ISprintStart {
+  render: () => string;
+}
