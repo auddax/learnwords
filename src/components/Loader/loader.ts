@@ -1,10 +1,11 @@
+import environment from '../../environment/environment';
 import { ILoader, RequestParams } from '../../types/interfaces';
 
 class Loader implements ILoader {
   base: string;
 
-  constructor(base: string) {
-    this.base = base;
+  constructor() {
+    this.base = environment.baseUrl;
   }
 
   makeUrl(params: RequestParams | undefined): string {

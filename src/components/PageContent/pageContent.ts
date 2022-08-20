@@ -28,19 +28,15 @@ class PageContent implements IPageContent {
   }
 
   async render() {
-    const main = document.querySelector('.page-content');
-    let content = this.main.render();
     switch (this.view) {
       case 'main':
-        content = this.main.render();
+        this.main.render();
         break;
       case 'games':
         this.sprint.render();
         break;
       default:
-        return;
     }
-    if (main) main.innerHTML = content;
   }
 }
 

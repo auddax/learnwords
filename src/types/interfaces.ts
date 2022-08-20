@@ -1,4 +1,4 @@
-import { View } from './enums';
+import { LEVEL, View } from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -36,20 +36,26 @@ export interface ILoader {
 }
 
 export interface MainPage {
-  render: () => string;
+  render: () => void;
 }
 
 export interface ISprint {
+  baseUrl: string;
+  level: LEVEL;
   start: ISprintStart;
   game: ISprintGame;
   listen: (target: HTMLElement) => void;
   render: () => void;
 }
 
+export interface IWords {
+  [index: string]: string
+}
+
 export interface ISprintStart {
-  render: () => string;
+  render: () => void;
 }
 
 export interface ISprintGame {
-  render: () => string;
+  render: (words: IWords[]) => void;
 }

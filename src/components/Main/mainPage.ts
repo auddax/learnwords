@@ -4,7 +4,8 @@ import { MainPage } from '../../types/interfaces';
 
 class Main implements MainPage {
   render() {
-    return (`
+    const main = document.querySelector('.page-content');
+    const content = `
     <section class="section-app-info">
     <div class="container">
       <div class="app-info-content">
@@ -93,7 +94,8 @@ class Main implements MainPage {
     </div>
   </div>
 </section>
-`);
+`;
+    if (main) main.innerHTML = content;
   }
 }
 export default Main;
