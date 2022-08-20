@@ -1,20 +1,39 @@
-import { IApp, IPageContent } from '../../types/interfaces';
+import { IApp, IPageContent, IPageHeader } from '../../types/interfaces';
 import { View } from '../../types/enums';
 import PageContent from '../PageContent/pageContent';
+import PageHeader from '../PageHeader/pageHeader';
 
 class App implements IApp {
-  view: View;
+  root: HTMLElement;
+
+  pageHeader: IPageHeader;
 
   pageContent: IPageContent;
 
   constructor() {
-    this.view = View.MAIN;
-    this.pageContent = new PageContent(this.view);
+    this.root = document.getElementById('root') as HTMLElement;
+    this.pageHeader = new PageHeader();
+    this.pageContent = new PageContent(View.MAIN);
   }
 
-  render() {
-    const root = document.querySelector('#root');
-    if (root) root.insertAdjacentHTML('afterbegin', this.pageContent.render());
+  listen(): void {
+    this.root.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      this.pageContent.listen(target);
+    });
+  }
+
+  async render() {
+    this.root.innerHTML = `
+      <header class="page-header">
+      </header>
+      <main class="page-content">
+      </main>
+      <footer class="page-footer">
+      </footer>
+    `;
+    this.pageHeader.render();
+    this.pageContent.render();
   }
 }
 

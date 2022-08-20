@@ -4,3 +4,4 @@ import './components/Main/mainPage.scss';
 
 const app: App = new App();
 app.render();
+app.listen();

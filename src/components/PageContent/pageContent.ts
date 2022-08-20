@@ -12,10 +12,19 @@ class PageContent implements IPageContent {
     this.main = new Main();
   }
 
-  render() {
-    return (
-      this.main.render()
-    );
+  listen(target: HTMLElement) {
+    this.changeView(target);
+  }
+
+  changeView(target: HTMLElement) {
+    if (!target.classList.contains('menu-item')) return;
+    this.view = target.id as View;
+    this.render();
+  }
+
+  async render() {
+    const main = document.querySelector('.page-content');
+    if (main) main.innerHTML = this.main.render();
   }
 }
 
