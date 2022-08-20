@@ -1,7 +1,7 @@
 import { IApp, IPageContent, MainPage } from '../../types/interfaces';
 import { View } from '../../types/enums';
 import PageContent from '../PageContent/pageContent';
-import Main from '../Main/main-page';
+import Main from '../Main/mainPage';
 
 class App implements IApp {
   view: View;

@@ -1,4 +1,4 @@
-import { View, Sections } from './enums';
+import { View } from './enums';
 
 export interface IApp {
   view: View;
@@ -11,8 +11,5 @@ export interface IPageContent {
 }
 
 export interface MainPage {
-  sectionAppInfo: Sections;
-  sectionOurTeam: Sections;
-  sectionFooter: Sections;
   render: () => string;
 }
