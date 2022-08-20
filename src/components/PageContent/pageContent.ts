@@ -1,17 +1,21 @@
 import { View } from '../../types/enums';
-import { IPageContent } from '../../types/interfaces';
+import { IPageContent, MainPage } from '../../types/interfaces';
+import Main from '../Main/mainPage';
 
 class PageContent implements IPageContent {
   view: View;
 
+  main: MainPage;
+
   constructor(view: View) {
     this.view = view;
+    this.main = new Main();
   }
 
   render() {
-    return (`
-      <h1>${this.view} page is under construction 🛠️</h1>
-    `);
+    return (
+      this.main.render()
+    );
   }
 }
 
