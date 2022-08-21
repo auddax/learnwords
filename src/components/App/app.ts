@@ -1,7 +1,10 @@
-import { IApp, IPageContent, IPageHeader } from '../../types/interfaces';
+import {
+  IApp, IPageContent, IPageHeader, IPageFooter,
+} from '../../types/interfaces';
 import { View } from '../../types/enums';
 import PageContent from '../PageContent/pageContent';
 import PageHeader from '../PageHeader/pageHeader';
+import PageFooter from '../PageFooter/pageFooter';
 
 class App implements IApp {
   root: HTMLElement;
@@ -10,10 +13,13 @@ class App implements IApp {
 
   pageContent: IPageContent;
 
+  pageFooter: IPageFooter;
+
   constructor() {
     this.root = document.getElementById('root') as HTMLElement;
     this.pageHeader = new PageHeader();
     this.pageContent = new PageContent(View.MAIN);
+    this.pageFooter = new PageFooter();
   }
 
   listen(): void {
@@ -34,6 +40,7 @@ class App implements IApp {
     `;
     this.pageHeader.render();
     this.pageContent.render();
+    this.pageFooter.render();
   }
 }
 

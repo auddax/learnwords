@@ -4,6 +4,7 @@ export interface IApp {
   root: HTMLElement;
   pageHeader: IPageHeader;
   pageContent: IPageContent;
+  pageFooter: IPageFooter
   render: () => void;
 }
 
@@ -37,4 +38,8 @@ export interface ILoader {
 
 export interface MainPage {
   render: () => string;
+}
+
+export interface IPageFooter {
+  render: () => void; 
 }
