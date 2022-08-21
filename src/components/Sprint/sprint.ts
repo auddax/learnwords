@@ -3,12 +3,12 @@
 import {
   ISprint, ISprintGame, ISprintStart, IWords,
 } from '../../types/interfaces';
-import { LEVEL } from '../../types/enums';
+import { LEVEL, PATH } from '../../types/enums';
 import SprintGame from '../SprintGame/sprintGame';
 import SprintStart from '../SprintStart/sprintStart';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
-import { getRandomPage } from '../../utils/utils';
+import { getRandomNumber } from '../../utils/utils';
 
 class Sprint extends Loader implements ISprint {
   baseUrl: string;
@@ -31,14 +31,14 @@ class Sprint extends Loader implements ISprint {
   }
 
   listen(target: HTMLElement) {
-    this.gameRender(target);
+    this.gameStart(target);
     this.selectLevel(target);
   }
 
-  async gameRender(target: HTMLElement) {
+  async gameStart(target: HTMLElement) {
     if (target.id !== 'startSprintGame') return;
     this.words = await this.getWords();
-    this.game.render(this.words);
+    this.game.start(this.words);
   }
 
   selectLevel(target: HTMLElement) {
@@ -48,13 +48,12 @@ class Sprint extends Loader implements ISprint {
   }
 
   async getWords() {
-    const page = getRandomPage();
-    const pathVars = { words: null };
+    const page = getRandomNumber(environment.wordsPagesNumber);
+    const pathVars = { [PATH.WORDS]: null };
     const queryParams = { group: this.level, page };
     const params = { pathVars, queryParams };
     const response = await super.getResponse(params);
     const words = await response.json();
-    console.log(words);
     return words;
   }
 

@@ -57,5 +57,6 @@ export interface ISprintStart {
 }
 
 export interface ISprintGame {
-  render: (words: IWords[]) => void;
+  start: (words: IWords[]) => void;
+  // render: (words: IWords[]) => void;
 }

@@ -1,15 +1,35 @@
+/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 import { ISprintGame, IWords } from '../../types/interfaces';
+import { shuffleArray } from '../../utils/utils';
+import './sprintGame.scss';
 
 class SprintGame implements ISprintGame {
-  render(words: IWords[]) {
+  start(words: IWords[]) {
+    const shuffledWords = shuffleArray(words);
+    this.render(words, shuffledWords);
+  }
+
+  render(words: IWords[], shuffledWords: IWords[]) {
     const main = document.querySelector('.page-content');
     const content = `
-      <div>
-        ${words.map((item) => `<p>${item.word}</p>`).join('')}
-      </div>
+      ${words.map((item) => `<td>${item.word}</td>`).join('')}
     `;
-    if (main) main.innerHTML = content;
+    const shuffledContent = `
+      ${shuffledWords.map((item) => `<td>${item.word}</td>`).join('')}
+    `;
+    if (main) {
+      main.innerHTML = `
+        <table>
+          <tr>
+            ${content}
+          </tr>
+          <tr>
+            ${shuffledContent}
+          </tr>
+        <table>
+      `;
+    }
   }
 }
 
