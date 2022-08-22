@@ -6,8 +6,10 @@ const environment = {
   wordsNumber: 20,
   wordsPagesNumber: 30,
   wordsIndexDefault: 0,
-  scoreDefault: 0,
-  scoreIncrement: 10,
+  scoreSprintDefault: 0,
+  scoreSprintIncrement: 10,
+  timerSprintDefault: 0,
+  timerSprintMax: 30,
 };
 
 export default environment;
