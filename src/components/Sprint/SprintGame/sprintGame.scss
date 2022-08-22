@@ -10,3 +10,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.sprint-game__timer {
+  font-size: 2rem;
+
+  .timer__value {
+    text-align: center;
+  }
+}

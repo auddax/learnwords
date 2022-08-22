@@ -40,6 +40,10 @@ class Sprint extends Loader implements ISprint {
     this.selectLevel(target);
   }
 
+  listenKey(eventCode: string) {
+    this.game.answerSprintGameKey(eventCode);
+  }
+
   async gameStart(target: HTMLElement) {
     if (target.id !== 'startSprintGame') return;
     this.words = await this.getWords();

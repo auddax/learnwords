@@ -21,6 +21,10 @@ class App implements IApp {
       const target = event.target as HTMLElement;
       this.pageContent.listen(target);
     });
+    this.root.addEventListener('keydown', (event) => {
+      const eventCode = (<KeyboardEvent>event).code;
+      this.pageContent.listenKey(eventCode);
+    });
   }
 
   async render() {

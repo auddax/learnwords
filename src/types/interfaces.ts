@@ -10,6 +10,7 @@ export interface IApp {
 export interface IPageContent {
   view: View;
   listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
   render: () => void;
 }
 
@@ -46,6 +47,7 @@ export interface ISprint {
   start: ISprintStart;
   game: ISprintGame;
   listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
   render: () => void;
 }
 
@@ -69,6 +71,7 @@ export interface ISprintGame {
   result: ISprintResult;
   listen: (target: HTMLElement) => void;
   start: (words: IWords[]) => void;
-  answerSprintGame: (target: HTMLElement) => void;
+  answerSprintGameMouse: (target: HTMLElement) => void;
+  answerSprintGameKey: (eventCode: string) => void;
   render: (word: string, translate: string, score: number) => void;
 }

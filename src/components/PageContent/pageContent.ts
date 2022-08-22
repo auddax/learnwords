@@ -21,6 +21,10 @@ class PageContent implements IPageContent {
     this.sprint.listen(target);
   }
 
+  listenKey(eventCode: string) {
+    this.sprint.listenKey(eventCode);
+  }
+
   changeView(target: HTMLElement) {
     if (!target.classList.contains('menu-item')) return;
     this.view = target.id as View;
