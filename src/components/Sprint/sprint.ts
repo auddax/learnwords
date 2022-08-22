@@ -4,16 +4,18 @@ import {
   ISprint, ISprintGame, ISprintStart, IWords,
 } from '../../types/interfaces';
 import { LEVEL, PATH } from '../../types/enums';
-import SprintGame from '../SprintGame/sprintGame';
-import SprintStart from '../SprintStart/sprintStart';
+import SprintStart from './SprintStart/sprintStart';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
 import { getRandomNumber } from '../../utils/utils';
+import SprintGame from './SprintGame/sprintGame';
 
 class Sprint extends Loader implements ISprint {
   baseUrl: string;
 
   level: LEVEL;
+
+  view: string;
 
   start: ISprintStart;
 
@@ -24,14 +26,17 @@ class Sprint extends Loader implements ISprint {
   constructor() {
     super();
     this.baseUrl = environment.baseUrl;
-    this.level = environment.defaultLevel;
+    this.level = environment.levelDefault;
+    this.view = 'start';
     this.start = new SprintStart();
     this.game = new SprintGame();
     this.words = [];
   }
 
   listen(target: HTMLElement) {
+    this.game.listen(target);
     this.gameStart(target);
+    this.gameNew(target);
     this.selectLevel(target);
   }
 
@@ -45,6 +50,11 @@ class Sprint extends Loader implements ISprint {
     if (!target.classList.contains('button_level')) return;
     const level = Number(target.id.slice(-1));
     this.level = level;
+  }
+
+  gameNew(target: HTMLElement) {
+    if (target.id !== 'newSprintGame') return;
+    this.start.render();
   }
 
   async getWords() {

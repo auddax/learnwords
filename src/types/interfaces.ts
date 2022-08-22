@@ -42,6 +42,7 @@ export interface MainPage {
 export interface ISprint {
   baseUrl: string;
   level: LEVEL;
+  view: string;
   start: ISprintStart;
   game: ISprintGame;
   listen: (target: HTMLElement) => void;
@@ -56,7 +57,18 @@ export interface ISprintStart {
   render: () => void;
 }
 
+export interface ISprintResult {
+  render: (score: number) => void;
+}
+
 export interface ISprintGame {
+  currentWordIndex: number;
+  score: number;
+  words: IWords[];
+  shuffledWords: IWords[];
+  result: ISprintResult;
+  listen: (target: HTMLElement) => void;
   start: (words: IWords[]) => void;
-  // render: (words: IWords[]) => void;
+  answerSprintGame: (target: HTMLElement) => void;
+  render: (word: string, translate: string, score: number) => void;
 }

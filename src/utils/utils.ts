@@ -4,7 +4,7 @@ export function getRandomNumber(ceil: number, floor = 0) {
   return Math.floor(Math.random() * ceil) + floor;
 }
 
-export function shuffleArray(array: IWords[]) {
+export function shuffleArray(array: IWords[]): IWords[] {
   const result = [...array];
   let ceil = array.length;
   for (let i = 0; i < array.length; i += 2) {
@@ -15,7 +15,7 @@ export function shuffleArray(array: IWords[]) {
       result[randomIndex] = result[lastNumberIndex];
       result[lastNumberIndex] = item;
     }
-    ceil -= 1;
+    ceil -= 2;
   }
   return result;
 }
