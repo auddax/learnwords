@@ -62,6 +62,7 @@ class SprintGame implements ISprintGame {
       clearInterval(this.timerId);
       this.timerId = undefined;
       this.time = environment.timerSprintDefault;
+      this.currentWordIndex = environment.wordsIndexDefault;
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -87,6 +88,7 @@ class SprintGame implements ISprintGame {
       clearInterval(this.timerId);
       this.timerId = undefined;
       this.time = environment.timerSprintDefault;
+      this.currentWordIndex = environment.wordsIndexDefault;
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -108,6 +110,7 @@ class SprintGame implements ISprintGame {
         this.timerId = undefined;
         this.result.render(this.score);
         this.time = environment.timerSprintDefault;
+        this.currentWordIndex = environment.wordsIndexDefault;
         return;
       }
       const timerElement = document.querySelector('.timer__value');
