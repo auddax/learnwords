@@ -1,4 +1,4 @@
-import { View } from './enums';
+import { LEVEL, View } from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -11,6 +11,7 @@ export interface IApp {
 export interface IPageContent {
   view: View;
   listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
   render: () => void;
 }
 
@@ -37,7 +38,43 @@ export interface ILoader {
 }
 
 export interface MainPage {
-  render: () => string;
+  render: () => void;
+}
+
+export interface ISprint {
+  baseUrl: string;
+  level: LEVEL;
+  view: string;
+  start: ISprintStart;
+  game: ISprintGame;
+  listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
+  render: () => void;
+}
+
+export interface IWords {
+  [index: string]: string
+}
+
+export interface ISprintStart {
+  render: () => void;
+}
+
+export interface ISprintResult {
+  render: (score: number) => void;
+}
+
+export interface ISprintGame {
+  currentWordIndex: number;
+  score: number;
+  words: IWords[];
+  shuffledWords: IWords[];
+  result: ISprintResult;
+  listen: (target: HTMLElement) => void;
+  start: (words: IWords[]) => void;
+  answerSprintGameMouse: (target: HTMLElement) => void;
+  answerSprintGameKey: (eventCode: string) => void;
+  render: (word: string, translate: string, score: number) => void;
 }
 
 export interface IPageFooter {

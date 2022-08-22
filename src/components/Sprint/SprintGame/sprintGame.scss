@@ -1,0 +1,20 @@
+.sprint-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sprint-game__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sprint-game__timer {
+  font-size: 2rem;
+
+  .timer__value {
+    text-align: center;
+  }
+}
