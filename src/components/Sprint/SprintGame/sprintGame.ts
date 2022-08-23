@@ -36,7 +36,7 @@ class SprintGame implements ISprintGame {
   }
 
   start(words: IWords[]) {
-    this.currentWordIndex = environment.wordsIndexDefault;
+    this.stop();
     this.score = environment.scoreSprintDefault;
     this.words = words;
     this.shuffledWords = shuffleArray(words);
@@ -46,6 +46,13 @@ class SprintGame implements ISprintGame {
       this.score,
     );
     this.timer();
+  }
+
+  stop() {
+    if (this.timerId) clearInterval(this.timerId);
+    this.timerId = undefined;
+    this.time = environment.timerSprintDefault;
+    this.currentWordIndex = environment.wordsIndexDefault;
   }
 
   answerSprintGameMouse(target: HTMLElement) {
@@ -59,10 +66,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);
-      clearInterval(this.timerId);
-      this.timerId = undefined;
-      this.time = environment.timerSprintDefault;
-      this.currentWordIndex = environment.wordsIndexDefault;
+      this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -85,10 +89,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);
-      clearInterval(this.timerId);
-      this.timerId = undefined;
-      this.time = environment.timerSprintDefault;
-      this.currentWordIndex = environment.wordsIndexDefault;
+      this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -106,11 +107,8 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        clearInterval(this.timerId);
-        this.timerId = undefined;
         this.result.render(this.score);
-        this.time = environment.timerSprintDefault;
-        this.currentWordIndex = environment.wordsIndexDefault;
+        this.stop();
         return;
       }
       const timerElement = document.querySelector('.timer__value');
