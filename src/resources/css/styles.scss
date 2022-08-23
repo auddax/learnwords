@@ -2,6 +2,13 @@ html {
   box-sizing: content-box;
 }
 
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .button {
   &:hover {
     cursor: pointer;
