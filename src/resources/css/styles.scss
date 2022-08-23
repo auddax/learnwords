@@ -1,5 +1,15 @@
+html {
+  box-sizing: content-box;
+}
+
 .button {
   &:hover {
     cursor: pointer;
   }
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

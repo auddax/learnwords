@@ -10,6 +10,7 @@ const environment = {
   scoreSprintIncrement: 10,
   timerSprintDefault: 0,
   timerSprintMax: 30,
+  timerSprintInterval: 1000,
 };
 
 export default environment;

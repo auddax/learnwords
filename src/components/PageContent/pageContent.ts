@@ -1,28 +1,28 @@
 import { View } from '../../types/enums';
-import { IPageContent, ISprint, MainPage } from '../../types/interfaces';
+import { IGames, IPageContent, MainPage } from '../../types/interfaces';
+import Games from '../Games/games';
 import Main from '../Main/mainPage';
-import Sprint from '../Sprint/sprint';
 
 class PageContent implements IPageContent {
   view: View;
 
   main: MainPage;
 
-  sprint: ISprint;
+  games: IGames;
 
   constructor(view: View) {
     this.view = view;
     this.main = new Main();
-    this.sprint = new Sprint();
+    this.games = new Games();
   }
 
   listen(target: HTMLElement) {
     this.changeView(target);
-    this.sprint.listen(target);
+    this.games.listen(target);
   }
 
   listenKey(eventCode: string) {
-    this.sprint.listenKey(eventCode);
+    this.games.listenKey(eventCode);
   }
 
   changeView(target: HTMLElement) {
@@ -37,7 +37,7 @@ class PageContent implements IPageContent {
         this.main.render();
         break;
       case 'games':
-        this.sprint.render();
+        this.games.render();
         break;
       default:
     }

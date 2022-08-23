@@ -1,0 +1,22 @@
+.games-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .games-page__card {
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 2rem;
+    width: 300px;
+    height: 200px;
+
+    h2 {
+      position: relative;
+      z-index: -5;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

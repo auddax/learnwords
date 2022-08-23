@@ -113,7 +113,7 @@ class SprintGame implements ISprintGame {
       }
       const timerElement = document.querySelector('.timer__value');
       if (timerElement) timerElement.innerHTML = String(this.time);
-    }, 1000);
+    }, environment.timerSprintInterval);
     this.time = environment.timerSprintDefault;
   }
 
