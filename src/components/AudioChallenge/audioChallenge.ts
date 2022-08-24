@@ -1,13 +1,14 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import {
-  IAudioChallenge, IGameStart, IWords,
+  IAudioChallenge, IAudioChallengeGame, IGameStart, IWords,
 } from '../../types/interfaces';
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
 import { getRandomNumber } from '../../utils/utils';
 import GameStart from '../GameStart/gameStart';
+import AudioChallengeGame from './AudioChallengeGame/audioChallengeGame';
 
 class AudioChallenge extends Loader implements IAudioChallenge {
   baseUrl: string;
@@ -17,6 +18,8 @@ class AudioChallenge extends Loader implements IAudioChallenge {
   gameType: GAMES;
 
   start: IGameStart;
+
+  game: IAudioChallengeGame;
 
   words: IWords[];
 
@@ -30,16 +33,20 @@ class AudioChallenge extends Loader implements IAudioChallenge {
       'Тренировка Аудиовызов улучшает твое восприятие речи на слух.',
       this.gameType,
     );
+    this.game = new AudioChallengeGame(this.gameType);
     this.words = [];
   }
 
   listen(target: HTMLElement) {
+    this.game.listen(target);
     this.selectLevel(target);
+    this.gameStart(target);
   }
 
   async gameStart(target: HTMLElement) {
-    if (target.id !== 'startSprintGame') return;
+    if (target.id !== 'startAudioGame') return;
     this.words = await this.getWords();
+    this.game.start(this.words);
   }
 
   selectLevel(target: HTMLElement) {

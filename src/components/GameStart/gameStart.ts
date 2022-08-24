@@ -19,10 +19,10 @@ class GameStart implements IGameStart {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `
-        <section class="sprint-start">
-          <header class="sprint-start__header">${this.header}</header>
-          <p class="sprint-start__description">${this.description}</p>
-          <form class="sprint-start__form">
+        <section class="game-start">
+          <header class="game-start__header">${this.header}</header>
+          <p class="game-start__description">${this.description}</p>
+          <form class="game-start__form">
             <p>Выбери уровень</p>
             <button type="button" class="button button_level" id="level0">A1</button>
             <button type="button" class="button button_level" id="level1">A2</button>

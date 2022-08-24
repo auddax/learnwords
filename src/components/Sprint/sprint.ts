@@ -1,7 +1,7 @@
-/* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import {
-  ISprint, ISprintGame, ISprintStart, IWords,
+  IGameStart,
+  ISprint, ISprintGame, IWords,
 } from '../../types/interfaces';
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';
@@ -17,7 +17,7 @@ class Sprint extends Loader implements ISprint {
 
   gameType: GAMES;
 
-  start: ISprintStart;
+  start: IGameStart;
 
   game: ISprintGame;
 

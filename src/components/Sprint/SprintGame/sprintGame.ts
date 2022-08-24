@@ -23,7 +23,7 @@ class SprintGame implements ISprintGame {
 
   constructor() {
     this.currentWordIndex = environment.wordsIndexDefault;
-    this.score = environment.scoreSprintDefault;
+    this.score = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
     this.words = [];
@@ -37,7 +37,7 @@ class SprintGame implements ISprintGame {
 
   start(words: IWords[]) {
     this.stop();
-    this.score = environment.scoreSprintDefault;
+    this.score = environment.scoreDefault;
     this.words = words;
     this.shuffledWords = shuffleArray(words);
     this.render(
@@ -61,8 +61,8 @@ class SprintGame implements ISprintGame {
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (target.id === 'sprintGameTrue') this.score += environment.scoreSprintIncrement;
-    } else if (target.id === 'sprintGameFalse') this.score += environment.scoreSprintIncrement;
+      if (target.id === 'sprintGameTrue') this.score += environment.scoreIncrement;
+    } else if (target.id === 'sprintGameFalse') this.score += environment.scoreIncrement;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);
@@ -84,8 +84,8 @@ class SprintGame implements ISprintGame {
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (eventCode === 'ArrowRight') this.score += environment.scoreSprintIncrement;
-    } else if (eventCode === 'ArrowLeft') this.score += environment.scoreSprintIncrement;
+      if (eventCode === 'ArrowRight') this.score += environment.scoreIncrement;
+    } else if (eventCode === 'ArrowLeft') this.score += environment.scoreIncrement;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);

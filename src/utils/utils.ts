@@ -19,3 +19,13 @@ export function shuffleArray(array: IWords[]): IWords[] {
   }
   return result;
 }
+
+export function pickRandomItems(array: IWords[], num: number): IWords[] {
+  const input = [...array];
+  const result = [];
+  for (let i = 0; i < num; i += 1) {
+    const randomIndex = getRandomNumber(input.length);
+    result.push(...input.splice(randomIndex, 1));
+  }
+  return result;
+}

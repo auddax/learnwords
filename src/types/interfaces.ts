@@ -97,3 +97,13 @@ export interface IAudioChallenge {
   listen: (target: HTMLElement) => void;
   render: () => void;
 }
+
+export interface IAudioChallengeGame {
+  currentWordIndex: number;
+  score: number;
+  words: IWords[];
+  pickedWords: IWords[];
+  listen: (target: HTMLElement) => void;
+  start: (words: IWords[]) => void;
+  render: (word: string, score: number) => void;
+}

@@ -17,6 +17,7 @@ class Games implements IGames {
 
   listen(target: HTMLElement) {
     this.sprint.listen(target);
+    this.audio.listen(target);
     this.renderSprintGame(target);
     this.renderAudioGame(target);
   }
