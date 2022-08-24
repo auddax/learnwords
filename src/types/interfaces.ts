@@ -43,3 +43,9 @@ export interface MainPage {
 export interface IPageFooter {
   render: () => void; 
 }
+
+export interface IDictionaryPage {
+  render: () => void;
+  renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement
+  getWords: (group: number, page: number) => Promise<void>
+}
