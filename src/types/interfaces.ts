@@ -78,5 +78,11 @@ export interface ISprintGame {
 }
 
 export interface IPageFooter {
-  render: () => void; 
+  render: () => void;
+}
+
+export interface IGames {
+  listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
+  render: () => void;
 }
