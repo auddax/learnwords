@@ -1,4 +1,4 @@
-import { LEVEL, View } from './enums';
+import { GAMES, LEVEL, View } from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -44,7 +44,8 @@ export interface MainPage {
 export interface ISprint {
   baseUrl: string;
   level: LEVEL;
-  start: ISprintStart;
+  gameType: GAMES;
+  start: IGameStart;
   game: ISprintGame;
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
@@ -53,10 +54,6 @@ export interface ISprint {
 
 export interface IWords {
   [index: string]: string
-}
-
-export interface ISprintStart {
-  render: () => void;
 }
 
 export interface ISprintResult {
@@ -95,6 +92,8 @@ export interface IGameStart {
 export interface IAudioChallenge {
   baseUrl: string;
   level: LEVEL;
+  gameType: GAMES;
+  start: IGameStart;
   listen: (target: HTMLElement) => void;
   render: () => void;
 }
