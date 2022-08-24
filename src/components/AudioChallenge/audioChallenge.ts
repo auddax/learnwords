@@ -41,10 +41,11 @@ class AudioChallenge extends Loader implements IAudioChallenge {
     this.game.listen(target);
     this.selectLevel(target);
     this.gameStart(target);
+    this.gameNew(target);
   }
 
   async gameStart(target: HTMLElement) {
-    if (target.id !== 'startAudioGame') return;
+    if (target.id !== `start${this.gameType}Game`) return;
     this.words = await this.getWords();
     this.game.start(this.words);
   }
@@ -53,6 +54,11 @@ class AudioChallenge extends Loader implements IAudioChallenge {
     if (!target.classList.contains('button_level')) return;
     const level = Number(target.id.slice(-1));
     this.level = level;
+  }
+
+  gameNew(target: HTMLElement) {
+    if (target.id !== `new${this.gameType}Game`) return;
+    this.start.render();
   }
 
   async getWords() {

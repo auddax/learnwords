@@ -49,7 +49,7 @@ class Sprint extends Loader implements ISprint {
   }
 
   async gameStart(target: HTMLElement) {
-    if (target.id !== 'startSprintGame') return;
+    if (target.id !== `start${this.gameType}Game`) return;
     this.words = await this.getWords();
     this.game.start(this.words);
   }
@@ -61,7 +61,7 @@ class Sprint extends Loader implements ISprint {
   }
 
   gameNew(target: HTMLElement) {
-    if (target.id !== 'newSprintGame') return;
+    if (target.id !== `new${this.gameType}Game`) return;
     this.start.render();
   }
 

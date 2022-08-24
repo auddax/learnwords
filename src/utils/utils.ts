@@ -4,10 +4,10 @@ export function getRandomNumber(ceil: number, floor = 0) {
   return Math.floor(Math.random() * ceil) + floor;
 }
 
-export function shuffleArray(array: IWords[]): IWords[] {
+export function shuffleArray(array: IWords[], step: number): IWords[] {
   const result = [...array];
   let ceil = array.length;
-  for (let i = 0; i < array.length; i += 2) {
+  for (let i = 0; i < array.length; i += step) {
     const randomIndex = getRandomNumber(ceil);
     const lastNumberIndex = ceil - 1;
     if (randomIndex !== lastNumberIndex) {

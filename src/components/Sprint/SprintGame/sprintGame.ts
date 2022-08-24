@@ -43,7 +43,7 @@ class SprintGame implements ISprintGame {
     this.stop();
     this.score = environment.scoreDefault;
     this.words = words;
-    this.shuffledWords = shuffleArray(words);
+    this.shuffledWords = shuffleArray(words, environment.shuffleSprintStep);
     this.render(
       this.words[this.currentWordIndex].word,
       this.shuffledWords[this.currentWordIndex].wordTranslate,
