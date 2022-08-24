@@ -25,7 +25,7 @@ export interface IParams {
 
 export interface RequestParams {
   pathVars: IParams,
-  queryParams: IParams,
+  queryParams?: IParams,
 }
 
 export interface ILoader {
@@ -44,7 +44,6 @@ export interface MainPage {
 export interface ISprint {
   baseUrl: string;
   level: LEVEL;
-  view: string;
   start: ISprintStart;
   game: ISprintGame;
   listen: (target: HTMLElement) => void;
@@ -84,5 +83,18 @@ export interface IPageFooter {
 export interface IGames {
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
+  render: () => void;
+}
+
+export interface IGameStart {
+  header: string;
+  description: string;
+  render: () => void;
+}
+
+export interface IAudioChallenge {
+  baseUrl: string;
+  level: LEVEL;
+  listen: (target: HTMLElement) => void;
   render: () => void;
 }

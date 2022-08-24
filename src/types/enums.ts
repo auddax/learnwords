@@ -15,6 +15,11 @@ export enum PATH {
   SIGNIN = 'signin',
 }
 
+export enum GAMES {
+  SPRINT = 'Sprint',
+  AUDIO = 'AudioChallenge',
+}
+
 export enum LEVEL {
   'A1',
   'A2',
