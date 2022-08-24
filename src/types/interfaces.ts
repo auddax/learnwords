@@ -56,16 +56,12 @@ export interface IWords {
   [index: string]: string
 }
 
-export interface ISprintResult {
-  render: (score: number) => void;
-}
-
 export interface ISprintGame {
   currentWordIndex: number;
   score: number;
   words: IWords[];
   shuffledWords: IWords[];
-  result: ISprintResult;
+  result: IGameResult;
   listen: (target: HTMLElement) => void;
   start: (words: IWords[]) => void;
   answerSprintGameMouse: (target: HTMLElement) => void;
@@ -87,6 +83,10 @@ export interface IGameStart {
   header: string;
   description: string;
   render: () => void;
+}
+
+export interface IGameResult {
+  render: (score: number) => void;
 }
 
 export interface IAudioChallenge {

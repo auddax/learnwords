@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 import environment from '../../../environment/environment';
-import { ISprintGame, ISprintResult, IWords } from '../../../types/interfaces';
+import { GAMES } from '../../../types/enums';
+import { ISprintGame, IGameResult, IWords } from '../../../types/interfaces';
 import { shuffleArray } from '../../../utils/utils';
-import SprintResult from '../SprintResult/sprintResult';
+import GameResult from '../../GameResult/gameResult';
 import './sprintGame.scss';
 
 class SprintGame implements ISprintGame {
@@ -15,20 +16,23 @@ class SprintGame implements ISprintGame {
 
   timerId: NodeJS.Timer | undefined;
 
+  gameType: GAMES;
+
   words: IWords[];
 
   shuffledWords: IWords[];
 
-  result: ISprintResult;
+  result: IGameResult;
 
-  constructor() {
+  constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.score = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
+    this.gameType = gameType;
     this.words = [];
     this.shuffledWords = [];
-    this.result = new SprintResult();
+    this.result = new GameResult(this.gameType);
   }
 
   listen(target: HTMLElement) {

@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
 import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
-import { IAudioChallengeGame, IWords } from '../../../types/interfaces';
+import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
 import { pickRandomItems } from '../../../utils/utils';
+import GameResult from '../../GameResult/gameResult';
 
 class AudioChallengeGame implements IAudioChallengeGame {
   currentWordIndex: number;
@@ -15,12 +16,15 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   pickedWords: IWords[];
 
+  result: IGameResult;
+
   constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.score = environment.scoreDefault;
     this.gameType = gameType;
     this.words = [];
     this.pickedWords = [];
+    this.result = new GameResult(this.gameType);
   }
 
   listen(target: HTMLElement) {
@@ -48,7 +52,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
     const selectedWord = target.id.split('-')[1];
     if (currentWord === selectedWord) this.score += environment.scoreIncrement;
     this.currentWordIndex += 1;
-    // if (this.currentWordIndex >= this.pickedWords.length)
+    if (this.currentWordIndex >= this.pickedWords.length) this.result.render(this.score);
     this.render();
   }
 
