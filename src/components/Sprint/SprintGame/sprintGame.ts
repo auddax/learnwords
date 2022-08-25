@@ -37,6 +37,7 @@ class SprintGame implements ISprintGame {
 
   listen(target: HTMLElement) {
     this.answerSprintGameMouse(target);
+    this.stopSprintGame(target);
   }
 
   start(words: IWords[]) {
@@ -102,6 +103,12 @@ class SprintGame implements ISprintGame {
         this.score,
       );
     }
+  }
+
+  stopSprintGame(target: HTMLElement) {
+    if (!target.classList.contains('menu-item')) return;
+    if (!this.timerId) return;
+    this.stop();
   }
 
   timer() {
