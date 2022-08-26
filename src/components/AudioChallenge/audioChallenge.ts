@@ -1,16 +1,16 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 import {
-  IGameStart,
-  ISprint, ISprintGame, IWords,
+  IAudioChallenge, IAudioChallengeGame, IGameStart, IWords,
 } from '../../types/interfaces';
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
 import { getRandomNumber } from '../../utils/utils';
-import SprintGame from './SprintGame/sprintGame';
 import GameStart from '../GameStart/gameStart';
+import AudioChallengeGame from './AudioChallengeGame/audioChallengeGame';
 
-class Sprint extends Loader implements ISprint {
+class AudioChallenge extends Loader implements IAudioChallenge {
   baseUrl: string;
 
   level: LEVEL;
@@ -19,7 +19,7 @@ class Sprint extends Loader implements ISprint {
 
   start: IGameStart;
 
-  game: ISprintGame;
+  game: IAudioChallengeGame;
 
   words: IWords[];
 
@@ -27,25 +27,21 @@ class Sprint extends Loader implements ISprint {
     super();
     this.baseUrl = environment.baseUrl;
     this.level = environment.levelDefault;
-    this.gameType = GAMES.SPRINT;
+    this.gameType = GAMES.AUDIO;
     this.start = new GameStart(
-      'Спринт',
-      'Спринт - это тренировка на скорость. Попробуй угадать как можно больше слов за 30 секунд.',
+      'Аудиовызов',
+      'Тренировка Аудиовызов улучшает твое восприятие речи на слух.',
       this.gameType,
     );
-    this.game = new SprintGame(this.gameType);
+    this.game = new AudioChallengeGame(this.gameType);
     this.words = [];
   }
 
   listen(target: HTMLElement) {
     this.game.listen(target);
+    this.selectLevel(target);
     this.gameStart(target);
     this.gameNew(target);
-    this.selectLevel(target);
-  }
-
-  listenKey(eventCode: string) {
-    this.game.answerSprintGameKey(eventCode);
   }
 
   async gameStart(target: HTMLElement) {
@@ -80,4 +76,4 @@ class Sprint extends Loader implements ISprint {
   }
 }
 
-export default Sprint;
+export default AudioChallenge;
