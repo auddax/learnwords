@@ -46,7 +46,13 @@ export interface IPageFooter {
 
 export interface IDictionaryPage {
   render: () => void;
-  renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement
-  getWords: (group: number, page: number) => Promise<void>
+  setWordCard: (currentPage: number, currentGroup: number) => void;
+  setWordInfo: (wordId: string) => void;
+  renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement;
+  getWords: (group: number, page: number) => Promise<[]>;
+  getWordById: (wordId: string) => Promise<{}>;
   listen: (target: HTMLElement) => void;
+  nextPage: () => Promise<void>;
+  prevPage: () => Promise<void>;
+  updatePageAndGroup: (page: number, group: number) => void;
 }
