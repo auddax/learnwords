@@ -24,7 +24,7 @@ export interface IParams {
 
 export interface RequestParams {
   pathVars: IParams,
-  queryParams: IParams,
+  queryParams?: IParams,
 }
 
 export interface ILoader {
@@ -48,4 +48,5 @@ export interface IDictionaryPage {
   render: () => void;
   renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement
   getWords: (group: number, page: number) => Promise<void>
+  listen: (target: HTMLElement) => void;
 }

@@ -15,42 +15,41 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   constructor() {
     super(environment.baseUrl);
-    this.base = environment.baseUrl
-
+    this.base = environment.baseUrl;
   }
   async render() {
     const mainBlock = document.querySelector('.page-content');
     if (mainBlock) {
-      mainBlock.innerHTML = `
+      mainBlock!.innerHTML = `
       <section class="dictionary">
       <div class="container">
         <div class="dictionary-title">
           <h1>Словарь</h1>
           <h3 class="complexity-title">Выберите сложность</h3>
           <div class="dictionary-complexity">
-            <div id="1" class="complexity-a1 complexity-level chosen-complexity">
-              <h3 class="complexity-text">A1</h3>
-              <p class="complexity-wrod-count">1-600</p>
+            <div id="1 1-0" class="complexity-a1 complexity-level complexity choosen-complexity-1 choosen-complexity">
+              <h3 id="1" class="complexity-text complexity">A1</h3>
+              <p id="1" class="complexity-wrod-count complexity">1-600</p>
             </div>
-            <div id="2" class="complexity-a2 complexity-level">
-              <h3 class="complexity-text">A2</h3>
-              <p class="complexity-wrod-count">600-1200</p>
+            <div id="2 2-1" class="complexity-a2 complexity complexity-level">
+              <h3 id="2" class="complexity-text complexity">A2</h3>
+              <p id="2" class="complexity-wrod-count complexity">600-1200</p>
             </div>
-            <div id="3" class="complexity-b1 complexity-level">
-              <h3 class="complexity-text">B1</h3>
-              <p class="complexity-wrod-count">1200-1800</p>
+            <div id="3 3-2" class="complexity-b1 complexity complexity-level">
+              <h3 id="3" class="complexity-text complexity">B1</h3>
+              <p id="3" class="complexity-wrod-count complexity ">1200-1800</p>
             </div>
-            <div id="4" class="complexity-b2 complexity-level">
-              <h3 class="complexity-text">B2</h3>
-              <p class="complexity-wrod-count">1800-2400</p>
+            <div id="4 4-3" class="complexity-b2 complexity complexity-level">
+              <h3 id="4" class="complexity-text complexity ">B2</h3>
+              <p id="4" class="complexity-wrod-count complexity">1800-2400</p>
             </div>
-            <div id="5" class="complexity-c1 complexity-level">
-              <h3 class="complexity-text">C1</h3>
-              <p class="complexity-wrod-count">2400-3000</p>
+            <div id="5 5-4" class="complexity-c1 complexity complexity-level">
+              <h3 id="5" class="complexity-text complexity ">C1</h3>
+              <p id="5" class="complexity-wrod-count complexity">2400-3000</p>
             </div>
-            <div id="6" class="complexity-c2 complexity-level">
-              <h3 class="complexity-text">C2</h3>
-              <p class="complexity-wrod-count">3000-3600</p>
+            <div id="6 6-5" class="complexity-c2 complexity complexity-level">
+              <h3 id="6" class="complexity-text complexity">C2</h3>
+              <p id="6" class="complexity-wrod-count complexity">3000-3600</p>
             </div>
           </div>
           <div class="dictionary-words">
@@ -64,7 +63,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
             <button class="prev-page">Prev</buuton>
           </div>
           <div class="pagination-current">
-            <p class="current-page">1/30</p>
+            <p id="0" class="current-page">1/30</p>
           </div>
           <div class="pagination-next">
             <button class="next-page">Next</button>
@@ -73,35 +72,52 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       </div>
     </section>
       `;
-      this.setWordCard();
-      const dictionaryComplexity = document.querySelectorAll('.complexity-level');
-      dictionaryComplexity.forEach((el) => el.addEventListener('click', async () => {
-        let newGroup = Number(el.id) - 1;
-        await this.setWordCard(0, newGroup, 0);
-      }));
-    }
-  }
-  async setWordCard(currentPage = 0, currentGroup = 0, choosenWord = 0) {
-    const wordsOnpage = await this.getWords(currentGroup, currentPage);
-    const wordsBlock = document.querySelector('.words');
-    wordsBlock!.innerHTML = '';
-    for (let i = 0; i < wordsOnpage.length; i += 1) {
-      const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
-      wordsBlock!.append(renderedWordBlock);
-      if (i === 0) {
-        this.setWordInfo(wordsOnpage[i].id);
+      if (localStorage.page || localStorage.group) {
+        const currentPage = Number(localStorage.page);
+        const currentGroup = Number(localStorage.group);
+        this.setWordCard(currentPage, currentGroup);
+        this.updatePageAndGroup(currentPage, currentGroup);
+      } else {
+        this.setWordCard();
       }
     }
   }
-  setWordInfo(wordId: string) {
+  async setWordCard(currentPage = 0, currentGroup = 0) {
+    const wordsOnpage = await this.getWords(currentGroup, currentPage);
+    const wordsBlock = document.querySelector('.words');
+    if (wordsBlock) {
+      wordsBlock!.innerHTML = ' ';
+    }
+    const FIRSTPAGE = 0;
+    for (let i = 0; i < wordsOnpage.length; i += 1) {
+      const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
+      wordsBlock!.append(renderedWordBlock);
+      if (i === FIRSTPAGE) {
+        this.setWordInfo(wordsOnpage[i].id);
+      }
+    }
+    // ниже идет выключение кнопкок пагинации если пользователь на первой/последней странице
+    const currentPageBlock = document.querySelector('.current-page');
+    if (currentPageBlock!.id === '0') {
+      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
+      prevBtn!.disabled = true;
+      prevBtn?.classList.add('disabled-btn');
+    } else if (currentPageBlock!.id === '29') {
+      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
+      nextBtn!.disabled = true;
+      nextBtn?.classList.add('disabled-btn');
+    }
+  }
+  async setWordInfo(wordId: string) {
+    const wordParams = await this.getWordById(wordId);
     const wordInfoBlock = document.querySelector('.word-info');
     wordInfoBlock!.innerHTML = `
             <div class="word-img">
-              <img src="https://rslng.herokuapp.com/files/02_0621.jpg" alt="">
+              <img src="${this.base}/${wordParams.image}" alt="">
             </div>
             <div class="word-info-content">
               <div class="word-english">
-                <p>anxious</p>
+                <p>${wordParams.word}</p>
                 <div class="volume-img">
                   <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                   width="1280.000000pt" height="1079.000000pt" viewBox="0 0 1280.000000 1079.000000"
@@ -135,19 +151,20 @@ class DictionaryPage extends Loader implements IDictionaryPage {
                   -80 -203 -177z"/>
                   </g>
                   </svg>
+                  <div id="${wordId}" class="volume-button"></div>
                 </div>
             </div>
             <div class="word-translate">
-              <p>озабоченый</p>
+              <p>${wordParams.wordTranslate}</p>
             </div>
             <div class="word-transcript">
-              <p>[ǽŋkʃəs]</p>
+              <p>${wordParams.transcription}</p>
             </div>
             <div class="word-mean">
               <h3 class="word-mean-title">Значение</h3>
-              <p class="word-mean-english"><i>Anxious</i> means feeling worried or nervous.</p>
+              <p class="word-mean-english">${wordParams.textMeaning}</p>
               <p class="word-mean-translate">
-                Тревожно означает чувствовать себя обеспокоенным или нервным
+              ${wordParams.textMeaningTranslate}
               </p>
             </div>
             <div class="word-examples">
@@ -155,24 +172,26 @@ class DictionaryPage extends Loader implements IDictionaryPage {
                 Примеры
               </h3>
               <p class="word-example-english">
-                She was <b>anxious</b> about not making her appointment on time.
+              ${wordParams.textExample}
               </p>
               <p class="word-example-translate">
-                Она беспокоилась о том, чтобы не договориться о встрече вовремя
+              ${wordParams.textExampleTranslate}
               </p>
             </div>
           </div>
     `;
+    const prevChoosenWord = document.querySelector('.choosen-word');
+    prevChoosenWord?.classList.remove('choosen-word');
     const wordBlock = document.getElementById(wordId);
     wordBlock!.classList.add('choosen-word');
   }
   renderWordCard(wordEnglish: string, wordTranslate: string, wordBlockId: string) {
     const wordCard = document.createElement('div');
-    wordCard.classList.add('word');
+    wordCard.classList.add('word', 'wordElement');
     wordCard.setAttribute('id', `${wordBlockId}`);
     wordCard.innerHTML = `
-    <p class="english-word">${wordEnglish}</p>
-    <p class="translate-word">${wordTranslate}</p>
+    <p id="${wordBlockId}" class="english-word wordElement">${wordEnglish}</p>
+    <p id="${wordBlockId}"class="translate-word wordElement">${wordTranslate}</p>
     `;
     return wordCard;
   }
@@ -186,9 +205,113 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
   async getWordById(wordId: string) {
     const pathVars = { [PATH.WORDS]: wordId };
-    const response = await super.getResponse(pathVars);
+    const params = { pathVars };
+    const response = await super.getResponse(params);
     const word = await response.json();
     return word;
+  }
+  async listen(target: HTMLElement) {
+    if (target.classList.contains('wordElement')) {
+      await this.setWordInfo(target.id);
+    } else if (target.classList.contains('complexity')) {
+      const newGroup = Number(target.id[0]) - 1;
+      await this.setWordCard(0, newGroup);
+      this.updatePageAndGroup(0, newGroup);
+      localStorage.setItem('group', `${newGroup}`);
+    } else if (target.classList.contains('volume-button')) {
+      document.querySelector('.audio > audio')?.remove();
+      const wordParams = await this.getWordById(target.id);
+      const wordAudio = new Audio();
+      wordAudio.src = `${this.base}/${wordParams.audio}`;
+      wordAudio.autoplay = true;
+      wordAudio.addEventListener('ended', () => {
+        const audioMeanSrc = wordParams.audioMeaning;
+        const audioExampleSrc = wordParams.audioExample;
+        setTimeout(() => {
+          const wordAudioMeaning = new Audio();
+          wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
+          wordAudioMeaning.play();
+          wordAudioMeaning.addEventListener('ended', () => {
+            setTimeout(() => {
+              const wordAudioExample = new Audio();
+              wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
+              wordAudioExample.play();
+            }, 1000);
+          });
+        }, 1000);
+      });
+    } else if (target.classList.contains('next-page')) {
+      this.nextPage();
+    } else if (target.classList.contains('prev-page')) {
+      this.prevPage();
+    } else if (target.id === 'dictionary') {
+      this.render();
+    }
+  }
+  async nextPage() {
+    const choosenComplexityBlock = document.querySelector('.choosen-complexity');
+    const choosenComplexity = Number(choosenComplexityBlock!.id[0]) - 1;
+    const currentPageBlock = document.querySelector('.current-page');
+    const nextPage = Number(currentPageBlock!.id) + 1;
+    await this.setWordCard(nextPage, choosenComplexity);
+    currentPageBlock!.id = `${nextPage}`;
+    currentPageBlock!.innerHTML = `${nextPage + 1}/30`;
+    localStorage.setItem('page', `${nextPage}`);
+    // ниже выключение кнопки "вперед"
+    if (currentPageBlock!.id === '29') {
+      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
+      nextBtn!.disabled = true;
+      nextBtn?.classList.add('disabled-btn');
+    } else if (+currentPageBlock!.id > 0) {
+      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
+      prevBtn!.disabled = false;
+      prevBtn?.classList.remove('disabled-btn');
+    }
+  }
+  async prevPage() {
+    const choosenComplexityBlock = document.querySelector('.choosen-complexity');
+    const choosenComplexity = Number(choosenComplexityBlock!.id[0]) - 1;
+    const currentPageBlock = document.querySelector('.current-page');
+    const prevPage = Number(currentPageBlock?.id) - 1;
+    await this.setWordCard(prevPage, choosenComplexity);
+    currentPageBlock!.id = `${prevPage}`;
+    currentPageBlock!.innerHTML = `${prevPage + 1}/30`;
+    localStorage.setItem('page', `${prevPage}`);
+    // ниже выключение кнопки "назад"
+    if (currentPageBlock!.id === '0') {
+      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
+      prevBtn!.disabled = true;
+      prevBtn?.classList.add('disabled-btn');
+    } else if (+currentPageBlock!.id < 29) {
+      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
+      nextBtn!.disabled = false;
+      nextBtn?.classList.remove('disabled-btn');
+    }
+  }
+  updatePageAndGroup(page: number, group: number) {
+    // ниже идет обращение к прошлой подсвеченной группе и удаление подсветки этой группы
+    const choosenComplexity = document.querySelector('.choosen-complexity');
+    choosenComplexity?.classList.remove(`choosen-complexity-${choosenComplexity.id[0]}`);
+    choosenComplexity?.classList.remove('choosen-complexity');
+    // здесь(ниже) уже идет обращение к новой, кликнутой группе и добавление к этой группе класс который его подсветит
+    const choosenComplexityId = `${group + 1} ${group + 1}-${group}`;
+    const newChoosenComplexity = document.getElementById(choosenComplexityId);
+    newChoosenComplexity?.classList.add('choosen-complexity');
+    newChoosenComplexity?.classList.add(`choosen-complexity-${group + 1}`);
+    // далее обновление страницы
+    const currentPageBlock = document.querySelector('.current-page');
+    currentPageBlock!.id = `${page}`;
+    currentPageBlock!.innerHTML = `${page + 1}/30`;
+    // ниже выключение кнопок пагинации если страница первая/последняя
+    if (currentPageBlock!.id === '0') {
+      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
+      prevBtn!.disabled = true;
+      prevBtn?.classList.add('disabled-btn');
+    } else if (currentPageBlock!.id === '29') {
+      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
+      nextBtn!.disabled = true;
+      nextBtn?.classList.add('disabled-btn');
+    }
   }
 }
 export default DictionaryPage;

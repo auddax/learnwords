@@ -31,6 +31,7 @@ class App implements IApp {
     this.root.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
       this.pageContent.listen(target);
+      this.dictionaryPage.listen(target);
     });
   }
 
@@ -46,9 +47,11 @@ class App implements IApp {
     this.pageHeader.render();
     this.pageContent.render();
     this.pageFooter.render();
-    this.dictionaryPage.render();
-    const dictionaryBtn = document.querySelector('.dictionary');
-    dictionaryBtn?.addEventListener('click', () => this.dictionaryPage.render());
+    // this.dictionaryPage.render();
+    // const dictionaryBtn = document.getElementById(View.DICTIONARY);
+    // dictionaryBtn?.addEventListener('click', () => {
+    //   this.dictionaryPage.render();
+    // });
   }
 }
 

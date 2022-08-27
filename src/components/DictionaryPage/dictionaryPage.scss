@@ -26,17 +26,14 @@
   text-align: center;
   border-radius: 10px;
 }
+.choosen-complexity{
+  color:black
+}
 .complexity-level:hover{
   color: black;
   cursor: pointer;
 }
-.chosen-complexity{
-  color: black;
-}
-.complexity-a1{
-  border-bottom:5px solid green
-} 
-.complexity-a2{
+.complexity-a2, .complexity-a1{
   border-bottom:5px solid darkgray
 }
 .complexity-b1, .complexity-b2{
@@ -45,14 +42,43 @@
 .complexity-c1, .complexity-c2{
   border-bottom:5px solid darkgray
 }
-.complexity-a2:hover{
+.complexity-a1:hover{
   border-bottom:5px solid green
+} 
+.complexity-a2:hover{
+  border-bottom:5px solid rgb(77, 213, 255)
 }
-.complexity-b1:hover, .complexity-b2:hover{
+.complexity-b1:hover{
+  border-bottom:5px solid rgb(235, 255, 53)
+}
+.complexity-b2:hover{
   border-bottom:5px solid orange
 }
-.complexity-c1:hover, .complexity-c2:hover{
+.complexity-c1:hover{
+  border-bottom:5px solid rgb(255, 108, 108)
+}
+.complexity-c2:hover{
   border-bottom:5px solid red
+}
+
+
+.choosen-complexity-1{
+  border-color: green
+} 
+.choosen-complexity-2{
+  border-color: rgb(77, 213, 255)
+}
+.choosen-complexity-3{
+  border-color: rgb(235, 255, 53)
+}
+.choosen-complexity-4{
+  border-color: orange
+}
+.choosen-complexity-5{
+  border-color: rgb(255, 108, 108)
+}
+.choosen-complexity-6{
+  border-color: red
 }
 /* block words */
 
@@ -94,9 +120,10 @@
 /* word info block */
 .dictionary-words{
   display: flex;
+  min-height: 750px;
 }
 .word-info {
-  width: 390px;
+  width: 890px;
   border-radius: 20px;
   margin-top: 30px;
   background-color: rgb(214, 214, 214);
@@ -110,14 +137,29 @@
   width: 240px;
   height: 40px;
 }
-.word-img img{
+.word-img{
+  width: 350px;
+  height: 290px;
+  overflow: hidden;
   border-radius: 20px 20px 0 0;
-
+}
+.word-img img{
+  width: 390px;
 }
 .word-english {
   font-size: 30px;
   font-weight: 600;
   display: flex;
+}
+.volume-button{
+  position: absolute;
+  width: 45px;
+  height: 37px;
+  bottom: 3px;
+  left: 5px;
+}
+.volume-img{
+  position: relative;
 }
 .volume-img svg{
   margin-left: 15px;
@@ -171,16 +213,11 @@
   cursor: pointer;
   background-color: darkgray;
 }
-.prev-page:active{
-  background-color: rgb(202, 202, 202);
-}
 .pagination-current {
 }
 .current-page {
   font-size: 20px;
   font-weight: 600;
-}
-.pagination-next {
 }
 .next-page {
   background-color: rgb(202, 202, 202);
@@ -192,6 +229,6 @@
   cursor: pointer;
   background-color: darkgray;
 }
-.next-page:active{
-  background-color: rgb(202, 202, 202);
+.disabled-btn{
+  background-color: darkgray;
 }
