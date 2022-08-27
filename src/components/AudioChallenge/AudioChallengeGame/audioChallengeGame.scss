@@ -1,0 +1,26 @@
+.audio-game__card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .audio-game__word {
+
+    .audio-game__audio {
+      width: 5rem;
+      height: 5rem;
+    }
+    
+    .audio-game__description {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25rem;
+
+      svg {
+        height: 2rem;
+        width: 2rem;
+      }
+    }
+  }
+}

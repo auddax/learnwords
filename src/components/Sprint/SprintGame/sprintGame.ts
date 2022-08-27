@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 import environment from '../../../environment/environment';
-import { ISprintGame, ISprintResult, IWords } from '../../../types/interfaces';
+import { GAMES } from '../../../types/enums';
+import { ISprintGame, IGameResult, IWords } from '../../../types/interfaces';
 import { shuffleArray } from '../../../utils/utils';
-import SprintResult from '../SprintResult/sprintResult';
+import GameResult from '../../GameResult/gameResult';
 import './sprintGame.scss';
 
 class SprintGame implements ISprintGame {
@@ -15,31 +16,35 @@ class SprintGame implements ISprintGame {
 
   timerId: NodeJS.Timer | undefined;
 
+  gameType: GAMES;
+
   words: IWords[];
 
   shuffledWords: IWords[];
 
-  result: ISprintResult;
+  result: IGameResult;
 
-  constructor() {
+  constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
-    this.score = environment.scoreSprintDefault;
+    this.score = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
+    this.gameType = gameType;
     this.words = [];
     this.shuffledWords = [];
-    this.result = new SprintResult();
+    this.result = new GameResult(this.gameType);
   }
 
   listen(target: HTMLElement) {
     this.answerSprintGameMouse(target);
+    this.stopSprintGame(target);
   }
 
   start(words: IWords[]) {
-    this.currentWordIndex = environment.wordsIndexDefault;
-    this.score = environment.scoreSprintDefault;
+    this.stop();
+    this.score = environment.scoreDefault;
     this.words = words;
-    this.shuffledWords = shuffleArray(words);
+    this.shuffledWords = shuffleArray(words, environment.shuffleSprintStep);
     this.render(
       this.words[this.currentWordIndex].word,
       this.shuffledWords[this.currentWordIndex].wordTranslate,
@@ -48,21 +53,25 @@ class SprintGame implements ISprintGame {
     this.timer();
   }
 
+  stop() {
+    if (this.timerId) clearInterval(this.timerId);
+    this.timerId = undefined;
+    this.time = environment.timerSprintDefault;
+    this.currentWordIndex = environment.wordsIndexDefault;
+  }
+
   answerSprintGameMouse(target: HTMLElement) {
     if (!target.classList.contains('answer-sprint-game')) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (target.id === 'sprintGameTrue') this.score += environment.scoreSprintIncrement;
-    } else if (target.id === 'sprintGameFalse') this.score += environment.scoreSprintIncrement;
+      if (target.id === 'sprintGameTrue') this.score += environment.scoreIncrement;
+    } else if (target.id === 'sprintGameFalse') this.score += environment.scoreIncrement;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);
-      clearInterval(this.timerId);
-      this.timerId = undefined;
-      this.time = environment.timerSprintDefault;
-      this.currentWordIndex = environment.wordsIndexDefault;
+      this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -80,15 +89,12 @@ class SprintGame implements ISprintGame {
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (eventCode === 'ArrowRight') this.score += environment.scoreSprintIncrement;
-    } else if (eventCode === 'ArrowLeft') this.score += environment.scoreSprintIncrement;
+      if (eventCode === 'ArrowRight') this.score += environment.scoreIncrement;
+    } else if (eventCode === 'ArrowLeft') this.score += environment.scoreIncrement;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       this.result.render(this.score);
-      clearInterval(this.timerId);
-      this.timerId = undefined;
-      this.time = environment.timerSprintDefault;
-      this.currentWordIndex = environment.wordsIndexDefault;
+      this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
@@ -99,6 +105,12 @@ class SprintGame implements ISprintGame {
     }
   }
 
+  stopSprintGame(target: HTMLElement) {
+    if (!target.classList.contains('menu-item')) return;
+    if (!this.timerId) return;
+    this.stop();
+  }
+
   timer() {
     const startTime = Date.now();
     let timePassed = 0;
@@ -106,16 +118,13 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        clearInterval(this.timerId);
-        this.timerId = undefined;
         this.result.render(this.score);
-        this.time = environment.timerSprintDefault;
-        this.currentWordIndex = environment.wordsIndexDefault;
+        this.stop();
         return;
       }
       const timerElement = document.querySelector('.timer__value');
       if (timerElement) timerElement.innerHTML = String(this.time);
-    }, 1000);
+    }, environment.timerSprintInterval);
     this.time = environment.timerSprintDefault;
   }
 
@@ -126,8 +135,8 @@ class SprintGame implements ISprintGame {
         <section class="sprint-game">
           <div class="sprint-game__card">
             <div class="sprint-game__timer">
-              <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
-                <path d="M18 5V2h12v3Zm4.5 22.35h3v-11.5h-3Zm1.5 16.6q-3.7 0-6.975-1.425Q13.75 41.1 11.3 38.65q-2.45-2.45-3.875-5.725Q6 29.65 6 25.95q0-3.7 1.425-6.975Q8.85 15.7 11.3 13.25q2.45-2.45 5.725-3.875Q20.3 7.95 24 7.95q3.35 0 6.3 1.125 2.95 1.125 5.25 3.125l2.55-2.55 2.1 2.1-2.55 2.55q1.8 2 3.075 4.85Q42 22 42 25.95q0 3.7-1.425 6.975Q39.15 36.2 36.7 38.65q-2.45 2.45-5.725 3.875Q27.7 43.95 24 43.95Zm0-3q6.25 0 10.625-4.375T39 25.95q0-6.25-4.375-10.625T24 10.95q-6.25 0-10.625 4.375T9 25.95q0 6.25 4.375 10.625T24 40.95ZM24 26Z"/>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M22 5.7l-4.6-3.9-1.3 1.5 4.6 3.9L22 5.7zM7.9 3.4L6.6 1.9 2 5.7l1.3 1.5 4.6-3.8zM12.5 8H11v6l4.7 2.9.8-1.2-4-2.4V8zM12 4c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9zm0 16c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7z"/>
               </svg>
               <div class="timer__value">${this.time}</div>
             </div>
