@@ -108,3 +108,16 @@ export interface IAudioChallengeGame {
   start: (words: IWords[]) => void;
   render: (word: string, score: number) => void;
 }
+
+export interface IDictionaryPage {
+  render: () => void;
+  setWordCard: (currentPage: number, currentGroup: number) => void;
+  setWordInfo: (wordId: string) => void;
+  renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement;
+  getWords: (group: number, page: number) => Promise<[]>;
+  getWordById: (wordId: string) => Promise<{}>;
+  listen: (target: HTMLElement) => void;
+  nextPage: () => Promise<void>;
+  prevPage: () => Promise<void>;
+  updatePageAndGroup: (page: number, group: number) => void;
+}
