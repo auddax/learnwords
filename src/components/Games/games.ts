@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable class-methods-use-this */
+import { View } from '../../types/enums';
 import { IAudioChallenge, IGames, ISprint } from '../../types/interfaces';
 import AudioChallenge from '../AudioChallenge/audioChallenge';
 import Sprint from '../Sprint/sprint';
@@ -10,9 +9,12 @@ class Games implements IGames {
 
   audio: IAudioChallenge;
 
+  classPrefix: View;
+
   constructor() {
     this.sprint = new Sprint();
     this.audio = new AudioChallenge();
+    this.classPrefix = View.GAMES;
   }
 
   listen(target: HTMLElement) {
@@ -27,12 +29,12 @@ class Games implements IGames {
   }
 
   renderSprintGame(target: HTMLElement) {
-    if (!(target.id === 'sprintCard' || target.id === 'sprintCardButton')) return;
+    if (target.id !== 'sprintCardButton') return;
     this.sprint.render();
   }
 
   renderAudioGame(target: HTMLElement) {
-    if (!(target.id === 'audioCard' || target.id === 'audioCardButton')) return;
+    if (target.id !== 'audioCardButton') return;
     this.audio.render();
   }
 
@@ -40,12 +42,12 @@ class Games implements IGames {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `
-        <main class="games-page container">
-          <header class="games-page__header">
+        <main class="${this.classPrefix}-page container">
+          <header class="${this.classPrefix}-page__header">
             <h1>Games</h1>
           </header>
-          <section class="games-page__cardbox">
-            <div class="games-page__card card-common" id="sprintCard">
+          <section class="${this.classPrefix}-page__cardbox">
+            <div class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
                 <img src="./img/audio-challenge-game-logo.svg">
               </figure>
@@ -53,7 +55,7 @@ class Games implements IGames {
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
               <button type="button" class="card__button-primary" id="sprintCardButton">Start game</button>
             </div>
-            <div class="games-page__card card-common" id="audioCard">
+            <div class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
                 <img src="./img/sprint-game-logo.svg">
               </figure>

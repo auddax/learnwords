@@ -6,6 +6,8 @@ $color-light-gray: #F8F9FA;
 $color-light-green: #31DAE6;
 $color-dark-blue: #462A69;
 
+$transition-time: 0.5s;
+
 @mixin center-content {
   display: flex;
   justify-content: center;
@@ -22,12 +24,13 @@ $color-dark-blue: #462A69;
   padding: 8px 24px;
   font-weight: 500;
   text-transform: uppercase;
+  transition: all $transition-time;
 
   &:hover {
     cursor: pointer;
     background-color: transparent;
     color: $color-light-green;
-    transition: all 0.4s;
+    transition: all $transition-time;
   }
 }
 
