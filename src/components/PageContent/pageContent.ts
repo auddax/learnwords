@@ -4,10 +4,12 @@ import {
   IPageContent,
   IStatistics,
   MainPage,
+  IAuth,
 } from '../../types/interfaces';
 import Games from '../Games/games';
 import Main from '../Main/mainPage';
 import Statistics from '../Statistics/statistics';
+import Auth from '../Auth/auth';
 
 class PageContent implements IPageContent {
   view: View;
@@ -18,11 +20,14 @@ class PageContent implements IPageContent {
 
   statistics: IStatistics;
 
+  auth: IAuth;
+
   constructor(view: View) {
     this.view = view;
     this.main = new Main();
     this.games = new Games();
     this.statistics = new Statistics();
+    this.auth = new Auth();
   }
 
   listen(target: HTMLElement) {
@@ -50,6 +55,9 @@ class PageContent implements IPageContent {
         break;
       case 'statistics':
         this.statistics.render();
+        break;
+      case 'signin':
+        this.auth.render();
         break;
       default:
     }
