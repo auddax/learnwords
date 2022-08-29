@@ -27,12 +27,12 @@ class Games implements IGames {
   }
 
   renderSprintGame(target: HTMLElement) {
-    if (target.id !== 'sprintCard') return;
+    if (!(target.id === 'sprintCard' || target.id === 'sprintCardButton')) return;
     this.sprint.render();
   }
 
   renderAudioGame(target: HTMLElement) {
-    if (target.id !== 'audioCard') return;
+    if (!(target.id === 'audioCard' || target.id === 'audioCardButton')) return;
     this.audio.render();
   }
 
@@ -44,12 +44,22 @@ class Games implements IGames {
           <header class="games-page__header">
             <h1>Games</h1>
           </header>
-          <section class="center-content">
+          <section class="games-page__cardbox">
             <div class="games-page__card card-common" id="sprintCard">
-              <h2>Sprint Game</h2>
+              <figure class="card__img">
+                <img src="./img/audio-challenge-game-logo.svg">
+              </figure>
+              <h2 class="card__title">Sprint Game</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <button type="button" class="card__button-primary" id="sprintCardButton">Start game</button>
             </div>
             <div class="games-page__card card-common" id="audioCard">
-              <h2>Audio Challenge</h2>
+              <figure class="card__img">
+                <img src="./img/sprint-game-logo.svg">
+              </figure>
+              <h2 class="card__title">Audio Challenge</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <button type="button" class="card__button-primary" id="audioCardButton">Start game</button>
             </div>
           </section>
         </main>

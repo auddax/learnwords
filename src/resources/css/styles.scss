@@ -1,13 +1,34 @@
 $font-primary: 'Poppins', sans-serif;
 $font-secondary: 'Raleway', sans-serif;
 
+$color-white: #FFFFFF;
 $color-light-gray: #F8F9FA;
+$color-light-green: #31DAE6;
 $color-dark-blue: #462A69;
 
 @mixin center-content {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin button-primary {
+  border-radius: 25px;
+  border: 1.5px solid $color-light-green;
+  background-color: $color-light-green;
+  color: $color-white;
+  font-family: $font-primary;
+  line-height: 24px;
+  padding: 8px 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: $color-light-green;
+    transition: all 0.4s;
+  }
 }
 
 body {
