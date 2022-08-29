@@ -1,14 +1,19 @@
 .games-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center-content;
+  flex-direction: column;
+
+  .games-page__header {
+    color: $color-dark-blue;
+    font-family: $font-primary;
+    font-weight: 700;
+    font-size: 3.5rem;
+  }
 
   .games-page__card {
-    border: 1px solid black;
-    border-radius: 5px;
+    @include center-content;
     margin: 2rem;
     width: 300px;
-    height: 200px;
+    height: 400px;
 
     h2 {
       position: relative;

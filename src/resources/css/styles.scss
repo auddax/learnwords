@@ -1,5 +1,13 @@
-html {
-  box-sizing: content-box;
+$font-primary: 'Poppins', sans-serif;
+$font-secondary: 'Raleway', sans-serif;
+
+$color-light-gray: #F8F9FA;
+$color-dark-blue: #462A69;
+
+@mixin center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 body {
@@ -7,6 +15,10 @@ body {
   min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.container {
+  margin: 0 100px;
 }
 
 .button {
@@ -19,4 +31,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card-common {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-light-gray;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 5px rgba(170, 170, 170, 0.25);
 }

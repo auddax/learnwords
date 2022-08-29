@@ -40,14 +40,19 @@ class Games implements IGames {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `
-        <section class="games-page">
-          <div class="games-page__card center-content" id="sprintCard">
-            <h2>Sprint Game</h2>
-          </div>
-          <div class="games-page__card center-content" id="audioCard">
-            <h2>Audio Challenge</h2>
-          </div>
-        </section>
+        <main class="games-page container">
+          <header class="games-page__header">
+            <h1>Games</h1>
+          </header>
+          <section class="center-content">
+            <div class="games-page__card card-common" id="sprintCard">
+              <h2>Sprint Game</h2>
+            </div>
+            <div class="games-page__card card-common" id="audioCard">
+              <h2>Audio Challenge</h2>
+            </div>
+          </section>
+        </main>
       `;
     }
   }
