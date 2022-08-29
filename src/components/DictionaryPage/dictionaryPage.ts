@@ -14,7 +14,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   base: string;
 
   constructor() {
-    super(environment.baseUrl);
+    super();
     this.base = environment.baseUrl;
   }
   async render() {

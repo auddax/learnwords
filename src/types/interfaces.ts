@@ -113,11 +113,19 @@ export interface IDictionaryPage {
   render: () => void;
   setWordCard: (currentPage: number, currentGroup: number) => void;
   setWordInfo: (wordId: string) => void;
-  renderWordCard: (wordEnglish: string, wordTranslate: string, wordBlockId: string) => HTMLDivElement;
+  renderWordCard: (
+    wordEnglish: string,
+    wordTranslate: string,
+    wordBlockId: string
+  ) => HTMLDivElement;
   getWords: (group: number, page: number) => Promise<[]>;
-  getWordById: (wordId: string) => Promise<{}>;
+  getWordById: (wordId: string) => Promise<IWords>;
   listen: (target: HTMLElement) => void;
   nextPage: () => Promise<void>;
   prevPage: () => Promise<void>;
   updatePageAndGroup: (page: number, group: number) => void;
+}
+
+export interface IStatistics {
+  render: () => void;
 }
