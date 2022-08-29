@@ -129,3 +129,14 @@ export interface IDictionaryPage {
 export interface IStatistics {
   render: () => void;
 }
+
+export interface I1FormData {
+  key: number,
+  value: string,
+  render: () => void;
+}
+
+export interface IAuth {
+  listen: (target: HTMLElement) => void;
+  render: () => void;
+}
