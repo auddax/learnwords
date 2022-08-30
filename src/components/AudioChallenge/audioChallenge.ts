@@ -6,7 +6,7 @@ import {
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
-import { getRandomNumber } from '../../utils/utils';
+import { classToggler, getRandomNumber } from '../../utils/utils';
 import GameStart from '../GameStart/gameStart';
 import AudioChallengeGame from './AudioChallengeGame/audioChallengeGame';
 
@@ -52,13 +52,7 @@ class AudioChallenge extends Loader implements IAudioChallenge {
 
   selectLevel(target: HTMLElement) {
     if (!target.classList.contains('form__button-level')) return;
-    const buttons = document.querySelectorAll('.form__button-level');
-    buttons.forEach((btn) => {
-      if (btn.classList.contains('form__button-level_selected')) {
-        btn.classList.remove('form__button-level_selected');
-      }
-    });
-    target.classList.add('form__button-level_selected');
+    classToggler(target, 'form__button-level');
     const level = Number(target.id.slice(-1));
     this.level = level;
   }

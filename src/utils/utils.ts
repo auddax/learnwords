@@ -29,3 +29,13 @@ export function pickRandomItems(array: IWords[], num: number): IWords[] {
   }
   return result;
 }
+
+export function classToggler(target: HTMLElement, targetClassName: string) {
+  const buttons = document.querySelectorAll(`.${targetClassName}`);
+  buttons.forEach((btn) => {
+    if (btn.classList.contains(`${targetClassName}_selected`)) {
+      btn.classList.remove(`${targetClassName}_selected`);
+    }
+  });
+  target.classList.add(`${targetClassName}_selected`);
+}

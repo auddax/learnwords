@@ -1,13 +1,17 @@
 .audio-game {
   @include center-content;
+  height: calc(100vh - 150px);
 
   .audio-game__card {
     @include center-content;
     flex-direction: column;
-    margin: 180px 0 210px;
     width: 830px;
   
     .audio-game__word {
+      .audio-game__img {
+        max-height: 200px;
+        border-radius: 5px;
+      }
   
       .audio-game__audio {
         width: 5rem;
@@ -21,6 +25,18 @@
         justify-content: center;
         align-items: center;
         font-size: 1.25rem;
+
+        .description__translation {
+          @include center-content;
+          font-family: $font-primary;
+          font-weight: 700;
+          font-size: 2rem;
+          margin: 50px 0 0;
+
+          h3 {
+            margin: 0 15px 0 0;
+          }
+        }
   
         svg {
           height: 2rem;
