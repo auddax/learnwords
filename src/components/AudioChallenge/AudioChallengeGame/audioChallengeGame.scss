@@ -5,7 +5,7 @@
   .audio-game__card {
     @include center-content;
     flex-direction: column;
-    width: 830px;
+    // width: 830px;
   
     .audio-game__word {
       .audio-game__img {
@@ -37,7 +37,7 @@
             margin: 0 15px 0 0;
           }
         }
-  
+
         svg {
           height: 2rem;
           width: 2rem;
@@ -50,21 +50,39 @@
   
       .answer {
         display: flex;
-        justify-content: space-between;
-        margin: 80px 0;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        margin: 80px 0 60px;
   
         .button__audio-game-answer {
           @include button-primary;
           border: 1.5px solid $color-dark-blue;
           background-color: transparent;
           color: $color-dark-blue;
+          margin: 0 20px 20px 0;
+
+          &:last-child {
+            margin-right: 0;
+          }
     
           &:hover {
             cursor: pointer;
             background-color: $color-dark-blue;
             color: $color-white;
           }
-        }  
+        }
+        
+        .button__audio-game-answer_right {
+          background-color: $color-dark-blue;
+          color: $color-white;
+        }
+
+        .button__audio-game-answer_wrong {
+          background-color: $color-red;
+          border: 1.5px solid $color-red;
+          color: $color-white;
+        }
       }
   
       .noanswer {

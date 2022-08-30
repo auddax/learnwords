@@ -64,7 +64,14 @@ class AudioChallengeGame implements IAudioChallengeGame {
     const currentWord = this.currentWord.word;
     const selectedWord = target.id.split('-')[1];
 
-    if (currentWord === selectedWord) this.score += environment.scoreIncrement;
+    if (currentWord === selectedWord) {
+      this.score += environment.scoreIncrement;
+      target.classList.add('button__audio-game-answer_right');
+    } else {
+      target.classList.add('button__audio-game-answer_wrong');
+      const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
+      if (currentWordElement) currentWordElement.classList.add('button__audio-game-answer_right');
+    }
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {

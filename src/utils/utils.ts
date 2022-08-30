@@ -1,6 +1,6 @@
 import { IWords } from '../types/interfaces';
 
-export function getRandomNumber(ceil: number, floor = 0) {
+export function getRandomNumber(ceil: number, floor = 0): number {
   return Math.floor(Math.random() * ceil) + floor;
 }
 
@@ -30,7 +30,7 @@ export function pickRandomItems(array: IWords[], num: number): IWords[] {
   return result;
 }
 
-export function classToggler(target: HTMLElement, targetClassName: string) {
+export function classToggler(target: HTMLElement, targetClassName: string): void {
   const buttons = document.querySelectorAll(`.${targetClassName}`);
   buttons.forEach((btn) => {
     if (btn.classList.contains(`${targetClassName}_selected`)) {
