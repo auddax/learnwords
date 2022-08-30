@@ -111,7 +111,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
     if (nextCardButton) {
       nextCardButton.innerHTML = `
-        <button type="button" class="button" id="nextCard">Next</button>
+        <button type="button" class="button-next" id="nextCard">Next</button>
       `;
     }
 
@@ -142,12 +142,13 @@ class AudioChallengeGame implements IAudioChallengeGame {
               </div>
             </div>
             <div class="${this.classPrefix}-game__score">
-              Score: ${String(this.score)}
             </div>            
             <form class="${this.classPrefix}-game__answer">
-              ${answers}
-              <div class="center-content" id="${this.classPrefix}GameNextCard">
-                <button type="button" class="button" id="${this.classPrefix}GameAnswer-noanswer">I don't know</button>
+              <div class="answer">
+                ${answers}
+              </div>
+              <div class="noanswer" id="${this.classPrefix}GameNextCard">
+                <button type="button" class="button-next" id="${this.classPrefix}GameAnswer-noanswer">I don't know</button>
               </div>
             </form>
           </div>

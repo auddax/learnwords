@@ -1,25 +1,62 @@
-.audio-game__card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.audio-game {
+  @include center-content;
 
-  .audio-game__word {
-
-    .audio-game__audio {
-      width: 5rem;
-      height: 5rem;
+  .audio-game__card {
+    @include center-content;
+    flex-direction: column;
+    margin: 180px 0 210px;
+    width: 830px;
+  
+    .audio-game__word {
+  
+      .audio-game__audio {
+        width: 5rem;
+        height: 5rem;
+        border: 2px solid $color-dark-blue;
+        border-radius: 50px;
+      }
+      
+      .audio-game__description {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.25rem;
+  
+        svg {
+          height: 2rem;
+          width: 2rem;
+        }
+      }
     }
+  
+    .audio-game__answer {
+      width: 100%;
+  
+      .answer {
+        display: flex;
+        justify-content: space-between;
+        margin: 80px 0;
+  
+        .button__audio-game-answer {
+          @include button-primary;
+          border: 1.5px solid $color-dark-blue;
+          background-color: transparent;
+          color: $color-dark-blue;
     
-    .audio-game__description {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.25rem;
-
-      svg {
-        height: 2rem;
-        width: 2rem;
+          &:hover {
+            cursor: pointer;
+            background-color: $color-dark-blue;
+            color: $color-white;
+          }
+        }  
+      }
+  
+      .noanswer {
+        @include center-content;
+  
+        .button-next {
+          @include button-primary;
+        }  
       }
     }
   }

@@ -29,8 +29,8 @@ class AudioChallenge extends Loader implements IAudioChallenge {
     this.level = environment.levelDefault;
     this.gameType = GAMES.AUDIO;
     this.start = new GameStart(
-      'Аудиовызов',
-      'Тренировка Аудиовызов улучшает твое восприятие речи на слух.',
+      'Audio Challenge',
+      'The Audio Challenge training improves your listening comprehension.',
       this.gameType,
     );
     this.game = new AudioChallengeGame(this.gameType);
@@ -51,7 +51,14 @@ class AudioChallenge extends Loader implements IAudioChallenge {
   }
 
   selectLevel(target: HTMLElement) {
-    if (!target.classList.contains('button_level')) return;
+    if (!target.classList.contains('form__button-level')) return;
+    const buttons = document.querySelectorAll('.form__button-level');
+    buttons.forEach((btn) => {
+      if (btn.classList.contains('form__button-level_selected')) {
+        btn.classList.remove('form__button-level_selected');
+      }
+    });
+    target.classList.add('form__button-level_selected');
     const level = Number(target.id.slice(-1));
     this.level = level;
   }
