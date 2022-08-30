@@ -10,7 +10,7 @@ import './sprintGame.scss';
 class SprintGame implements ISprintGame {
   currentWordIndex: number;
 
-  score: number;
+  rightAnswers: number;
 
   time: number;
 
@@ -26,7 +26,7 @@ class SprintGame implements ISprintGame {
 
   constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
-    this.score = environment.scoreDefault;
+    this.rightAnswers = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
     this.gameType = gameType;
@@ -42,13 +42,13 @@ class SprintGame implements ISprintGame {
 
   start(words: IWords[]) {
     this.stop();
-    this.score = environment.scoreDefault;
+    this.rightAnswers = environment.scoreDefault;
     this.words = words;
     this.shuffledWords = shuffleArray(words, environment.shuffleSprintStep);
     this.render(
       this.words[this.currentWordIndex].word,
       this.shuffledWords[this.currentWordIndex].wordTranslate,
-      this.score,
+      this.rightAnswers,
     );
     this.timer();
   }
@@ -66,18 +66,18 @@ class SprintGame implements ISprintGame {
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (target.id === 'sprintGameTrue') this.score += environment.scoreIncrement;
-    } else if (target.id === 'sprintGameFalse') this.score += environment.scoreIncrement;
+      if (target.id === 'sprintGameTrue') this.rightAnswers += 1;
+    } else if (target.id === 'sprintGameFalse') this.rightAnswers += 1;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
-      this.result.render(this.score);
+      this.result.render(this.rightAnswers, environment.wordsNumber);
       this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
         this.words[this.currentWordIndex].word,
         this.shuffledWords[this.currentWordIndex].wordTranslate,
-        this.score,
+        this.rightAnswers,
       );
     }
   }
@@ -89,18 +89,18 @@ class SprintGame implements ISprintGame {
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
 
     if (wordOrigin === wordShuffled) {
-      if (eventCode === 'ArrowRight') this.score += environment.scoreIncrement;
-    } else if (eventCode === 'ArrowLeft') this.score += environment.scoreIncrement;
+      if (eventCode === 'ArrowRight') this.rightAnswers += 1;
+    } else if (eventCode === 'ArrowLeft') this.rightAnswers += 1;
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
-      this.result.render(this.score);
+      this.result.render(this.rightAnswers, environment.wordsNumber);
       this.stop();
     } else {
       this.currentWordIndex += 1;
       this.render(
         this.words[this.currentWordIndex].word,
         this.shuffledWords[this.currentWordIndex].wordTranslate,
-        this.score,
+        this.rightAnswers,
       );
     }
   }
@@ -118,7 +118,7 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        this.result.render(this.score);
+        this.result.render(this.rightAnswers, environment.wordsNumber);
         this.stop();
         return;
       }

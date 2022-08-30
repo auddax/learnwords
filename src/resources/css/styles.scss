@@ -6,6 +6,8 @@ $color-red: #FF2A54;
 $color-light-gray: #F8F9FA;
 $color-light-green: #31DAE6;
 $color-dark-blue: #462A69;
+$color-blue: #51D7FF;
+$color-light-blue: #d5f2fb;
 
 $transition-time: 0.5s;
 
@@ -53,6 +55,27 @@ $transition-time: 0.5s;
   &:hover {
     @include button-secondary-selected;
   }
+}
+
+@mixin button-simple {
+  border: none;
+  background-color: transparent;
+  color: $color-dark-blue;
+  font-family: $font-primary;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+@mixin  card-common {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-light-gray;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px 5px rgba(170, 170, 170, 0.25);
 }
 
 body {
