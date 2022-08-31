@@ -13,6 +13,7 @@ const environment = {
   timerSprintDefault: 0,
   timerSprintMax: 30,
   timerSprintInterval: 1000,
+  timeoutSprintRender: 200,
   audioWordsNumber: 10,
   audioAnswersNumber: 4,
 };

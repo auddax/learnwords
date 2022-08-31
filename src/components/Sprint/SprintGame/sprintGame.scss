@@ -1,33 +1,131 @@
 .sprint-game {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.sprint-game__card {
   @include center-content;
   flex-direction: column;
+  margin: 40px 0 200px;
 
-  .sprint-game__answers {
+  .sprint-game__card {
     @include center-content;
     flex-direction: column;
-
-    .answers__check {
+  
+    .sprint-game__answers {
       @include center-content;
+      flex-direction: column;
+      margin: 0 0 25px;
+  
+      .answers__check {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 125px;
+        margin: 0 0 20px;
+        
+        .check {
+          fill: #CFCFCF;
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+  
+      .answers__points {
+        color: $color-dark-blue;
+        font-family: $font-primary;
+        font-weight: 500;
+        text-transform: uppercase;
+      }
     }
-  }
+  
+    .sprint-game__timer {
+      svg {
+        fill: $color-dark-blue;
+        width: 4rem;
+        height: 4rem;
+      }
+    
+      .timer__value {
+        color: $color-dark-blue;
+        font-size: 3.5rem;
+        font-family: $font-primary;
+        font-weight: 500;
+        text-align: center;
+        margin: 7px 0 14px;
+      }
+    }
+  
+    .sprint-game__words {
+      @include center-content;
+      flex-direction: column;
+      color: $color-dark-blue;
+      font-family: $font-primary;
+      font-size: 2rem;
+  
+      .words_word {
+        font-weight: 600;
+      }
+  
+      .words_translate {
+        font-weight: 500;
+      }
+    }
+  
+    .sprint-game__mark {
+      @include center-content;
+      margin: 15px 0;
+  
+      .check {
+        fill: $color-white;
+        height: 4rem;
+        width: 4rem;
+      }
 
-  .sprint-game__timer {
-    font-size: 2rem;
-  
-    svg {
-      width: 2.5rem;
-      height: 2.5rem;
+      .check_true {
+        fill: $color-light-green;
+        transition: all $transition-time;
+      }
     }
   
-    .timer__value {
-      text-align: center;
+    .sprint-game__button{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 350px;
+  
+      .button__answer-sprint {
+        @include center-content;
+        @include button-primary;
+        width: 160px;
+  
+        &:first-child {
+          background-color: $color-red;
+          border: 1.5px solid $color-red;
+  
+          svg {
+            margin: 0 10px 0 0;
+            fill: $color-white;
+          }
+  
+          &:hover {
+            background-color: transparent;
+            color: $color-red;
+  
+            svg {
+              fill: $color-red;
+            }
+          }
+        }
+  
+        &:last-child {
+          svg {
+            margin: 0 0 0 10px;
+            fill: $color-white;
+          }
+  
+          &:hover {
+            svg {
+              fill: $color-light-green
+            }
+          }
+        }
+      }
     }
-  }
+  }  
 }
-

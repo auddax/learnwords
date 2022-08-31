@@ -49,7 +49,6 @@ class SprintGame implements ISprintGame {
     this.render(
       this.words[this.currentWordIndex].word,
       this.shuffledWords[this.currentWordIndex].wordTranslate,
-      this.rightAnswers,
     );
     this.timer();
   }
@@ -62,24 +61,48 @@ class SprintGame implements ISprintGame {
   }
 
   answerSprintGameMouse(target: HTMLElement) {
-    if (!target.classList.contains('answer-sprint-game')) return;
+    if (!target.classList.contains('button__answer-sprint')) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
+    const mark = document.querySelector('.sprint-game__mark') as HTMLElement;
+    const checkMark = `
+      <svg class="check" viewBox="0 0 24 24">
+        <path fill="#31DAE6" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+      </svg>
+    `;
+    const crossMark = `
+      <svg class="check" viewBox="0 0 24 24">
+        <path fill="#FF2A54" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"></path>
+      </svg>
+    `;
 
     if (wordOrigin === wordShuffled) {
-      if (target.id === 'sprintGameTrue') this.rightAnswers += 1;
-    } else if (target.id === 'sprintGameFalse') this.rightAnswers += 1;
+      if (target.id === 'sprintGameTrue') {
+        this.rightAnswers += 1;
+        mark.innerHTML = checkMark;
+      } else {
+        mark.innerHTML = crossMark;
+      }
+    } else if (target.id === 'sprintGameFalse') {
+      this.rightAnswers += 1;
+      mark.innerHTML = checkMark;
+    } else {
+      mark.innerHTML = crossMark;
+    }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
-      this.result.render(this.rightAnswers, environment.wordsNumber);
+      setTimeout(() => {
+        this.result.render(this.rightAnswers, environment.wordsNumber);
+      }, environment.timeoutSprintRender);
       this.stop();
     } else {
       this.currentWordIndex += 1;
-      this.render(
-        this.words[this.currentWordIndex].word,
-        this.shuffledWords[this.currentWordIndex].wordTranslate,
-        this.rightAnswers,
-      );
+      setTimeout(() => {
+        this.render(
+          this.words[this.currentWordIndex].word,
+          this.shuffledWords[this.currentWordIndex].wordTranslate,
+        );
+      }, environment.timeoutSprintRender);
     }
   }
 
@@ -88,21 +111,45 @@ class SprintGame implements ISprintGame {
     if (!this.timerId) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
+    const mark = document.querySelector('.sprint-game__mark') as HTMLElement;
+    const checkMark = `
+      <svg class="check" viewBox="0 0 24 24">
+        <path fill="#31DAE6" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+      </svg>
+    `;
+    const crossMark = `
+      <svg class="check" viewBox="0 0 24 24">
+        <path fill="#FF2A54" d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"></path>
+      </svg>
+    `;
 
     if (wordOrigin === wordShuffled) {
-      if (eventCode === 'ArrowRight') this.rightAnswers += 1;
-    } else if (eventCode === 'ArrowLeft') this.rightAnswers += 1;
+      if (eventCode === 'ArrowRight') {
+        this.rightAnswers += 1;
+        mark.innerHTML = checkMark;
+      } else {
+        mark.innerHTML = crossMark;
+      }
+    } else if (eventCode === 'ArrowLeft') {
+      this.rightAnswers += 1;
+      mark.innerHTML = checkMark;
+    } else {
+      mark.innerHTML = crossMark;
+    }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
-      this.result.render(this.rightAnswers, environment.wordsNumber);
+      setTimeout(() => {
+        this.result.render(this.rightAnswers, environment.wordsNumber);
+      }, environment.timeoutSprintRender);
       this.stop();
     } else {
       this.currentWordIndex += 1;
-      this.render(
-        this.words[this.currentWordIndex].word,
-        this.shuffledWords[this.currentWordIndex].wordTranslate,
-        this.rightAnswers,
-      );
+      setTimeout(() => {
+        this.render(
+          this.words[this.currentWordIndex].word,
+          this.shuffledWords[this.currentWordIndex].wordTranslate,
+        );
+      }, environment.timeoutSprintRender);
     }
   }
 
@@ -129,7 +176,7 @@ class SprintGame implements ISprintGame {
     this.time = environment.timerSprintDefault;
   }
 
-  render(word: string, translate: string, score: number) {
+  render(word: string, translate: string) {
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `
@@ -147,6 +194,9 @@ class SprintGame implements ISprintGame {
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
                 </svg>
               </div>
+              <div class="answers__points">
+                <span>20 points for right answer<span>
+              </div>
             </div>
             <div class="sprint-game__timer">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -154,16 +204,28 @@ class SprintGame implements ISprintGame {
               </svg>
               <div class="timer__value">${this.time}</div>
             </div>
-            <div class="sprint-game__result">
-              Score: ${String(score)}
-            </div>
             <div class="sprint-game__words">
-              <p>${word}</p>
-              <p>${translate}</p>
+              <p class="words_word">${word}</p>
+              <p class="words_translate">${translate}</p>
             </div>
-            <form>
-              <button type="button" class="button answer-sprint-game" id="sprintGameFalse">False</button>
-              <button type="button" class="button answer-sprint-game" id="sprintGameTrue">True</button>
+            <div class="sprint-game__mark">
+              <svg class="check" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+              </svg>
+            </div>
+            <form class="sprint-game__button">
+              <button type="button" class="button__answer-sprint" id="sprintGameFalse">
+              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 11H8.83L14.42 5.41L13 4L5 12L13 20L14.41 18.59L8.83 13H21V11Z"/>
+              </svg>
+              False
+              </button>
+              <button type="button" class="button__answer-sprint" id="sprintGameTrue">
+                True
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 11H16.17L10.58 5.41L12 4L20 12L12 20L10.59 18.59L16.17 13H4V11Z"/>
+                </svg>
+              </button>
             </form>
           </div>
         </section>

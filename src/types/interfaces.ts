@@ -66,7 +66,7 @@ export interface ISprintGame {
   start: (words: IWords[]) => void;
   answerSprintGameMouse: (target: HTMLElement) => void;
   answerSprintGameKey: (eventCode: string) => void;
-  render: (word: string, translate: string, score: number) => void;
+  render: (word: string, translate: string) => void;
 }
 
 export interface IPageFooter {
