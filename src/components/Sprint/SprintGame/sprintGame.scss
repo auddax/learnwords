@@ -24,6 +24,11 @@
           width: 2rem;
           height: 2rem;
         }
+
+        .check_true {
+          fill: $color-light-green;
+          transition: all $transition-time;
+        }  
       }
   
       .answers__points {
@@ -75,11 +80,6 @@
         fill: $color-white;
         height: 4rem;
         width: 4rem;
-      }
-
-      .check_true {
-        fill: $color-light-green;
-        transition: all $transition-time;
       }
     }
   

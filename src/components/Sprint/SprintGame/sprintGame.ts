@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 /* eslint-disable no-console */
-/* eslint-disable class-methods-use-this */
 import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { ISprintGame, IGameResult, IWords } from '../../../types/interfaces';
@@ -12,6 +11,12 @@ class SprintGame implements ISprintGame {
   currentWordIndex: number;
 
   rightAnswers: number;
+
+  rowAnswers: number;
+
+  score: number;
+
+  scoreIncrementIndex: number;
 
   time: number;
 
@@ -28,6 +33,9 @@ class SprintGame implements ISprintGame {
   constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.rightAnswers = environment.scoreDefault;
+    this.rowAnswers = environment.scoreDefault;
+    this.score = environment.scoreDefault;
+    this.scoreIncrementIndex = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
     this.gameType = gameType;
@@ -44,6 +52,9 @@ class SprintGame implements ISprintGame {
   start(words: IWords[]) {
     this.stop();
     this.rightAnswers = environment.scoreDefault;
+    this.rowAnswers = environment.scoreDefault;
+    this.score = environment.scoreDefault;
+    this.scoreIncrementIndex = environment.scoreIncrementIndex;
     this.words = words;
     this.shuffledWords = shuffleArray(words, environment.shuffleSprintStep);
     this.render(
@@ -79,14 +90,24 @@ class SprintGame implements ISprintGame {
     if (wordOrigin === wordShuffled) {
       if (target.id === 'sprintGameTrue') {
         this.rightAnswers += 1;
+        this.rowAnswers += 1;
+        this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
+        this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
+        this.rowAnswers = environment.scoreDefault;
+        this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (target.id === 'sprintGameFalse') {
       this.rightAnswers += 1;
+      this.rowAnswers += 1;
+      this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
+      this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
+      this.rowAnswers = environment.scoreDefault;
+      this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
@@ -126,14 +147,24 @@ class SprintGame implements ISprintGame {
     if (wordOrigin === wordShuffled) {
       if (eventCode === 'ArrowRight') {
         this.rightAnswers += 1;
+        this.rowAnswers += 1;
+        this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
+        this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
+        this.rowAnswers = environment.scoreDefault;
+        this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (eventCode === 'ArrowLeft') {
       this.rightAnswers += 1;
+      this.rowAnswers += 1;
+      this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
+      this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
+      this.rowAnswers = environment.scoreDefault;
+      this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
@@ -177,6 +208,7 @@ class SprintGame implements ISprintGame {
   }
 
   render(word: string, translate: string) {
+    const points = environment.scoreIncrement * this.scoreIncrementIndex;
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `
@@ -195,7 +227,7 @@ class SprintGame implements ISprintGame {
                 </svg>
               </div>
               <div class="answers__points">
-                <span>20 points for right answer<span>
+                <span>${points} points for right answer<span>
               </div>
             </div>
             <div class="sprint-game__timer">
@@ -230,6 +262,13 @@ class SprintGame implements ISprintGame {
           </div>
         </section>
       `;
+    }
+    const checkElements = document.querySelectorAll('.answers__check .check');
+    const range = this.rowAnswers >= environment.rowAnswersNumber
+      ? this.rowAnswers % environment.rowAnswersNumber
+      : this.rowAnswers;
+    for (let i = 0; i < range; i += 1) {
+      checkElements[i].classList.add('check_true');
     }
   }
 }

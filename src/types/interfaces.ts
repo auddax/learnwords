@@ -59,6 +59,8 @@ export interface IWords {
 export interface ISprintGame {
   currentWordIndex: number;
   rightAnswers: number;
+  rowAnswers: number;
+  score: number;
   words: IWords[];
   shuffledWords: IWords[];
   result: IGameResult;
