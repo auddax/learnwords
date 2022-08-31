@@ -5,21 +5,29 @@
 }
 
 .sprint-game__card {
-  display: flex;
+  @include center-content;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
-.sprint-game__timer {
-  font-size: 2rem;
+  .sprint-game__answers {
+    @include center-content;
+    flex-direction: column;
 
-  svg {
-    width: 2.5rem;
-    height: 2.5rem;
+    .answers__check {
+      @include center-content;
+    }
   }
 
-  .timer__value {
-    text-align: center;
+  .sprint-game__timer {
+    font-size: 2rem;
+  
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  
+    .timer__value {
+      text-align: center;
+    }
   }
 }
+
