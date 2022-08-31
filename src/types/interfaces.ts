@@ -58,7 +58,7 @@ export interface IWords {
 
 export interface ISprintGame {
   currentWordIndex: number;
-  score: number;
+  rightAnswers: number;
   words: IWords[];
   shuffledWords: IWords[];
   result: IGameResult;
@@ -86,7 +86,7 @@ export interface IGameStart {
 }
 
 export interface IGameResult {
-  render: (score: number) => void;
+  render: (rightAnswers: number, totalWordsNumber: number) => void;
 }
 
 export interface IAudioChallenge {
@@ -100,13 +100,13 @@ export interface IAudioChallenge {
 
 export interface IAudioChallengeGame {
   currentWordIndex: number;
-  score: number;
+  rightAnswers: number;
   words: IWords[];
   pickedWords: IWords[];
   classPrefix: string;
   listen: (target: HTMLElement) => void;
   start: (words: IWords[]) => void;
-  render: (word: string, score: number) => void;
+  render: () => void;
 }
 
 export interface IDictionaryPage {

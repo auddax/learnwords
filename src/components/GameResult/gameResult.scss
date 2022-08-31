@@ -1,0 +1,85 @@
+.game-result {
+  @include center-content;
+  flex-direction: column;
+  height: calc(100vh - 150px);
+
+  .game-result__card {
+    @include card-common;
+    display: flex;
+    align-items: center;
+    width: 800px;
+    height: 400px;
+    margin: 0 0 85px;
+
+    .card__header {
+      width: 80%;
+      margin: 35px 0 0;
+    
+      .card__navbar {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .button-navbar {
+          @include button-simple;
+          font-size: 1.25rem;
+        }
+      }
+    }
+
+    .card__content {
+      color: $color-dark-blue;
+      font-family: $font-primary;
+      font-weight: 500;
+      text-transform: uppercase;
+      line-height: 24px;
+      margin: 15px 0 0;
+    }
+
+    .card__circular-progress {
+      display: grid;
+      place-items: center;
+      width: 250px;
+      height: 250px;
+
+      .circular-progress {
+        display: grid;
+        place-items: center;
+        width: 200px;
+        height: 200px;
+        background-color: $color-light-blue;
+        border-radius: 50%;
+      }
+
+      .circular-progress:before {
+        content: "";
+        position: absolute;
+        height: 135px;
+        width: 135px;
+        background-color: $color-light-gray;
+        border-radius: 50%
+      }
+
+      .value-container {
+        font-family: $font-primary;
+        font-weight: 600;
+        font-size: 2rem;
+        position: relative;
+      }
+    }
+  }
+
+  .game-result__form {
+    @include center-content;
+    flex-wrap: wrap;
+
+    .button {
+      @include button-primary;
+      width: 160px;
+
+      &:first-child {
+        margin-right: 50px;
+      }
+    }
+  }
+}
