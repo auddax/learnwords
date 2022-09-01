@@ -5,14 +5,14 @@
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Loader from '../Loader/loader';
 import { PATH } from '../../types/enums';
-import environment from '../../environment/environment';
 import { IAudioChallenge, IDictionaryPage, ISprint } from '../../types/interfaces';
-import './dictionaryPage.scss';
+import environment from '../../environment/environment';
+import Loader from '../Loader/loader';
 import Sprint from '../Sprint/sprint';
 import AudioChallenge from '../AudioChallenge/audioChallenge';
 import { classToggler } from '../../utils/utils';
+import './dictionaryPage.scss';
 
 class DictionaryPage extends Loader implements IDictionaryPage {
   base: string;
@@ -48,13 +48,13 @@ class DictionaryPage extends Loader implements IDictionaryPage {
                 <button type="button" id="6 6-5" class="complexity-c2 complexity controls-level">C2</button>
               </div>
             </div>
-            <div class="links-card" id="audioChallengeGameCard">
-              <img src="./img/audio-challenge-game-logo.svg" class="card-img">
-              <h2 class="card-header">Audio Challenge</h2>
+            <div class="links-card audioChallengeGameCard">
+              <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
+              <h2 class="audioChallengeGameCard card-header">Audio Challenge</h2>
             </div>
-            <div class="links-card" id="sprintGameCard">
-              <img src="./img//sprint-game-logo.svg" class="card-img">
-              <h2 class="card-header">Sprint</h2>
+            <div class="links-card sprintGameCard">
+              <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
+              <h2 class="sprintGameCard card-header">Sprint</h2>
             </div>
           </div>
         </header>
@@ -66,16 +66,16 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         </section>
         <section class="dictionary-pagination">
           <button class="button-pagination prev-page">
-            <svg class="prev-page" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path class="prev-page" d="M17.67 3.77L15.9 2L6 11.9L15.9 21.8L17.67 20.03L9.54 11.9L17.67 3.77Z"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.67 3.77L15.9 2L6 11.9L15.9 21.8L17.67 20.03L9.54 11.9L17.67 3.77Z"/>
             </svg>
           </button>
           <div class="pagination-current">
             <p id="0" class="current-page">1/30</p>
           </div>
           <button class="button-pagination next-page">
-            <svg class="next-page" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path class="next-page" d="M6.33 3.77L8.1 2L18 11.9L8.1 21.8L6.33 20.03L14.46 11.9L6.33 3.77Z"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.33 3.77L8.1 2L18 11.9L8.1 21.8L6.33 20.03L14.46 11.9L6.33 3.77Z"/>
             </svg>
           </button>
         </section>
@@ -187,12 +187,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   renderSprintGame(target: HTMLElement) {
-    if (target.id !== 'sprintGameCard') return;
+    if (!target.classList.contains('sprintGameCard')) return;
     this.sprint.render();
   }
 
   renderAudioGame(target: HTMLElement) {
-    if (target.id !== 'audioChallengeGameCard') return;
+    if (!target.classList.contains('audioChallengeGameCard')) return;
     this.audio.render();
   }
 
@@ -248,9 +248,9 @@ class DictionaryPage extends Loader implements IDictionaryPage {
           });
         }, 1000);
       });
-    } else if (target.classList.contains('next-page')) {
+    } else if (target.classList.contains('next-page') && !target.classList.contains('disabled-btn')) {
       this.nextPage();
-    } else if (target.classList.contains('prev-page')) {
+    } else if (target.classList.contains('prev-page') && !target.classList.contains('disabled-btn')) {
       this.prevPage();
     } else if (target.id === 'dictionary') {
       this.render();
@@ -290,11 +290,11 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     // ниже выключение кнопки "назад"
     if (currentPageBlock!.id === '0') {
       const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
-      prevBtn!.disabled = true;
+      // prevBtn!.disabled = true;
       prevBtn?.classList.add('disabled-btn');
     } else if (+currentPageBlock!.id < 29) {
       const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
-      nextBtn!.disabled = false;
+      // nextBtn!.disabled = false;
       nextBtn?.classList.remove('disabled-btn');
     }
   }

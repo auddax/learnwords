@@ -108,6 +108,7 @@
     .words-info {
       @include card-common;
       width: 340px;
+      height: 100%;
 
       .word-img {
         img {
@@ -117,10 +118,8 @@
       }
 
       .word-info-content {
-        padding: 20px 20px 0 20px;
+        padding: 20px;
         font-family: $font-primary;
-        margin: 0 0 20px;
-
 
         .word-english {
           font-weight: 600;
@@ -187,6 +186,10 @@
       @include button-secondary;
       margin: 0 40px 0 0;
 
+      svg {
+        pointer-events: none;
+      }
+
       &:last-child {
         margin: 0 0 0 40px;
       }
@@ -195,6 +198,21 @@
         svg {
           fill: $color-white;
         }
+      }
+    }
+
+    .disabled-btn {
+      background-color: $color-gray;
+      border: 1.5px solid $color-gray;
+
+      &:hover {
+        background-color: $color-gray;
+        border: 1.5px solid $color-gray;
+        cursor: auto;
+      }
+
+      svg {
+        fill: $color-white;
       }
     }
 
