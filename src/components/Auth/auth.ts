@@ -3,7 +3,7 @@
 /* eslint-disable class-methods-use-this */
 import environment from '../../environment/environment';
 import { PATH } from '../../types/enums';
-import { I1FormData, IAuth } from '../../types/interfaces';
+import { IAuth } from '../../types/interfaces';
 
 import Loader from '../Loader/loader';
 
@@ -71,8 +71,8 @@ class Auth extends Loader implements IAuth {
       body: JSON.stringify(formData),
     };
 
-    // const response = await getResponse(params, options);
-    // console.log(response);
+    const response = await super.getResponse(params, options);
+    console.log(response);
   }
 
   islogin() {

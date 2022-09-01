@@ -44,7 +44,7 @@ class GameResult implements IGameResult {
     const bar = document.querySelector('.circular-progress') as HTMLElement;
     const value = document.querySelector('.value-container') as HTMLElement;
     const accuracy = (rightAnswers / totalWordsNumber) * 100;
-    progressBar(bar, value, accuracy);
+    if (accuracy) progressBar(bar, value, accuracy);
   }
 }
 

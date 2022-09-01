@@ -61,5 +61,6 @@ export function progressBar(
       )`;
     }
     if (progressValue === progressEndValue) clearInterval(progress);
+    if (progressValue > 100) clearInterval(progress);
   }, speed);
 }

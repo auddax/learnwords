@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
@@ -96,7 +95,6 @@ class AudioChallengeGame implements IAudioChallengeGame {
   showResult() {
     const wordElement = document.querySelector(`.${this.classPrefix}-game__word`);
     const nextCardButton = document.querySelector(`#${this.classPrefix}GameNextCard`);
-    // const scoreElement = document.querySelector(`.${this.classPrefix}-game__score`);
     const answerButtons = document.querySelectorAll(`.button__${this.classPrefix}-game-answer`);
 
     if (wordElement) {
@@ -123,8 +121,6 @@ class AudioChallengeGame implements IAudioChallengeGame {
         <button type="button" class="button-next" id="nextCard">Next Word</button>
       `;
     }
-
-    // if (scoreElement) scoreElement.innerHTML = `Score: ${String(this.score)}`;
 
     if (answerButtons) answerButtons.forEach((button) => button.classList.add('button_disabled'));
   }
