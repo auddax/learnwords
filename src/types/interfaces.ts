@@ -58,6 +58,8 @@ export interface IWords {
 
 export interface ISprintGame {
   currentWordIndex: number;
+  rightAnswers: number;
+  rowAnswers: number;
   score: number;
   words: IWords[];
   shuffledWords: IWords[];
@@ -66,7 +68,7 @@ export interface ISprintGame {
   start: (words: IWords[]) => void;
   answerSprintGameMouse: (target: HTMLElement) => void;
   answerSprintGameKey: (eventCode: string) => void;
-  render: (word: string, translate: string, score: number) => void;
+  render: (word: string, translate: string) => void;
 }
 
 export interface IPageFooter {
@@ -86,7 +88,7 @@ export interface IGameStart {
 }
 
 export interface IGameResult {
-  render: (score: number) => void;
+  render: (rightAnswers: number, totalWordsNumber: number) => void;
 }
 
 export interface IAudioChallenge {
@@ -100,11 +102,43 @@ export interface IAudioChallenge {
 
 export interface IAudioChallengeGame {
   currentWordIndex: number;
-  score: number;
+  rightAnswers: number;
   words: IWords[];
   pickedWords: IWords[];
   classPrefix: string;
   listen: (target: HTMLElement) => void;
   start: (words: IWords[]) => void;
-  render: (word: string, score: number) => void;
+  render: () => void;
+}
+
+export interface IDictionaryPage {
+  render: () => void;
+  setWordCard: (currentPage: number, currentGroup: number) => void;
+  setWordInfo: (wordId: string) => void;
+  renderWordCard: (
+    wordEnglish: string,
+    wordTranslate: string,
+    wordBlockId: string
+  ) => HTMLDivElement;
+  getWords: (group: number, page: number) => Promise<[]>;
+  getWordById: (wordId: string) => Promise<IWords>;
+  listen: (target: HTMLElement) => void;
+  nextPage: () => Promise<void>;
+  prevPage: () => Promise<void>;
+  updatePageAndGroup: (page: number, group: number) => void;
+}
+
+export interface IStatistics {
+  render: () => void;
+}
+
+export interface I1FormData {
+  key: number,
+  value: string,
+  render: () => void;
+}
+
+export interface IAuth {
+  listen: (target: HTMLElement) => void;
+  render: () => void;
 }
