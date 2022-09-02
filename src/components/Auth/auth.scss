@@ -18,10 +18,9 @@
     flex-direction: column;
     border: 1px double #e5e5e5;
     border-radius: 5px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 400px;
-    height: 650px;
     background-color: $color-light-gray;
     cursor: auto;
 
@@ -29,7 +28,7 @@
       font-size: 1.75rem;
       font-weight: 800;
       text-align: center;
-      margin: 0 0 25px;
+      margin: 70px 0 50px;
     }
 
     .body__form {
@@ -61,6 +60,20 @@
           height: 40px;
           width: 160px;
           margin: 10px 0 65px;
+        }
+      }
+    }
+
+    .body__link {
+      font-family: $font-secondary;
+      font-weight: 500;
+
+      .link-button {
+        font-weight: 700;
+        text-decoration: underline;
+
+        &:hover {
+          cursor: pointer;
         }
       }
     }

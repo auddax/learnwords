@@ -18,60 +18,64 @@ class Auth {
   }
 
   render() {
-    // this.render_sign_in();
-    this.render_register();
+    this.render_sign_in();
   }
 
   listen(target: HTMLElement) {
-    this.removeModalRegister(target);
+    this.removeModal(target);
+    this.addModal(target);
   }
 
   render_sign_in() {
     const main = document.querySelector('.page-content') as HTMLElement;
-    // if (main) main.innerHTML = this.sign_in_el();
     if (main) main.insertAdjacentHTML('beforeend', this.sign_in_el());
     this.sign_in_action();
   }
 
   render_register() {
     const main = document.querySelector('.page-content') as HTMLElement;
-    // if (main) main.innerHTML = this.register_el();
     if (main) main.insertAdjacentHTML('beforeend', this.register_el());
     this.register_action();
   }
 
-  removeModalRegister(target: HTMLElement) {
+  removeModal(target: HTMLElement) {
     if (!target.classList.contains('popup')) return;
     target.classList.add('popup_hidden');
   }
 
+  addModal(target: HTMLElement) {
+    if (target.id === 'renderRegisterWindow') {
+      const popup = document.querySelector('.popup');
+      if (popup) popup.remove();
+      const main = document.querySelector('.page-content') as HTMLElement;
+      if (main) main.insertAdjacentHTML('beforeend', this.register_el());
+    } else if (target.id === 'renderSignInWindow') {
+      const popup = document.querySelector('.popup');
+      if (popup) popup.remove();
+      const main = document.querySelector('.page-content') as HTMLElement;
+      if (main) main.insertAdjacentHTML('beforeend', this.sign_in_el());
+    }
+  }
+
   sign_in_el() {
     return (`
-      
-          <div class="container">
-              <div class="row">
-                  <div class="login-form">
-                      <form method="post" class="login-form-row" id="login-form-action">
-                          <h1 class="">Вход</h1>
-                          <div class="col">
-                              <label for="input-email">E-mail</label>
-                              <input type="email" name="email" id="input-email" class="form-input" autofocus required>
-                          </div>
-                          <div class="col">
-                              <label for="input-password">Пароль</label>
-                              <input type="password" name="password" id="input-password" class="form-input" required>
-                          </div>
-                          <div class="col">
-                              <button class="btn" type="submit">
-                                  Войти
-                              </button>
-                          </div>
-                          <div class="row" id="formResult"></div
-                      </form>
-                  </div>
-              </div>
+        <div class="popup">
+          <div class="popup__body">
+            <h1 class="body__header">Welcome back!</h1>
+            <div class="body__form">
+                <form method="post" class="form" id="login-form-action">
+                  <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
+                  <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
+                  <button class="form__button" type="submit">Register</button>
+                  <div class="row" id="formResult"></div>
+                </form>
+            </div>
+            <div class="body__link">
+              <span class="link-text">Don’t have an account?</span>
+              <span class="link-button" id="renderRegisterWindow">Sign up for free!</span>
+            </div>
           </div>
-      
+        </div>
       `);
   }
 
@@ -135,23 +139,24 @@ class Auth {
 
   register_el() {
     return (`
-      
-          <div class="popup">
-              <div class="popup__body">
-              <h1 class="body__header">Learn English with us!</h1>
-                  <div class="body__form">
-                      <form method="post" class="form" id="register-form-action">
-                        <input type="text" name="name" id="reg-input-first-name" class="form__input" placeholder="Username" autocomplete="off" autofocus required>
-                        <input type="email" name="email" id="reg-input-email" class="form__input" placeholder="Email" autocomplete="off" required>
-                        <input type="password" name="password" id="reg-input-password" placeholder="Password" autocomplete="off" class="form__input" required>
-                        <button class="form__button" type="submit">Register</button>
-                        <div class="row" id="RegformResult"></div
-                      </form>
-                  </div>
-              </div>
-          </div>
-      
-      `);
+      <div class="popup">
+        <div class="popup__body">
+          <h1 class="body__header">Learn English with us!</h1>
+          <div class="body__form">
+            <form method="post" class="form" id="register-form-action">
+              <input type="text" name="name" id="reg-input-first-name" class="form__input" placeholder="Username" autocomplete="off" required>
+              <input type="email" name="email" id="reg-input-email" class="form__input" placeholder="Email" autocomplete="off" required>
+              <input type="password" name="password" id="reg-input-password" placeholder="Password" autocomplete="off" class="form__input" required>
+              <button class="form__button" type="submit">Register</button>
+            </form>
+            <div class="body__link">
+              <span class="link-text">Already have an account?</span>
+              <span class="link-button" id="renderSignInWindow">Sign in</span>
+            </div>
+          <div class="row" id="RegformResult"></div>
+        </div>
+      </div>
+    `);
   }
 
   async register_action() {
