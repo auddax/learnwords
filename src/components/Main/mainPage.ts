@@ -5,7 +5,8 @@ import { MainPage } from '../../types/interfaces';
 class Main implements MainPage {
   render() {
     const main = document.querySelector('.page-content');
-    const content = `
+    if (main) {
+      main.innerHTML = `
     <section class="section-info">
     <div class="container">
       <div class="info-content">
@@ -30,8 +31,7 @@ class Main implements MainPage {
       </div>
       <div class="demonstration-video">
         <iframe width="800" height="400" src="https://www.youtube.com/embed/39miz6qt2aY"
-        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
-        clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        title="YouTube video player" frameborder="0">
         </iframe>
       </div>
     </div>
@@ -136,7 +136,7 @@ class Main implements MainPage {
     </div>
   </section>
 `;
-    if (main) main.innerHTML = content;
+    }
   }
 }
 export default Main;

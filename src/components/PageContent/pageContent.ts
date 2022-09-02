@@ -39,6 +39,7 @@ class PageContent implements IPageContent {
     this.changeView(target);
     this.games.listen(target);
     this.dictionary.listen(target);
+    this.auth.listen(target);
   }
 
   listenKey(eventCode: string) {
