@@ -1,64 +1,67 @@
-//footer section
-.footer{
-  background-color: #F8F9FA;
-}
-.footer-content {
-  display: flex;
-  gap:385px;
-  padding: 90px 0 60px 0;
-  font-family: 'Raleway';
-  margin-left: 100px;
-}
-.rs-content{
-  display: flex;
-  width: 180px;
-}
-.rs-other-links{
-  height: 50px;
-}
-.rs-course-link svg{
-  fill: #462A69;
-  width: 135px;
-}
-.rs-course-link{
-  margin-right: 20px;
-}
-.rs-youtube-link svg{
-  fill: #462A69;
-  width: 24px;
-}
-.rs-github-link svg{
-  fill: #462A69;
-  width: 24px;
-}
-.rs-github-link{
-  margin-bottom: 2px;
-}
-.year{
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 5em;
-  color: #462A69;
-}
-.developers-title{
-  margin-bottom: 20px;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 28px;
-  color: #462A69;
-  text-align: center;
-}
-.developer{
-  margin-right: 20px;
-  text-decoration: none;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  color: #462A69;
-}
-.developer:last-child{
-  margin: 0;
+.footer {
+  @include center-content;
+  font-family: $font-primary;
+  background-color: $color-light-gray;
+  color: $color-dark-blue;
+  height: 200px;
+
+  .footer-content {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: space-between;
+
+
+    .rs-content {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 180px;
+      height: 55px;
+
+      .rs-course-link {
+        margin: 0 20px 0 0;
+
+        svg {
+          fill: $color-dark-blue;
+          height: 50px;
+        }
+      }
+
+      .rs-other-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .rs-github-link {
+          margin: 0 0 5px;
+        }
+      }
+    }
+
+    .year {
+      height: 100%;
+      margin: auto 0 0;
+    }
+
+    .content-developers {
+      .developers-title {
+        font-family: $font-secondary;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin: 0 0 10px;
+      }
+
+      .developers {
+        a {
+          text-decoration: none;
+
+          &:not(:last-child) {
+            margin: 0 20px 0 0;
+          }
+        }
+      }
+    }
+  }
+
 }
