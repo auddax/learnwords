@@ -1,5 +1,8 @@
 import {
-  IApp, IPageContent, IPageHeader, IPageFooter,
+  IApp,
+  IPageContent,
+  IPageHeader,
+  IPageFooter,
 } from '../../types/interfaces';
 import { View } from '../../types/enums';
 import PageContent from '../PageContent/pageContent';

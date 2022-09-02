@@ -1,0 +1,223 @@
+.dictionary {
+  color: $color-dark-blue;
+
+  .dictionary-header {
+    flex-direction: column;
+
+    .dictionary-title {
+      font-family: $font-primary;
+      font-weight: 700;
+      font-size: 3.5rem;
+      margin: 20px 0 60px;
+    }
+
+    .dictionary-controls {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+
+      .controls-complexity {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 20px 0;
+
+        .complexity-title {
+          font-family: $font-secondary;
+          font-weight: 700;
+          text-transform: uppercase;
+          margin: 0 0 35px;
+        }
+
+        .complexity-controls {
+          display: flex;
+
+          .controls-level {
+            @include button-secondary;
+            margin: 0 20px 0 0;
+          }
+
+          .controls-level_selected {
+            @include button-secondary-selected;
+          }
+        }
+      }
+
+      .links-card {
+        @include card-common;
+        @include center-content;
+        flex-direction: row;
+        width: 340px;
+        height: 95px;
+        margin: 0 0 20px 0;
+
+        .card-img {
+          height: 45px;
+          margin: 0 20px 0 0;
+        }
+
+        .card-header {
+          font-family: $font-secondary;
+          font-weight: 800;
+          font-size: 1.5rem;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+
+      }
+    }
+  
+  }
+
+  .dictionary-words {
+    margin: 55px 0 90px;
+    display: flex;
+    justify-content: space-between;
+
+    .words {
+      display: flex;
+      flex-wrap: wrap;
+
+      .word {
+        @include card-common;
+        @include center-content;
+        width: 190px;
+        height: 100px;
+        margin: 0 20px 20px 0;
+        font-family: $font-primary;
+
+        .english-word {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin: 0 0 10px;
+        }
+
+        .translate-word {
+          font-size: 1.125rem;
+          font-weight: 500;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }  
+      }
+    }
+
+    .words-info {
+      @include card-common;
+      width: 340px;
+      height: 100%;
+
+      .word-img {
+        img {
+          max-width: 340px;
+          border-radius: 5px 5px 0 0;
+        }
+      }
+
+      .word-info-content {
+        padding: 20px;
+        font-family: $font-primary;
+
+        .word-english {
+          font-weight: 600;
+          font-size: 1.5rem;
+          margin: 0 0 10px;
+        }
+
+        .word-translate {
+          font-weight: 500;
+          font-size: 1.125rem;
+          margin: 0 0 10px;
+        }
+
+        .word-transcript {
+          display: flex;
+          font-weight: 500;
+          font-size: 1.125rem;
+
+          .volume-img {
+            width: 20px;
+            margin: 0 0 0 5px;
+
+            svg {
+              fill: $color-dark-blue;
+            }
+          }
+        }
+      }
+
+      .word-mean {
+        margin: 20px 0;
+
+        .word-mean-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin: 0 0 5px 0;
+        }
+
+        .word-mean-translate {
+          margin: 5px 0 0 0;
+        }
+      }
+
+      .word-examples {
+        .word-example-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin: 0 0 5px 0;
+        }
+
+        .word-example-translate {
+          margin: 5px 0 0 0;
+        }
+      }
+    }
+  }
+
+  .dictionary-pagination {
+    @include center-content;
+    margin: 0 0 90px;
+
+    .button-pagination {
+      @include center-content;
+      @include button-secondary;
+      margin: 0 40px 0 0;
+
+      svg {
+        pointer-events: none;
+      }
+
+      &:last-child {
+        margin: 0 0 0 40px;
+      }
+
+      &:hover {
+        svg {
+          fill: $color-white;
+        }
+      }
+    }
+
+    .disabled-btn {
+      background-color: $color-gray;
+      border: 1.5px solid $color-gray;
+
+      &:hover {
+        background-color: $color-gray;
+        border: 1.5px solid $color-gray;
+        cursor: auto;
+      }
+
+      svg {
+        fill: $color-white;
+      }
+    }
+
+    .pagination-current {
+      font-family: $font-primary;
+    }
+  }
+}

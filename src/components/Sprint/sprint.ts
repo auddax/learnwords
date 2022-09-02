@@ -6,7 +6,7 @@ import {
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';
 import environment from '../../environment/environment';
-import { getRandomNumber } from '../../utils/utils';
+import { classToggler, getRandomNumber } from '../../utils/utils';
 import SprintGame from './SprintGame/sprintGame';
 import GameStart from '../GameStart/gameStart';
 
@@ -29,8 +29,8 @@ class Sprint extends Loader implements ISprint {
     this.level = environment.levelDefault;
     this.gameType = GAMES.SPRINT;
     this.start = new GameStart(
-      'Спринт',
-      'Спринт - это тренировка на скорость. Попробуй угадать как можно больше слов за 30 секунд.',
+      'Sprint',
+      'Sprint is speed training. Try to guess as many words as you can in 30 seconds.',
       this.gameType,
     );
     this.game = new SprintGame(this.gameType);
@@ -55,7 +55,8 @@ class Sprint extends Loader implements ISprint {
   }
 
   selectLevel(target: HTMLElement) {
-    if (!target.classList.contains('button_level')) return;
+    if (!target.classList.contains('form__button-level')) return;
+    classToggler(target, 'form__button-level');
     const level = Number(target.id.slice(-1));
     this.level = level;
   }
