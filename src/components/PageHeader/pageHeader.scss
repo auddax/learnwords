@@ -1,82 +1,40 @@
-// .page-header {
-//   display: flex;
-//   margin: 2rem 0;
-
-//   .menu {
-//     display: flex;
-//     margin: 0 0 0 auto;
-
-//     .menu-item {
-//       list-style-type: none;
-//       margin: 0 0 0 1rem;
-
-//       &:hover {
-//         cursor: pointer;
-//       }
-//     }
-//   }
-// }
-*{
-  padding: 0;
-  margin: 0;
-}
-.container{
-  max-width: 1440px;
-  margin: 0 auto;
-}
-.header-content{
+.header {
   display: flex;
-  margin: 55px 0 51px 0;
-  padding: 0 100px;
   justify-content: space-between;
-  font-family: 'Poppins';
-}
-.logo-text{
-  color: #462A69;
-  font-style: normal;
-  font-weight: 900;
-  font-size: 24px;
-  line-height: 36px;
-  
-  &:hover{
-    cursor: pointer;
-  }
-}
-.menu{
-  display: flex;
-  width: 610px;
-  justify-content: space-between;
-}
-.menu-item{
-  list-style-type: none;
-  text-transform: uppercase;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 27px;
-  margin-top: 10px;
-  color: #462A69;
+  align-items: center;
+  font-family: $font-primary;
+  color: $color-dark-blue;
+  height: 150px;
 
-  &:hover{
-    cursor: pointer;
+  .header__logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
-}
-.menu-item:last-child{
-  margin: 0;
-}
-.btn{
-  border: none;
-  padding: 10px 37px;
-  margin: 0;
-  text-transform: uppercase;
-  border-radius: 25px;
-  background-color: #31DAE6;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #FFFFFF;
-}
-.logo-link{
-  text-decoration: none;
+
+  .header__menu {
+    @include center-content;
+    
+    .menu-item {
+      @include button-simple;
+      font-weight: 500;
+
+      &:not(:last-child) {
+        margin: 0 40px 0 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .header__button-signin {
+    @include button-primary;
+    height: 40px;
+    width: 125px;
+  }
 }
