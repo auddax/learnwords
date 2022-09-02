@@ -8,13 +8,24 @@ class PageHeader implements IPageHeader {
     const header = document.querySelector('.page-header');
     if (header) {
       header.innerHTML = `
-        <ul class="menu">
-          <li class="menu-item" id="${View.MAIN}">Main</li>
-          <li class="menu-item" id="${View.DICTIONARY}">Dictionary</li>
-          <li class="menu-item" id="${View.GAMES}">Games</li>
-          <li class="menu-item" id="${View.STATISTICS}">Statistics</li>
-          <li class="menu-item" id="${View.SIGNIN}">Sign in</li>
-        <ul>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <a class="logo-link" href="#">
+              <h1 class="logo-text">RS Lang</h1>
+            </a>
+          </div>
+          <ul class="menu">
+            <li class="menu-item" id="${View.MAIN}">Home</li>
+            <li class="menu-item" id="${View.DICTIONARY}">Dictionary</li>
+            <li class="menu-item" id="${View.GAMES}">Games</li>
+            <li class="menu-item" id="${View.STATISTICS}">Statistics</li>
+            <li class="menu-item" id="${View.SIGNIN}">
+            <button class="btn login-btn">Log in</button>
+            </li>
+          </ul>
+        </div>
+      </div>
       `;
     }
   }
