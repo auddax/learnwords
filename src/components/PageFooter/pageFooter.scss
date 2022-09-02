@@ -1,39 +1,64 @@
-//footer section 
+//footer section
 .footer{
-  background-color: #34568B;
+  background-color: #F8F9FA;
 }
 .footer-content {
-  padding-top: 30px;
-  text-align: center;
+  display: flex;
+  gap:385px;
+  padding: 90px 0 60px 0;
+  font-family: 'Raleway';
+  margin-left: 100px;
 }
-.developer {
-  color: rgb(180, 180, 180);
-  margin-bottom: 20px;
-  display: block;
-  width: 100px;
-  margin: 0 auto 10px auto;
-  text-decoration: none;
+.rs-content{
+  display: flex;
+  width: 180px;
 }
-.developer:hover{
-  color: white;
+.rs-other-links{
+  height: 50px;
+}
+.rs-course-link svg{
+  fill: #462A69;
+  width: 135px;
+}
+.rs-course-link{
+  margin-right: 20px;
+}
+.rs-youtube-link svg{
+  fill: #462A69;
+  width: 24px;
+}
+.rs-github-link svg{
+  fill: #462A69;
+  width: 24px;
+}
+.rs-github-link{
+  margin-bottom: 2px;
+}
+.year{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 5em;
+  color: #462A69;
 }
 .developers-title{
-  color:WHITE;
+  margin-bottom: 20px;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 28px;
+  color: #462A69;
+  text-align: center;
 }
-.content-rsschool {
-  margin-top: 50px;
-  padding-top: 15px;
-  border-top: 1px solid rgb(180, 180, 180);
-  display: flex;
-  justify-content: center;
-  gap: 30px
-}
-.content-rsschool p{
-  color: white;
+.developer{
+  margin-right: 20px;
   text-decoration: none;
-  align-self: center;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #462A69;
 }
-.rs-link svg{
-  width: 80px;
-  height: 30px;
+.developer:last-child{
+  margin: 0;
 }

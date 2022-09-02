@@ -6,94 +6,135 @@ class Main implements MainPage {
   render() {
     const main = document.querySelector('.page-content');
     const content = `
-    <section class="section-app-info">
+    <section class="section-info">
     <div class="container">
-      <div class="app-info-content">
-        <h2 class="app-info-title">[Блок] Заголовок "описания преимуществ приложения"</h2>
-        <p class="app-info-text">описание преимуществ нашего приложения описание преимуществ нашего приложения описание преимуществ нашего приложения описание преимуществ нашего приложения описание преимуществ нашего приложенияописание преимуществ нашего приложения описание преимуществ нашего приложенияописание преимуществ нашего приложенияописание преимуществ нашего приложения</p>
+      <div class="info-content">
+        <div class="info-content-text">
+          <h1 class="info-content-title">RS Lang</h1>
+          <p class="info-content-subtitle">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+          <p>
+          <button class="info-content-btn btn">Start now</button>
+        </div>
+        <div class="info-content-image">
+          <img class="content-image" src="./img/info-img.png" alt="Info-Img"></img>
+        </div>
       </div>
     </div>
   </section>
-  <section class="section-our-command">
+  <section class="demonstration">
   <div class="container">
-    <h2 class="command-info-title">
-      Наша команда
-    </h2>
-    <div class="command-info-content">
-      <div class="command-member-cards">
-      <div class="member-card member-kirill">
-        <div class="member-card-name">
-          <a target="_blank" href="https://github.com/auddax" class="member-github-link">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          <p>Кирил ...</p>
-        </div>
-        <div class="member-card-content">
-        <div class="member-content-photo">
-          <p>фото</p>
-        </div>
-        <div class="member-content-info">
-          <div class="member-info-background">
-            несколько свлов об истории участника Lorem ipsum dolor sit amet consectetur 
-          </div>
-          <div class="member-info-todo">
-            список того что сделал участник Lorem ipsum dolor sit amet consectetur
-          </div>
-        </div>
+    <div class="demonstration-content">
+      <div class="demonstration-title">
+        <h2 class="title">Demonstration</h2>
       </div>
+      <div class="demonstration-video">
+        <iframe width="800" height="400" src="https://www.youtube.com/embed/39miz6qt2aY"
+        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+        clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
       </div>
-      <div class="member-card member-kuanyshbek">
-        <div class="member-card-name">
-          <a target="_blank" href="https://github.com/zone0119" class="member-github-link">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          <p>Куанышбек ...</p>
-        </div>
-        <div class="member-card-content">
-        <div class="member-content-photo">
-          <p>фото</p>
-        </div>
-        <div class="member-content-info">
-          <div class="member-info-background">
-            несколько свлов об истории участника Lorem ipsum dolor sit amet consectetur 
-          </div>
-          <div class="member-info-todo">
-            список того что сделал участник Lorem ipsum dolor sit amet consectetur
-          </div>
-        </div>
-      </div>
-      </div>
-      <div class="member-card member-oomat">
-        <div class="member-card-name">
-          <a target="_blank" href="https://github.com/omkavtanke" class="member-github-link">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-          <p>Оомат ...</p>
-        </div>
-        <div class="member-card-content">
-        <div class="member-content-photo">
-          <p>фото</p>
-        </div>
-        <div class="member-content-info">
-          <div class="member-info-background">
-            несколько свлов об истории участника Lorem ipsum dolor sit amet consectetur 
-          </div>
-          <div class="member-info-todo">
-            список того что сделал участник Lorem ipsum dolor sit amet consectetur
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
     </div>
   </div>
-</section>
+  </section>
+  <section class="features">
+    <div class="container">
+      <div class="features-content">
+        <div class="features-title">
+          <h2 class="title">Learn English with us</h2>
+        </div>
+        <div class="features-card">
+          <div class="card card-dictionary">
+            <div class="card-content card-dictionary-content">
+              <img class="card-img card-dictionary-img" src="./img/dictionary-card.png" alt="dictionary-image"></img>
+              <h3 class="card-title">Dictionary</h3>
+              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+          </div>
+          <div class="card card-games">
+            <div class="card-content card-games-content">
+              <img class="card-img card-games-img" src="./img/games-card.png" alt="dictionary-image"></img>
+              <h3 class="card-title">Games</h3>
+              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+          </div>
+          <div class="card card-statistic">
+            <div class="card-content card-statistic-content">
+              <img class="card-img card-statistic-img" src="./img/statistic-card.png" alt="dictionary-image"></img>
+              <h3 class="card-title">Statistics</h3>
+              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="team>
+    <div class="container">
+      <div class="team-content">
+        <h2 class="team-title title">Our team</h2>
+        <div class="team-members">
+          <div class="member member-kirill">
+            <div class=" member-photo member-kirill-photo">
+              <img src="./img/member-kirill2.jpg" alt="member-photo">
+            </div>
+            <div class="member-text">
+              <div class="member-name">
+                <h3 class="name">Кирилл</h3>
+                <div class="git-logo">
+                  <a target="_blank" href="https://github.com/auddax" class="member-github-link">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+          </div>
+          <div class="member member-kuanyshbek">
+            <div class="member-text">
+              <div class="member-name">
+                <h3 class="name">Куанышбек </h3>
+                <div class="git-logo">
+                  <a target="_blank" href="https://github.com/zone0119" class="member-github-link">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+            <div class=" member-photo member-kuanyshbek-photo">
+              <img src="./img/member-kuanyshbek.jpg" alt="member-photo">
+            </div>
+          </div>
+          <div class="member member-oomat">
+            <div class=" member-photo member-oomat-photo">
+              <img src="./img/member-oomat2.jpg" alt="member-photo">
+            </div>
+            <div class="member-text">
+              <div class="member-name">
+                <h3 class="name">Оомат</h3>
+                <div class="git-logo">
+                  <a target="_blank" href="https://github.com/omkavtanke" class="member-github-link">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 `;
     if (main) main.innerHTML = content;
   }
