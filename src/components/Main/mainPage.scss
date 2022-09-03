@@ -6,7 +6,7 @@
   margin-top: 50px;
 }
 .info-content-subtitle{
-  margin: 38px 0 103px 5px;
+  margin: 38px 0 103px 0;
   max-width: 440px;
   font-style: normal;
   font-weight: 500;
@@ -15,6 +15,7 @@
   color: #462A69;
 }
 .info-content-title{
+  margin: 0 0 0 -2.5px;
   font-style: normal;
   font-weight: 800;
   font-size: 70px;
@@ -22,16 +23,16 @@
   color: #462A69;
 }
 .info-content-text{
-  margin: 50px 0 0 95px;
+  margin: 50px 0 0 0;
 
 }
 .info-content-image{
-  margin-right: 145px;
+  margin: 0 0 0 45px;
 }
 .info-content-btn{
-  font-family: 'Poppins';
-  padding: 12px 40px;
-  margin-left: 5px;
+  @include button-primary;
+  height: 50px;
+  width: 175px;
 }
 
 //demonstration section
@@ -102,10 +103,9 @@
   margin-bottom: 20px;
 }
 .card{
+  @include card-common;
   width: 300px;
   height: 400px;
-  box-shadow: 0px 0px 15px darkgray;
-  border-radius: 10px;
 }
 .card-games{
   margin: 0 65px;

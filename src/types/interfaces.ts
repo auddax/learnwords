@@ -53,7 +53,11 @@ export interface ISprint {
 }
 
 export interface IWords {
-  [index: string]: string
+  [index: string]: string;
+}
+
+export interface IForm {
+  [index: string]: string | FormDataEntryValue;
 }
 
 export interface ISprintGame {
