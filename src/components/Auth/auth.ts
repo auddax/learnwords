@@ -40,7 +40,7 @@ class Auth {
 
   removeModal(target: HTMLElement) {
     if (!target.classList.contains('popup')) return;
-    target.classList.add('popup_hidden');
+    target.remove();
   }
 
   addModal(target: HTMLElement) {
