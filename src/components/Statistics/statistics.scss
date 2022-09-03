@@ -1,5 +1,99 @@
 .statistics-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include center-content;
+  flex-direction: column;
+  font-family: $font-primary;
+  color: $color-dark-blue;
+
+  .statistics-page__header {
+    font-weight: 700;
+    font-size: 3.5rem;
+    margin: 20px 0 35px;
+  }
+
+  .statistics-page__card {
+    @include card-common;
+    display: flex;
+    align-items: center;
+    width: 820px;
+    height: 500px;
+    margin: 0 0 100px;
+    padding: 35px;
+
+    .card__header {
+      width: 80%;
+      margin: 0 0 35px;
+    
+      .card__navbar {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .button-navbar {
+          @include button-simple;
+          font-size: 1.25rem;
+        }
+      }
+    }
+
+    .card__content {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+
+      .card__column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        .card__img {
+          margin: 0 0 40px;
+          height: 70px;
+        }
+
+        .card__words {
+          text-transform: uppercase;
+          margin: 0 0 20px;
+        }
+
+        .card__subheader {
+          font-weight: 700;
+          font-size: 1.5rem;
+          margin: 20px 0 0;
+        }
+
+        .card__circular-progress {
+          display: grid;
+          place-items: center;
+          width: 150px;
+          height: 150px;
+    
+          .circular-progress {
+            display: grid;
+            place-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: $color-light-blue;
+            border-radius: 50%;
+          }
+    
+          .circular-progress:before {
+            content: "";
+            position: absolute;
+            height: 65px;
+            width: 65px;
+            background-color: $color-light-gray;
+            border-radius: 50%
+          }
+    
+          .value-container {
+            font-family: $font-primary;
+            font-weight: 600;
+            font-size: 1.5rem;
+            position: relative;
+          }
+        }    
+      }  
+    }
+  }
 }

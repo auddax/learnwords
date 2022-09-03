@@ -16,7 +16,7 @@ class GameResult implements IGameResult {
     if (main) {
       main.innerHTML = `
         <section class="game-result">
-          <section class="game-result__card">
+          <article class="game-result__card">
             <header class="card__header">
               <form class="card__navbar">
                 <button type="button" class="button button-navbar">Results</button>
@@ -32,7 +32,7 @@ class GameResult implements IGameResult {
                 <div class="value-container">0%</div>
               </div>
             </div>
-          </section>
+          </article>
           <form class="game-result__form">
             <button type="button" class="button" id="new${this.gameType}Game">Change Level</button>
             <button type="button" class="button" id="start${this.gameType}Game">Try again</button>
