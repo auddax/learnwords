@@ -10,17 +10,22 @@ class GameResult implements IGameResult {
     this.gameType = gameType;
   }
 
-  render(rightAnswers: number, totalWordsNumber: number) {
+  render(
+    rightAnswers: number,
+    rightAnswerWords: string[],
+    wrongAnswerWords: string[],
+    totalWordsNumber: number,
+  ) {
     const main = document.querySelector('.page-content') as HTMLElement;
 
     if (main) {
       main.innerHTML = `
         <section class="game-result">
-          <section class="game-result__card">
+          <article class="game-result__card">
             <header class="card__header">
               <form class="card__navbar">
-                <button type="button" class="button button-navbar">Results</button>
-                <button type="button" class="button button-navbar">My words</button>
+                <button type="button" class="button button-navbar" id="gameResultsCard">Results</button>
+                <button type="button" class="button button-navbar" id="gameWordsCard">My words</button>
               </form>
             </header>
             <div class="card__content">
@@ -32,7 +37,7 @@ class GameResult implements IGameResult {
                 <div class="value-container">0%</div>
               </div>
             </div>
-          </section>
+          </article>
           <form class="game-result__form">
             <button type="button" class="button" id="new${this.gameType}Game">Change Level</button>
             <button type="button" class="button" id="start${this.gameType}Game">Try again</button>

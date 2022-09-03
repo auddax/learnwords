@@ -21,6 +21,5 @@ module.exports = {
     "ignorePatterns": ["*config.js", ".eslintrc.js"],
     "rules": {
         "@typescript-eslint/no-explicit-any": 2,
-        "max-lines-per-function": ["error", 40],
     }
 }
