@@ -1,7 +1,4 @@
-/* eslint-disable object-shorthand */
-/* eslint-disable  @typescript-eslint/lines-between-class-members */
 /* eslint-disable max-lines-per-function */
-/* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -198,7 +195,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async getWords(group: number, page: number) {
     const pathVars = { [PATH.WORDS]: null };
-    const queryParams = { group: group, page };
+    const queryParams = { group, page };
     const params = { pathVars, queryParams };
     const response = await super.getResponse(params);
     const words = await response.json();
@@ -253,6 +250,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     } else if (target.classList.contains('prev-page') && !target.classList.contains('disabled-btn')) {
       this.prevPage();
     } else if (target.id === 'dictionary') {
+      this.render();
+    } else if (target.classList.contains('card-click-dictionary')) {
       this.render();
     }
   }
