@@ -14,6 +14,10 @@ class SprintGame implements ISprintGame {
 
   rowAnswers: number;
 
+  rightAnswerWords: string[];
+
+  wrongAnswerWords: string[];
+
   score: number;
 
   scoreIncrementIndex: number;
@@ -33,6 +37,8 @@ class SprintGame implements ISprintGame {
   constructor(gameType: GAMES) {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.rightAnswers = environment.scoreDefault;
+    this.rightAnswerWords = [];
+    this.wrongAnswerWords = [];
     this.rowAnswers = environment.scoreDefault;
     this.score = environment.scoreDefault;
     this.scoreIncrementIndex = environment.scoreDefault;
@@ -75,6 +81,7 @@ class SprintGame implements ISprintGame {
     if (!target.classList.contains('button__answer-sprint')) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
+    const wordId = this.words[this.currentWordIndex].id;
     const mark = document.querySelector('.sprint-game__mark') as HTMLElement;
     const checkMark = `
       <svg class="check" viewBox="0 0 24 24">
@@ -91,29 +98,38 @@ class SprintGame implements ISprintGame {
       if (target.id === 'sprintGameTrue') {
         this.rightAnswers += 1;
         this.rowAnswers += 1;
+        this.rightAnswerWords.push(wordId);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
+        this.wrongAnswerWords.push(wordId);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (target.id === 'sprintGameFalse') {
       this.rightAnswers += 1;
       this.rowAnswers += 1;
+      this.rightAnswerWords.push(wordId);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
+      this.wrongAnswerWords.push(wordId);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.result.render(this.rightAnswers, environment.wordsNumber);
+        this.result.render(
+          this.rightAnswers,
+          this.rightAnswerWords,
+          this.wrongAnswerWords,
+          environment.wordsNumber,
+        );
       }, environment.timeoutSprintRender);
       this.stop();
     } else {
@@ -132,6 +148,7 @@ class SprintGame implements ISprintGame {
     if (!this.timerId) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
     const wordShuffled = this.shuffledWords[this.currentWordIndex].word;
+    const wordId = this.words[this.currentWordIndex].id;
     const mark = document.querySelector('.sprint-game__mark') as HTMLElement;
     const checkMark = `
       <svg class="check" viewBox="0 0 24 24">
@@ -148,29 +165,38 @@ class SprintGame implements ISprintGame {
       if (eventCode === 'ArrowRight') {
         this.rightAnswers += 1;
         this.rowAnswers += 1;
+        this.rightAnswerWords.push(wordId);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
+        this.wrongAnswerWords.push(wordId);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (eventCode === 'ArrowLeft') {
       this.rightAnswers += 1;
       this.rowAnswers += 1;
+      this.rightAnswerWords.push(wordId);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
+      this.wrongAnswerWords.push(wordId);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.result.render(this.rightAnswers, environment.wordsNumber);
+        this.result.render(
+          this.rightAnswers,
+          this.rightAnswerWords,
+          this.wrongAnswerWords,
+          environment.wordsNumber,
+        );
       }, environment.timeoutSprintRender);
       this.stop();
     } else {
@@ -197,7 +223,12 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        this.result.render(this.rightAnswers, environment.wordsNumber);
+        this.result.render(
+          this.rightAnswers,
+          this.rightAnswerWords,
+          this.wrongAnswerWords,
+          environment.wordsNumber,
+        );
         this.stop();
         return;
       }

@@ -12,6 +12,10 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   rightAnswers: number;
 
+  rightAnswerWords: string[];
+
+  wrongAnswerWords: string[];
+
   gameType: GAMES;
 
   words: IWords[];
@@ -26,6 +30,8 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.currentWord = {};
     this.rightAnswers = environment.scoreDefault;
+    this.rightAnswerWords = [];
+    this.wrongAnswerWords = [];
     this.gameType = gameType;
     this.words = [];
     this.pickedWords = [];
@@ -62,11 +68,14 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
     const currentWord = this.currentWord.word;
     const selectedWord = target.id.split('-')[1];
+    const currentWordId = this.currentWord.id;
 
     if (currentWord === selectedWord) {
       this.rightAnswers += 1;
+      this.rightAnswerWords.push(currentWordId);
       target.classList.add('button__audio-game-answer_right');
     } else {
+      this.wrongAnswerWords.push(currentWordId);
       target.classList.add('button__audio-game-answer_wrong');
       const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
       if (currentWordElement) currentWordElement.classList.add('button__audio-game-answer_right');
@@ -74,7 +83,12 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
-      this.result.render(this.rightAnswers, environment.audioWordsNumber);
+      this.result.render(
+        this.rightAnswers,
+        this.rightAnswerWords,
+        this.wrongAnswerWords,
+        environment.audioWordsNumber,
+      );
     } else {
       this.showResult();
     }
