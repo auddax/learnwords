@@ -107,7 +107,6 @@ class Auth {
           if (res.ok) {
             console.log('res_ok');
             console.log(res);
-
             return res.json();
           }
 
@@ -123,7 +122,7 @@ class Auth {
           this.userId = data.userId;
           console.log(`${this.get_datetime()} is_login:${this.islog_in()}`);
 
-          this.redirect_to_page('statistics'); // TODO
+          this.show_user_name(); // TODO
         }).catch((err) => {
           console.warn('catch');
           console.warn(err);
@@ -134,6 +133,10 @@ class Auth {
         evt.preventDefault();
       }, true);
     }
+  }
+
+  show_user_name() {
+    // del popup, change to logout menu
   }
 
   get_datetime(set_hours = 0) {
@@ -292,6 +295,7 @@ class Auth {
 
       if (res.status === 401) {
         this.redirect_to_page('auth/login'); // TODO
+        this.logout();
       }
 
       return Promise.reject(res);
