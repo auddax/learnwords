@@ -1,0 +1,110 @@
+.popup {
+  @include center-content;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+  transition: $transition-time;
+  color: $color-dark-blue;
+  background-color: rgba(0, 0, 0, 0.85);
+  font-family: $font-primary;
+  
+  .popup__body {
+    @include center-content;
+    padding: 2rem;
+    flex-direction: column;
+    border: 1px double #e5e5e5;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    background-color: $color-light-gray;
+    cursor: auto;
+
+    .body__header {
+      font-size: 1.75rem;
+      font-weight: 800;
+      text-align: center;
+      margin: 70px 0 50px;
+    }
+
+    .body__form {
+      .form {
+        @include center-content;
+        flex-direction: column;
+
+        .form__input {
+          margin: 0 0 40px;
+          width: 250px;
+          height: 40px;
+          border-radius: 5px;
+          border: 1.5px solid $color-dark-gray;
+
+          &:focus::placeholder {
+            color: transparent;
+            transition: all $transition-time;
+          }
+
+          &::placeholder {
+            font-family: $font-primary;
+            color: $color-gray;
+            text-align: center;
+          }
+        }
+
+        .form__button {
+          @include button-primary;
+          height: 40px;
+          width: 160px;
+          margin: 10px 0 65px;
+        }
+      }
+    }
+
+    .body__link {
+      font-family: $font-secondary;
+      font-weight: 500;
+
+      .link-button {
+        font-weight: 700;
+        text-decoration: underline;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+   .popup__close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e5e5e5;
+    border-radius: 50px;
+    background-color: inherit;
+    color: #e5e5e5;
+    position: relative;
+    left: 14%;
+    top: -79%;
+    transition: all 0.6s;
+
+    &:hover {
+      background-color: #e5e5e5;
+      color: #000000;
+      cursor: pointer;
+    }
+   }
+  }
+}
+
+.popup_hidden {
+  display: none;
+}
+
+#formResult {
+  padding: 1rem 2rem;
+  color: orange;
+}
