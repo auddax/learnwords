@@ -19,6 +19,7 @@ class Auth {
 
   render() {
     this.render_sign_in();
+    // this.render_register();
   }
 
   listen(target: HTMLElement) {
@@ -67,7 +68,7 @@ class Auth {
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
                   <button class="form__button" type="submit">Login</button>
-                  <div class="row" id="formResult"></div>
+                  <div class="row result" id="formResult"></div>
                 </form>
             </div>
             <div class="body__link">
@@ -114,18 +115,20 @@ class Auth {
         }).then((data) => {
           console.log(data);
 
-          if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', ` ${data.message}`);
+          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', ` ${data.message}`);
           this.clean_userlocalstorage();
           this.set_userlocalstorage(data);
           this.setLifeTimeTokenCookie();
           this.token = data.token;
           this.userId = data.userId;
           console.log(`${this.get_datetime()} is_login:${this.islog_in()}`);
+
+          this.redirect_to_page('statistics'); // TODO
         }).catch((err) => {
           console.warn('catch');
           console.warn(err);
 
-          if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', ` ${err.statusText}`);
+          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', ` ${err.statusText}`);
         });
 
         evt.preventDefault();
@@ -151,11 +154,11 @@ class Auth {
               <input type="password" name="password" id="reg-input-password" placeholder="Password" autocomplete="off" class="form__input" required>
               <button class="form__button" type="submit">Register</button>
             </form>
+            <div class="row result" id="RegformResult"></div>
             <div class="body__link">
               <span class="link-text">Already have an account?</span>
               <span class="link-button" id="renderSignInWindow">Sign in</span>
-            </div>
-          <div class="row" id="RegformResult"></div>
+            </div>          
         </div>
       </div>
     `);
@@ -191,8 +194,9 @@ class Auth {
           if (res.ok) {
             return res.json();
           } if (res.status === 417) {
-            const message = ('<div class="err">You are even now exists in database, please create other user</div>');
-            if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', message);
+            const message = ('<div class="err">You are exists in database, please create other user or login</div>');
+
+            if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', message);
           } else if (res.status === 422) {
             const message = (`Your email or your password is wrong.
                   At least 8 characters.
@@ -201,17 +205,17 @@ class Auth {
                   Include at least one special character, e.g., ! @ # ? ]
                   `);
 
-            if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', message);
+            if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', message);
           }
           return Promise.reject(res);
         }).then((data) => {
           console.log(data);
 
-          if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', data);
+          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', data);
         }).catch((err) => {
           console.warn(err);
 
-          if (elFormResult) elFormResult.insertAdjacentHTML('beforeend', err);
+          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', err);
         });
 
         evt.preventDefault();
@@ -287,7 +291,7 @@ class Auth {
       }
 
       if (res.status === 401) {
-        this.redirect_to_page('auth/login');
+        this.redirect_to_page('auth/login'); // TODO
       }
 
       return Promise.reject(res);
