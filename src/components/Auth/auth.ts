@@ -29,17 +29,20 @@ class Auth {
   render_sign_in() {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) main.insertAdjacentHTML('beforeend', this.sign_in_el());
+    document.body.style.overflow = 'hidden';
     this.sign_in_action();
   }
 
   render_register() {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) main.insertAdjacentHTML('beforeend', this.register_el());
+    document.body.style.overflow = 'hidden';
     this.register_action();
   }
 
   removeModal(target: HTMLElement) {
     if (!target.classList.contains('popup')) return;
+    document.body.style.overflow = 'auto';
     target.remove();
   }
 
@@ -49,11 +52,13 @@ class Auth {
       if (popup) popup.remove();
       const main = document.querySelector('.page-content') as HTMLElement;
       if (main) main.insertAdjacentHTML('beforeend', this.register_el());
+      document.body.style.overflow = 'hidden';
     } else if (target.id === 'renderSignInWindow') {
       const popup = document.querySelector('.popup');
       if (popup) popup.remove();
       const main = document.querySelector('.page-content') as HTMLElement;
       if (main) main.insertAdjacentHTML('beforeend', this.sign_in_el());
+      document.body.style.overflow = 'hidden';
     }
   }
 
@@ -66,7 +71,7 @@ class Auth {
                 <form method="post" class="form" id="login-form-action">
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
-                  <button class="form__button" type="submit">Register</button>
+                  <button class="form__button" type="submit">Sign in</button>
                   <div class="row" id="formResult"></div>
                 </form>
             </div>
