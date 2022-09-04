@@ -16,11 +16,11 @@ class Auth {
     this.userRefreshToken = localStorage.getItem('userRefreshToken');
   }
 
-  render() {
+  render(): void {
     this.render_sign_in();
   }
 
-  listen(target: HTMLElement) {
+  listen(target: HTMLElement): void {
     this.removeModal(target);
     this.addModal(target);
     this.sign_in_action(target);
@@ -28,25 +28,25 @@ class Auth {
     this.register_action(target);
   }
 
-  render_sign_in() {
+  render_sign_in(): void {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) main.insertAdjacentHTML('beforeend', this.sign_in_el());
     document.body.style.overflow = 'hidden';
   }
 
-  render_register() {
+  render_register(): void {
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) main.insertAdjacentHTML('beforeend', this.register_el());
     document.body.style.overflow = 'hidden';
   }
 
-  removeModal(target: HTMLElement) {
+  removeModal(target: HTMLElement): void {
     if (!target.classList.contains('popup')) return;
     document.body.style.overflow = 'auto';
     target.remove();
   }
 
-  addModal(target: HTMLElement) {
+  addModal(target: HTMLElement): void {
     if (target.id === 'renderRegisterWindow') {
       const popup = document.querySelector('.popup');
       if (popup) popup.remove();
@@ -62,7 +62,7 @@ class Auth {
     }
   }
 
-  sign_in_el() {
+  sign_in_el(): string {
     return (`
         <div class="popup">
           <div class="popup__body">
@@ -72,7 +72,7 @@ class Auth {
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
                   <button class="form__button" type="button" id="login-form-action">Sign in</button>
-                  <div class="row result" id="formResult"></div>
+                  <div class="row form__message" id="formResult"></div>
                 </form>
             </div>
             <div class="body__link">
@@ -84,7 +84,7 @@ class Auth {
       `);
   }
 
-  sign_in_first() {
+  sign_in_first(): string {
     return (`
         <div class="popup">
           <div class="popup__body">
@@ -96,7 +96,7 @@ class Auth {
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
                   <button class="form__button" type="button" id="login-form-action">Sign in</button>
-                  <div class="row result" id="formResult"></div>
+                  <div class="row form__message" id="formResult"></div>
                 </form>
             </div>
           </div>
@@ -127,35 +127,31 @@ class Auth {
         body: JSON.stringify(userData),
       }).then((res) => {
         if (res.ok) {
-          console.log('res_ok');
-          console.log(res);
-
           return res.json();
         }
 
         return Promise.reject(res);
       }).then((data) => {
-        console.log(data);
-
-        if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', ` ${data.message}`);
         this.clean_userlocalstorage();
         this.set_userlocalstorage(data);
         this.setLifeTimeTokenCookie();
         this.token = data.token;
         this.userId = data.userId;
-        console.log(`${this.get_datetime()} is_login:${this.islog_in()}`);
 
         this.show_user_name(data.name);
       }).catch((err) => {
-        console.warn('catch');
-        console.warn(err);
-
-        if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', ` ${err.statusText}`);
+        let message = '';
+        if (err.status === 404) {
+          message = 'User not found';
+        } else if (err.status === 403) {
+          message = 'Wrong password';
+        }
+        if (elFormResult) elFormResult.innerHTML = message;
       });
     }
   }
 
-  sign_out_action(target: HTMLElement) {
+  sign_out_action(target: HTMLElement): void {
     if (target.id !== 'signout') return;
     const menu = document.querySelector('.header__menu .menu-item:last-child');
     if (menu) {
@@ -166,7 +162,7 @@ class Auth {
     this.logout();
   }
 
-  show_user_name(name: string) {
+  show_user_name(name: string): void {
     const popup = document.querySelector('.popup');
     const menu = document.querySelector('.header__menu .menu-item:last-child');
     if (popup) popup.remove();
@@ -185,7 +181,7 @@ class Auth {
     return now.toLocaleString();
   }
 
-  register_el() {
+  register_el(): string {
     return (`
       <div class="popup">
         <div class="popup__body">
@@ -196,8 +192,8 @@ class Auth {
               <input type="email" name="email" id="reg-input-email" class="form__input" placeholder="Email" autocomplete="off" required>
               <input type="password" name="password" id="reg-input-password" placeholder="Password" autocomplete="off" class="form__input" required>
               <button class="form__button" type="button" id="register-form-action">Register</button>
+              <div class="row form__message" id="RegformResult"></div>
             </form>
-            <div class="row result" id="RegformResult"></div>
             <div class="body__link">
               <span class="link-text">Already have an account?</span>
               <span class="link-button" id="renderSignInWindow">Sign in</span>
@@ -240,29 +236,18 @@ class Auth {
           if (main) main.insertAdjacentHTML('beforeend', this.sign_in_first());
           document.body.style.overflow = 'hidden';
           return res.json();
-        } if (res.status === 417) {
-          const message = ('<div class="err">You are exists in database, please create other user or login</div>');
-
-          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', message);
-        } else if (res.status === 422) {
-          const message = (`Your email or your password is wrong.
-                At least 8 characters.
-                A mixture of both uppercase and lowercase letters.
-                A mixture of letters and numbers.
-                Include at least one special character, e.g., ! @ # ? ]
-                `);
-
-          if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', message);
         }
         return Promise.reject(res);
-      }).then((data) => {
-        console.log(data);
-
-        if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', data);
       }).catch((err) => {
-        console.warn(err);
+        let message = '';
+        if (err.status === 417) {
+          message = 'User already exists';
+        } else if (err.status === 422) {
+          message = `<p>Your email or your password is wrong.</p>
+          <p>Password needs at least 8 characters<p>`;
+        }
 
-        if (elFormResult) elFormResult.insertAdjacentHTML('afterbegin', err);
+        if (elFormResult) elFormResult.innerHTML = message;
       });
     }
   }
