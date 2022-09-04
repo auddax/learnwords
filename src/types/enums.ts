@@ -20,6 +20,11 @@ export enum GAMES {
   AUDIO = 'Audio',
 }
 
+export enum DICTIONARY {
+  WORDS = 'words',
+  HARD = 'hard',
+}
+
 export enum LEVEL {
   'A1',
   'A2',
