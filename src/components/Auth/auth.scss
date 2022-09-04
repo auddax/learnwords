@@ -31,6 +31,14 @@
       margin: 70px 0 50px;
     }
 
+    .body__subheader {
+      margin: 0 0 20px;
+
+      &:last-of-type {
+        margin: 0 0 40px;
+      }
+    }
+
     .body__form {
       .form {
         @include center-content;

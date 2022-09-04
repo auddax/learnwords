@@ -24,6 +24,7 @@ class Auth {
     this.removeModal(target);
     this.addModal(target);
     this.sign_in_action(target);
+    this.sign_out_action(target);
     this.register_action(target);
   }
 
@@ -83,6 +84,26 @@ class Auth {
       `);
   }
 
+  sign_in_first() {
+    return (`
+        <div class="popup">
+          <div class="popup__body">
+            <h1 class="body__header">Congitulations!</h1>
+            <p class="body__subheader">You have successfully registered</p>
+            <p class="body__subheader">Please sign into your account</p>
+            <div class="body__form">
+                <form method="post" class="form">
+                  <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
+                  <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
+                  <button class="form__button" type="button" id="login-form-action">Sign in</button>
+                  <div class="row result" id="formResult"></div>
+                </form>
+            </div>
+          </div>
+        </div>
+      `);
+  }
+
   async sign_in_action(target: HTMLElement) {
     if (target.id === 'login-form-action') {
       console.log('sign_in_action = ');
@@ -124,7 +145,7 @@ class Auth {
         this.userId = data.userId;
         console.log(`${this.get_datetime()} is_login:${this.islog_in()}`);
 
-        this.show_user_name(); // TODO
+        this.show_user_name(data.name);
       }).catch((err) => {
         console.warn('catch');
         console.warn(err);
@@ -134,8 +155,28 @@ class Auth {
     }
   }
 
-  show_user_name() {
-    // del popup, change to logout menu
+  sign_out_action(target: HTMLElement) {
+    if (target.id !== 'signout') return;
+    const menu = document.querySelector('.header__menu .menu-item:last-child');
+    if (menu) {
+      menu.innerHTML = `
+        <button class="menu__button-signin" id="signin">Sign in</button>
+      `;
+    }
+    this.logout();
+  }
+
+  show_user_name(name: string) {
+    const popup = document.querySelector('.popup');
+    const menu = document.querySelector('.header__menu .menu-item:last-child');
+    if (popup) popup.remove();
+    document.body.style.overflow = 'auto';
+    if (menu) {
+      menu.innerHTML = `
+        <span class="menu__username">${name}</span>
+        <button class="menu__button-signout" id="signout">Sign out</button>
+      `;
+    }
   }
 
   get_datetime(set_hours = 0) {
@@ -193,6 +234,11 @@ class Auth {
         body: vbody,
       }).then((res) => {
         if (res.ok) {
+          const popup = document.querySelector('.popup');
+          if (popup) popup.remove();
+          const main = document.querySelector('.page-content') as HTMLElement;
+          if (main) main.insertAdjacentHTML('beforeend', this.sign_in_first());
+          document.body.style.overflow = 'hidden';
           return res.json();
         } if (res.status === 417) {
           const message = ('<div class="err">You are exists in database, please create other user or login</div>');
@@ -289,7 +335,7 @@ class Auth {
       }
 
       if (res.status === 401) {
-        this.redirect_to_page('auth/login'); // TODO
+        this.redirect_to_page('auth/login'); // TODO:
         this.logout();
       }
 

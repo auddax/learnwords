@@ -18,7 +18,7 @@ class PageHeader implements IPageHeader {
           <li class="menu-item" id="${View.GAMES}">Games</li>
           <li class="menu-item" id="${View.STATISTICS}">Statistics</li>
           <li class="menu-item">
-            <button class="header__button-signin" id="${View.SIGNIN}">Log in</button>
+            <button class="menu__button-signin" id="${View.SIGNIN}">Sign in</button>
           </li>
         </ul>
       </div>

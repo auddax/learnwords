@@ -49,7 +49,7 @@ class PageContent implements IPageContent {
   changeView(target: HTMLElement) {
     if (!(target.classList.contains('menu-item')
         || target.classList.contains('logo-text')
-        || target.classList.contains('header__button-signin'))
+        || target.classList.contains('menu__button-signin'))
     ) return;
     this.view = target.id as View;
     this.render();
