@@ -1,8 +1,29 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-lines-per-function */
-import { MainPage } from '../../types/interfaces';
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
+import {
+  MainPage,
+  IGames,
+  IStatistics,
+  IDictionaryPage,
+} from '../../types/interfaces';
+import Games from '../Games/games';
+import Statistics from '../Statistics/statistics';
+import DictionaryPage from '../DictionaryPage/dictionaryPage';
 
 class Main implements MainPage {
+  games: IGames;
+
+  statistic: IStatistics;
+
+  dictionary: IDictionaryPage;
+
+  constructor() {
+    this.games = new Games();
+    this.statistic = new Statistics();
+    this.dictionary = new DictionaryPage();
+  }
+
   render() {
     const main = document.querySelector('.page-content');
     if (main) {
@@ -45,6 +66,7 @@ class Main implements MainPage {
         </div>
         <div class="features-card">
           <div class="card card-dictionary">
+            <div class="card-click card-click-dictionary"></div>
             <div class="card-content card-dictionary-content">
               <img class="card-img card-dictionary-img" src="./img/dictionary-card.png" alt="dictionary-image"></img>
               <h3 class="card-title">Dictionary</h3>
@@ -52,6 +74,7 @@ class Main implements MainPage {
             </div>
           </div>
           <div class="card card-games">
+            <div class="card-click card-click-games"></div>
             <div class="card-content card-games-content">
               <img class="card-img card-games-img" src="./img/games-card.png" alt="dictionary-image"></img>
               <h3 class="card-title">Games</h3>
@@ -59,6 +82,7 @@ class Main implements MainPage {
             </div>
           </div>
           <div class="card card-statistic">
+            <div class="card-click card-click-statistic"></div>
             <div class="card-content card-statistic-content">
               <img class="card-img card-statistic-img" src="./img/statistic-card.png" alt="dictionary-image"></img>
               <h3 class="card-title">Statistics</h3>
@@ -136,6 +160,18 @@ class Main implements MainPage {
     </div>
   </section>
 `;
+    }
+    const gamesCard = document.querySelector('.card-click-games');
+    const statisticCard = document.querySelector('.card-click-statistic');
+    if (gamesCard) {
+      gamesCard.addEventListener('click', () => {
+        this.games.render();
+      });
+      statisticCard!.addEventListener('click', () => {
+        this.statistic.render();
+      });
+      const startBtn: HTMLButtonElement | null = document.querySelector('.info-content-btn');
+      startBtn!.addEventListener('click', () => this.dictionary.render());
     }
   }
 }
