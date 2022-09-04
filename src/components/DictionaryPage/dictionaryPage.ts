@@ -133,15 +133,15 @@ class DictionaryPage extends Loader implements IDictionaryPage {
               <div class="word-transcript">
                 <p>${wordParams.transcription}</p>
                 <div class="volume-img">
-                <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
-                </svg>
-                <audio id="audioWordSound">
-                  <source src="${environment.baseUrl}/${wordParams.audio}" type="audio/mpeg">
-                </audio>
-                <div id="${wordId}" class="volume-button"></div>
+                  <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+                  </svg>
+                  <audio class="audioWordSound">
+                    <source src="${environment.baseUrl}/${wordParams.audio}" type="audio/mpeg">
+                  </audio>
+                  <div id="${wordId}" class="volume-button"></div>
+                </div>
               </div>
-            </div>
             <div class="word-mean">
               <h3 class="word-mean-title">Meaning</h3>
               <p class="word-mean-english">${wordParams.textMeaning}</p>
@@ -177,10 +177,36 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     return wordCard;
   }
 
-  turnAudioOn(target: HTMLElement) {
-    if (target.id !== 'turnAudioOn') return;
-    const element = document.getElementById('audioWordSound') as HTMLMediaElement;
-    element.play();
+  async turnAudioOn(target: HTMLElement) {
+    if (target.classList.contains('volume-button')) {
+      const volumeBtn: HTMLDivElement | null = document.querySelector('.volume-button');
+      if (volumeBtn?.style.display === '' || volumeBtn?.style.display === 'block') {
+        volumeBtn!.style.display = 'none';
+        const wordParams = await this.getWordById(target.id);
+        const wordAudio = new Audio();
+        wordAudio.src = `${this.base}/${wordParams.audio}`;
+        wordAudio.autoplay = true;
+        wordAudio.addEventListener('ended', () => {
+          const audioMeanSrc = wordParams.audioMeaning;
+          const audioExampleSrc = wordParams.audioExample;
+          setTimeout(() => {
+            const wordAudioMeaning = new Audio();
+            wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
+            wordAudioMeaning.play();
+            wordAudioMeaning.addEventListener('ended', () => {
+              setTimeout(() => {
+                const wordAudioExample = new Audio();
+                wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
+                wordAudioExample.play();
+                wordAudioExample.addEventListener('ended', () => {
+                  volumeBtn!.style.display = 'block';
+                });
+              }, 1000);
+            });
+          }, 1000);
+        });
+      }
+    }
   }
 
   renderSprintGame(target: HTMLElement) {
@@ -223,28 +249,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       await this.setWordCard(0, newGroup);
       this.updatePageAndGroup(0, newGroup);
       localStorage.setItem('group', `${newGroup}`);
-    } else if (target.classList.contains('volume-button')) {
-      document.querySelector('.audio > audio')?.remove();
-      const wordParams = await this.getWordById(target.id);
-      const wordAudio = new Audio();
-      wordAudio.src = `${this.base}/${wordParams.audio}`;
-      wordAudio.autoplay = true;
-      wordAudio.addEventListener('ended', () => {
-        const audioMeanSrc = wordParams.audioMeaning;
-        const audioExampleSrc = wordParams.audioExample;
-        setTimeout(() => {
-          const wordAudioMeaning = new Audio();
-          wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
-          wordAudioMeaning.play();
-          wordAudioMeaning.addEventListener('ended', () => {
-            setTimeout(() => {
-              const wordAudioExample = new Audio();
-              wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
-              wordAudioExample.play();
-            }, 1000);
-          });
-        }, 1000);
-      });
     } else if (target.classList.contains('next-page') && !target.classList.contains('disabled-btn')) {
       this.nextPage();
     } else if (target.classList.contains('prev-page') && !target.classList.contains('disabled-btn')) {
@@ -300,14 +304,10 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   updatePageAndGroup(page: number, group: number) {
     // ниже идет обращение к прошлой подсвеченной группе и удаление подсветки этой группы
-    const choosenComplexity = document.querySelector('.choosen-complexity');
-    choosenComplexity?.classList.remove(`choosen-complexity-${choosenComplexity.id[0]}`);
-    choosenComplexity?.classList.remove('choosen-complexity');
     // здесь(ниже) уже идет обращение к новой, кликнутой группе и добавление к этой группе класс который его подсветит
     const choosenComplexityId = `${group + 1} ${group + 1}-${group}`;
     const newChoosenComplexity = document.getElementById(choosenComplexityId);
-    newChoosenComplexity?.classList.add('choosen-complexity');
-    newChoosenComplexity?.classList.add(`choosen-complexity-${group + 1}`);
+    newChoosenComplexity?.classList.add('controls-level_selected');
     // далее обновление страницы
     const currentPageBlock = document.querySelector('.current-page');
     currentPageBlock!.id = `${page}`;
