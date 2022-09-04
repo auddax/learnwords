@@ -106,8 +106,6 @@ class Auth {
 
   async sign_in_action(target: HTMLElement) {
     if (target.id === 'login-form-action') {
-      console.log('sign_in_action = ');
-
       const ELInputEmail = document.getElementById('input-email') as HTMLInputElement;
       const ELInputPassword = document.getElementById('input-password') as HTMLInputElement;
 
@@ -137,7 +135,6 @@ class Auth {
         this.setLifeTimeTokenCookie();
         this.token = data.token;
         this.userId = data.userId;
-
         this.show_user_name(data.name);
       }).catch((err) => {
         let message = '';
@@ -270,7 +267,6 @@ class Auth {
     this.deleteLifeTimeTokenCookie();
     this.token = '';
     this.userId = '';
-    this.redirect_to_page('/main');
   }
 
   set_userlocalstorage(data: {
@@ -281,6 +277,9 @@ class Auth {
     localStorage.setItem('userRefreshToken', data.refreshToken);
     localStorage.setItem('userId', data.userId);
     localStorage.setItem('userName', data.name);
+    // document.dispatchEvent(new StorageEvent('storage', {
+    //   key: 'userName',
+    // }));
   }
 
   clean_userlocalstorage() {
@@ -289,10 +288,9 @@ class Auth {
     localStorage.removeItem('userRefreshToken');
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
-  }
-
-  redirect_to_page(page: string) {
-    // redirect to login page
+    document.dispatchEvent(new StorageEvent('storage', {
+      key: 'userName',
+    }));
   }
 
   setLifeTimeTokenCookie() {
@@ -320,7 +318,6 @@ class Auth {
       }
 
       if (res.status === 401) {
-        this.redirect_to_page('auth/login'); // TODO:
         this.logout();
       }
 

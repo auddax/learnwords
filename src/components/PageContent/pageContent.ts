@@ -46,6 +46,10 @@ class PageContent implements IPageContent {
     this.games.listenKey(eventCode);
   }
 
+  listenStorage(key: string | null) {
+    this.dictionary.listenStorage(key);
+  }
+
   changeView(target: HTMLElement) {
     if (!(target.classList.contains('menu-item')
         || target.classList.contains('logo-text')

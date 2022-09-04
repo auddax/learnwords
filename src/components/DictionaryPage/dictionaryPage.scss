@@ -23,11 +23,25 @@
         flex-direction: column;
         margin: 0 0 20px 0;
 
-        .complexity-title {
-          font-family: $font-secondary;
-          font-weight: 700;
-          text-transform: uppercase;
-          margin: 0 0 35px;
+        .complexity-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 0 0 15px;
+
+          .complexity-title {
+            font-family: $font-secondary;
+            font-weight: 700;
+            text-transform: uppercase;
+            // margin: 0 0 35px;
+          }
+
+          .complexity-hard {
+            @include button-secondary;
+            text-transform: uppercase;
+            width: 125px;
+            margin: 0 20px 0 0;
+          }
         }
 
         .complexity-controls {

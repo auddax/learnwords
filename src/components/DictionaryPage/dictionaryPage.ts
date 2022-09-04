@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable object-shorthand */
 /* eslint-disable  @typescript-eslint/lines-between-class-members */
 /* eslint-disable max-lines-per-function */
@@ -21,15 +22,33 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   sprint: ISprint;
 
+  userName: string | null;
+
   constructor() {
     super();
     this.base = environment.baseUrl;
     this.audio = new AudioChallenge();
     this.sprint = new Sprint();
+    this.userName = localStorage.getItem('userName');
   }
 
-  async render() {
+  listenStorage(key: string | null) {
+    if (key === 'userName') {
+      this.userName = localStorage.getItem('userName');
+      this.render();
+    }
+  }
+
+  render() {
     const mainBlock = document.querySelector('.page-content');
+    const complexityHeaderUnauth = `
+      <h2 class="complexity-title">Select Level</h2>
+    `;
+    const complexityHeaderAuth = `
+      <h2 class="complexity-title">Select Level</h2>
+      <button type="button" class="complexity-hard">Hard</button>
+    `;
+
     if (mainBlock) {
       mainBlock.innerHTML = `
       <section class="dictionary container">
@@ -37,7 +56,9 @@ class DictionaryPage extends Loader implements IDictionaryPage {
           <h1 class="dictionary-title">Dictionary</h1>
           <div class="dictionary-controls">
             <div class="controls-complexity">
-              <h2 class="complexity-title">Select Level</h2>
+              <div class="complexity-header">
+                ${this.userName ? complexityHeaderAuth : complexityHeaderUnauth}
+              </div>
               <div class="complexity-controls">
                 <button type="button" id="1 1-0" class="complexity-a1 controls-level complexity choosen-complexity-1 choosen-complexity">A1</button>
                 <button type="button" id="2 2-1" class="complexity-a2 complexity controls-level">A2</button>
