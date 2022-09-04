@@ -85,6 +85,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         this.updatePageAndGroup(currentPage, currentGroup);
       } else {
         this.setWordCard();
+        this.updatePageAndGroup(0, 0);
       }
     }
   }
