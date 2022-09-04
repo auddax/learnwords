@@ -47,22 +47,22 @@ class Games implements IGames {
             <h1>Games</h1>
           </header>
           <section class="${this.classPrefix}-page__cardbox">
-            <div class="${this.classPrefix}-page__card card-common">
+            <article class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
-                <img src="./img/sprint-game-logo.svg">
-              </figure>
-              <h2 class="card__title">Sprint Game</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <button type="button" class="card__button-primary" id="sprintCardButton">Start game</button>
-            </div>
-            <div class="${this.classPrefix}-page__card card-common">
-              <figure class="card__img">
-                <img src="./img/audio-challenge-game-logo.svg">
+                <img src="./img/audio-challenge-game-logo.svg" alt="Headphones">
               </figure>
               <h2 class="card__title">Audio Challenge</h2>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
               <button type="button" class="card__button-primary" id="audioCardButton">Start game</button>
-            </div>
+            </article>
+            <article class="${this.classPrefix}-page__card card-common">
+              <figure class="card__img">
+                <img src="./img/sprint-game-logo.svg" alt="Brain">
+              </figure>
+              <h2 class="card__title">Sprint Game</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <button type="button" class="card__button-primary" id="sprintCardButton">Start game</button>
+            </article>
           </section>
         </section>
       `;
