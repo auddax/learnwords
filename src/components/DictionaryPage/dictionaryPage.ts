@@ -35,6 +35,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   listenStorage(key: string | null) {
     if (key === 'userName') {
       this.userName = localStorage.getItem('userName');
+      console.log(this.userName);
       this.render();
     }
   }

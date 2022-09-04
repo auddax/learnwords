@@ -130,7 +130,7 @@ class Auth {
 
         return Promise.reject(res);
       }).then((data) => {
-        this.clean_userlocalstorage();
+        // this.clean_userlocalstorage();
         this.set_userlocalstorage(data);
         this.setLifeTimeTokenCookie();
         this.token = data.token;
@@ -277,9 +277,9 @@ class Auth {
     localStorage.setItem('userRefreshToken', data.refreshToken);
     localStorage.setItem('userId', data.userId);
     localStorage.setItem('userName', data.name);
-    // document.dispatchEvent(new StorageEvent('storage', {
-    //   key: 'userName',
-    // }));
+    document.dispatchEvent(new StorageEvent('storage', {
+      key: 'userName',
+    }));
   }
 
   clean_userlocalstorage() {
