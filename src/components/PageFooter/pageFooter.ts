@@ -94,7 +94,7 @@ class PageFooter implements IPageFooter {
           <p>&copy;  2022</p>
         </div>
         <div class="content-developers">
-          <h4 class="developers-title">Developers</h4>
+          <h4 class="developers-title">Разработчики</h4>
           <div class="developers">
             <a target="_blank" href="https://github.com/auddax" class="developer">auddax</a>
             <a target="_blank" href="https://github.com/zone0119" class="developer">zone0119</a>

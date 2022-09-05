@@ -66,18 +66,18 @@ class Auth {
     return (`
         <div class="popup">
           <div class="popup__body">
-            <h1 class="body__header">Welcome back!</h1>
+            <h1 class="body__header">С возвращением!</h1>
             <div class="body__form">
                 <form method="post" class="form">
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
-                  <button class="form__button" type="button" id="login-form-action">Sign in</button>
+                  <button class="form__button" type="button" id="login-form-action">Войти</button>
                   <div class="row form__message" id="formResult"></div>
                 </form>
             </div>
             <div class="body__link">
-              <span class="link-text">Don’t have an account?</span>
-              <span class="link-button" id="renderRegisterWindow">Sign up for free!</span>
+              <span class="link-text">Еще не зарегистрированы?</span>
+              <span class="link-button" id="renderRegisterWindow">Создать аккаунт!</span>
             </div>
           </div>
         </div>
@@ -88,14 +88,14 @@ class Auth {
     return (`
         <div class="popup">
           <div class="popup__body">
-            <h1 class="body__header">Congitulations!</h1>
-            <p class="body__subheader">You have successfully registered</p>
-            <p class="body__subheader">Please sign into your account</p>
+            <h1 class="body__header">Поздравляем!</h1>
+            <p class="body__subheader">Вы успешно зарегистрировались</p>
+            <p class="body__subheader">Пожалуйста войдите в свой аккаунт</p>
             <div class="body__form">
                 <form method="post" class="form">
                   <input type="email" name="email" id="input-email" class="form__input" placeholder="Email" autocomplete="off" required>
                   <input type="password" name="password" id="input-password" placeholder="Password" autocomplete="off" class="form__input" required>
-                  <button class="form__button" type="button" id="login-form-action">Sign in</button>
+                  <button class="form__button" type="button" id="login-form-action">Войти</button>
                   <div class="row form__message" id="formResult"></div>
                 </form>
             </div>
@@ -182,18 +182,18 @@ class Auth {
     return (`
       <div class="popup">
         <div class="popup__body">
-          <h1 class="body__header">Learn English with us!</h1>
+          <h1 class="body__header">Учи английский вместе с нами!</h1>
           <div class="body__form">
             <form method="post" class="form">
               <input type="text" name="name" id="reg-input-first-name" class="form__input" placeholder="Username" autocomplete="off" required>
               <input type="email" name="email" id="reg-input-email" class="form__input" placeholder="Email" autocomplete="off" required>
               <input type="password" name="password" id="reg-input-password" placeholder="Password" autocomplete="off" class="form__input" required>
-              <button class="form__button" type="button" id="register-form-action">Register</button>
+              <button class="form__button" type="button" id="register-form-action">Регистрация</button>
               <div class="row form__message" id="RegformResult"></div>
             </form>
             <div class="body__link">
-              <span class="link-text">Already have an account?</span>
-              <span class="link-button" id="renderSignInWindow">Sign in</span>
+              <span class="link-text">Уже зарегистрированы?</span>
+              <span class="link-button" id="renderSignInWindow">Войти</span>
             </div>
         </div>
       </div>

@@ -54,10 +54,10 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   render() {
     const mainBlock = document.querySelector('.page-content');
     const complexityHeaderUnauth = `
-      <h2 class="complexity-title">Select Level</h2>
+      <h2 class="complexity-title">Выбери уровень</h2>
     `;
     const complexityHeaderAuth = `
-      <h2 class="complexity-title">Select Level</h2>
+      <h2 class="complexity-title">Выбери уровень</h2>
       <button type="button" class="complexity-hard controls-level" id="wordHardShow">Hard</button>
     `;
 
@@ -65,7 +65,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       mainBlock.innerHTML = `
       <section class="dictionary container">
         <header class="dictionary-header">
-          <h1 class="dictionary-title">Dictionary</h1>
+          <h1 class="dictionary-title">Учебник</h1>
           <div class="dictionary-controls">
             <div class="controls-complexity">
               <div class="complexity-header">
@@ -83,11 +83,11 @@ class DictionaryPage extends Loader implements IDictionaryPage {
             </div>
             <div class="links-card audioChallengeGameCard">
               <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
-              <h2 class="audioChallengeGameCard card-header">Audio Challenge</h2>
+              <h2 class="audioChallengeGameCard card-header">Аудиовызов</h2>
             </div>
             <div class="links-card sprintGameCard">
               <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
-              <h2 class="sprintGameCard card-header">Sprint</h2>
+              <h2 class="sprintGameCard card-header">Спринт</h2>
             </div>
           </div>
         </header>
@@ -129,7 +129,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   async setWordCard(currentPage = 0, currentGroup = 0) {
     const wordsOnpage = await this.getWords(currentGroup, currentPage);
     const isLogin = Boolean(localStorage.getItem('userName'));
-    console.log(isLogin);
     let wordsHard = null;
     let wordsLearned = null;
     if (isLogin) {
@@ -314,6 +313,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
+    const wordsHard = await this.getHardWords();
 
     const pathVars = {
       [PATH.USERS]: userId,
@@ -329,11 +329,21 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       difficulty: 'learned',
     });
 
-    const requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-    };
+    let requestOptions = {};
+
+    if (wordsHard.some((item) => item.wordId === this.selectedWordId)) {
+      requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+      };
+    } else {
+      requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+      };
+    }
 
     const params = { pathVars };
     await super.getResponse(params, requestOptions);

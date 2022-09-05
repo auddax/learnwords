@@ -44,24 +44,24 @@ class Games implements IGames {
       main.innerHTML = `
         <section class="${this.classPrefix}-page container">
           <header class="${this.classPrefix}-page__header">
-            <h1>Games</h1>
+            <h1>Игры</h1>
           </header>
           <section class="${this.classPrefix}-page__cardbox">
             <article class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
                 <img src="./img/audio-challenge-game-logo.svg" alt="Headphones">
               </figure>
-              <h2 class="card__title">Audio Challenge</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <button type="button" class="card__button-primary" id="audioCardButton">Start game</button>
+              <h2 class="card__title">Аудиовызов</h2>
+              <p>Угадай слова по произношению и выбери правильный вариант перевода.</p>
+              <button type="button" class="card__button-primary" id="audioCardButton">Начать игру</button>
             </article>
             <article class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
                 <img src="./img/sprint-game-logo.svg" alt="Brain">
               </figure>
-              <h2 class="card__title">Sprint Game</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <button type="button" class="card__button-primary" id="sprintCardButton">Start game</button>
+              <h2 class="card__title">Спринт</h2>
+              <p>Тренируй скорость перевода, выбирая правильные варианты за ограниченное время.</p>
+              <button type="button" class="card__button-primary" id="sprintCardButton">Начать игру</button>
             </article>
           </section>
         </section>

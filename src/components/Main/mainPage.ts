@@ -34,9 +34,9 @@ class Main implements MainPage {
         <div class="info-content-text">
           <h1 class="info-content-title">RS Lang</h1>
           <p class="info-content-subtitle">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+            Начни изучать английский с нами прямо сейчас. 
           <p>
-          <button class="info-content-btn btn">Start now</button>
+          <button class="info-content-btn btn">Начать</button>
         </div>
         <div class="info-content-image">
           <img class="content-image" src="./img/info-img.svg" alt="Info-Img"></img>
@@ -48,7 +48,7 @@ class Main implements MainPage {
   <div class="container">
     <div class="demonstration-content">
       <div class="demonstration-title">
-        <h2 class="title">Demonstration</h2>
+        <h2 class="title">О приложении</h2>
       </div>
       <div class="demonstration-video">
         <iframe width="800" height="400" src="https://www.youtube.com/embed/39miz6qt2aY"
@@ -62,31 +62,31 @@ class Main implements MainPage {
     <div class="container">
       <div class="features-content">
         <div class="features-title">
-          <h2 class="title">Learn English with us</h2>
+          <h2 class="title">Начни учить английский с нами прямо сейчас!</h2>
         </div>
         <div class="features-card">
           <div class="card card-dictionary">
             <div class="card-click card-click-dictionary"></div>
             <div class="card-content card-dictionary-content">
               <img class="card-img card-dictionary-img" src="./img/dictionary-card.svg" alt="Dictionary"></img>
-              <h3 class="card-title">Dictionary</h3>
-              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <h3 class="card-title">Учебник</h3>
+              <p class="card-subtitle">Отличное пособие для изучения новых слов. Создай свой собственный словарь для закрепления трудных слов. </p>
             </div>
           </div>
           <div class="card card-games">
             <div class="card-click card-click-games"></div>
             <div class="card-content card-games-content">
               <img class="card-img card-games-img" src="./img/sprint-game-logo.svg" alt="Brain"></img>
-              <h3 class="card-title">Games</h3>
-              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <h3 class="card-title">Игры</h3>
+              <p class="card-subtitle">Изучение английского больше не скучно. Играй в игры и запоминай слова и произношения!</p>
             </div>
           </div>
           <div class="card card-statistic">
             <div class="card-click card-click-statistic"></div>
             <div class="card-content card-statistic-content">
               <img class="card-img card-statistic-img" src="./img/statistic-card.svg" alt="dictionary-image"></img>
-              <h3 class="card-title">Statistics</h3>
-              <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <h3 class="card-title">Статистика</h3>
+              <p class="card-subtitle">Весь прогресс твоего изучения ты можешь видеть в одном разделе</p>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ class Main implements MainPage {
   <section class="team>
     <div class="container">
       <div class="team-content">
-        <h2 class="team-title title">Our team</h2>
+        <h2 class="team-title title">Команда разработчиков</h2>
         <div class="team-members">
           <div class="member member-kirill">
             <div class=" member-photo member-kirill-photo">
@@ -113,8 +113,7 @@ class Main implements MainPage {
                   </a>
                 </div>
               </div>
-              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-history">Тимлид команды. Настроил репозиторий для совместной работы, продумал структуру приложения, организовал и распределил работу. Сделал дизайн приложения и мини-игры.</p>
             </div>
           </div>
           <div class="member member-kuanyshbek">
@@ -129,8 +128,7 @@ class Main implements MainPage {
                   </a>
                 </div>
               </div>
-              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-history">Разработал модуль авторизации и регистрации. Написал текст для приложения.</p>
             </div>
             <div class=" member-photo member-kuanyshbek-photo">
               <img src="./img/member-kuanyshbek.jpg" alt="member-photo">
@@ -151,8 +149,7 @@ class Main implements MainPage {
                   </a>
                 </div>
               </div>
-              <p class="member-history">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
-              <p class="member-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+              <p class="member-history">Разработал словарь правил верстку</p>
             </div>
           </div>
         </div>
