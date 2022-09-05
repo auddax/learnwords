@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   IApp,
   IPageContent,
@@ -33,6 +34,10 @@ class App implements IApp {
     this.root.addEventListener('keydown', (event) => {
       const eventCode = (<KeyboardEvent>event).code;
       this.pageContent.listenKey(eventCode);
+    });
+    document.addEventListener('storage', (event) => {
+      const { key } = <StorageEvent>event;
+      this.pageContent.listenStorage(key);
     });
   }
 

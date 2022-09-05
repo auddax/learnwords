@@ -20,28 +20,41 @@
 
       .controls-complexity {
         display: flex;
+        justify-content: space-between;
         flex-direction: column;
         margin: 0 0 20px 0;
 
-        .complexity-title {
-          font-family: $font-secondary;
-          font-weight: 700;
-          text-transform: uppercase;
-          margin: 0 0 35px;
+        .complexity-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          margin: 0 0 15px;
+
+          .complexity-title {
+            font-family: $font-secondary;
+            font-weight: 700;
+            text-transform: uppercase;
+          }
+
+          .complexity-hard {
+            text-transform: uppercase;
+            width: 125px;
+            margin: 0 20px 0 0;
+          }
         }
 
         .complexity-controls {
           display: flex;
-
-          .controls-level {
-            @include button-secondary;
-            margin: 0 20px 0 0;
-          }
-
-          .controls-level_selected {
-            @include button-secondary-selected;
-          }
         }
+      }
+
+      .controls-level {
+        @include button-secondary;
+        margin: 0 20px 0 0;
+      }
+
+      .controls-level_selected {
+        @include button-secondary-selected;
       }
 
       .links-card {
@@ -136,6 +149,7 @@
 
         .word-transcript {
           display: flex;
+          align-items: center;
           font-weight: 500;
           font-size: 1.125rem;
 
@@ -148,6 +162,15 @@
               fill: $color-dark-blue;
             }
           }
+
+          .word-hard {
+            @include button-secondary;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin: 0 0 0 10px;
+            height: 30px;
+            width: 120px;
+
           .volume-button{
             cursor: pointer;
             position: absolute;

@@ -12,6 +12,7 @@ export interface IPageContent {
   view: View;
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
+  listenStorage: (key: string | null) => void;
   render: () => void;
 }
 
@@ -136,6 +137,7 @@ export interface IDictionaryPage {
   getWords: (group: number, page: number) => Promise<[]>;
   getWordById: (wordId: string) => Promise<IWords>;
   listen: (target: HTMLElement) => void;
+  listenStorage: (key: string | null) => void;
   nextPage: () => Promise<void>;
   prevPage: () => Promise<void>;
   updatePageAndGroup: (page: number, group: number) => void;

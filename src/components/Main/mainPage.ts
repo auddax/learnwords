@@ -39,7 +39,7 @@ class Main implements MainPage {
           <button class="info-content-btn btn">Start now</button>
         </div>
         <div class="info-content-image">
-          <img class="content-image" src="./img/info-img.png" alt="Info-Img"></img>
+          <img class="content-image" src="./img/info-img.svg" alt="Info-Img"></img>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ class Main implements MainPage {
           <div class="card card-dictionary">
             <div class="card-click card-click-dictionary"></div>
             <div class="card-content card-dictionary-content">
-              <img class="card-img card-dictionary-img" src="./img/dictionary-card.png" alt="dictionary-image"></img>
+              <img class="card-img card-dictionary-img" src="./img/dictionary-card.svg" alt="Dictionary"></img>
               <h3 class="card-title">Dictionary</h3>
               <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
             </div>
@@ -76,7 +76,7 @@ class Main implements MainPage {
           <div class="card card-games">
             <div class="card-click card-click-games"></div>
             <div class="card-content card-games-content">
-              <img class="card-img card-games-img" src="./img/games-card.png" alt="dictionary-image"></img>
+              <img class="card-img card-games-img" src="./img/sprint-game-logo.svg" alt="Brain"></img>
               <h3 class="card-title">Games</h3>
               <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
             </div>
@@ -84,7 +84,7 @@ class Main implements MainPage {
           <div class="card card-statistic">
             <div class="card-click card-click-statistic"></div>
             <div class="card-content card-statistic-content">
-              <img class="card-img card-statistic-img" src="./img/statistic-card.png" alt="dictionary-image"></img>
+              <img class="card-img card-statistic-img" src="./img/statistic-card.svg" alt="dictionary-image"></img>
               <h3 class="card-title">Statistics</h3>
               <p class="card-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
             </div>

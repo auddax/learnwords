@@ -19,10 +19,10 @@
     @include center-content;
     
     .menu-item {
-      @include button-simple;
-      font-weight: 500;
-
       &:not(:last-child) {
+        @include button-simple;
+        display: flex;
+        font-weight: 500;  
         margin: 0 40px 0 0;
       }
 
@@ -32,9 +32,16 @@
     }
   }
 
-  .header__button-signin {
+  .menu__button-signin,
+  .menu__button-signout {
     @include button-primary;
     height: 40px;
     width: 125px;
+  }
+
+  .menu__username {
+    margin: 0 20px 0 0;
+    font-weight: 600;
+    font-size: 1.25rem;
   }
 }

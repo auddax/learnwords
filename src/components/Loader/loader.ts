@@ -29,7 +29,6 @@ class Loader implements ILoader {
       });
       url = url.slice(0, -1);
     }
-
     return url;
   }
 

@@ -31,6 +31,14 @@
       margin: 70px 0 50px;
     }
 
+    .body__subheader {
+      margin: 0 0 20px;
+
+      &:last-of-type {
+        margin: 0 0 40px;
+      }
+    }
+
     .body__form {
       .form {
         @include center-content;
@@ -61,12 +69,24 @@
           width: 160px;
           margin: 10px 0 65px;
         }
+
+        .form__message {
+          @include center-content;
+          flex-direction: column;
+          margin: 0 0 20px;
+          color: $color-red;
+        }
       }
     }
 
     .body__link {
+      @include center-content;
       font-family: $font-secondary;
       font-weight: 500;
+
+      .link-text {
+        margin: 0 10px 0 0;
+      }
 
       .link-button {
         font-weight: 700;

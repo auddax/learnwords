@@ -62,12 +62,12 @@
 }
 
 //features section
-.features-content{
+.features-content {
   text-align: center;
   font-family: 'Raleway';
   margin: 230px 50px 215px 50px;
 }
-.features-title h2{
+.features-title h2 {
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 700;
@@ -75,16 +75,16 @@
   line-height: 84px;
   color: #462A69;
 }
-.features-card{
+.features-card {
   display: flex;
   justify-content: space-around;
   margin-top: 100px;
 }
-.card{
+.card {
   cursor: pointer;
   background-color: rgb(249, 249, 249);
 }
-.card-subtitle{
+.card-subtitle {
   width: 215px;
   font-style: normal;
   font-weight: 500;
@@ -94,19 +94,22 @@
   margin: 0 auto;
   text-align: left;
 }
-.card-title{
+.card-title {
   font-style: normal;
   font-weight: 800;
   font-size: 32px;
   line-height: 38px;
   color: #462A69;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
-.card{
+.card {
   @include card-common;
   width: 300px;
-  height: 400px;
-  position: relative;
+  height: 450px;
+}
+
+.card-img {
+  height: 125px;
 }
 .card-games{
   margin: 0 65px;
@@ -118,7 +121,7 @@
   margin: 60px 0 30px 0;
 }
 .card-statistic-img{
-  margin: 45px 0 35px 0;
+  margin: 45px 0 40px 0;
 }
 .card-games-content{
   margin-left: 20px;
