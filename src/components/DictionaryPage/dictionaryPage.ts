@@ -120,6 +120,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         this.updatePageAndGroup(currentPage, currentGroup);
       } else {
         this.setWordCard();
+        this.updatePageAndGroup(0, 0);
       }
     }
   }
@@ -222,10 +223,36 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     return wordCard;
   }
 
-  turnAudioOn(target: HTMLElement) {
-    if (target.id !== 'turnAudioOn') return;
-    const element = document.getElementById('audioWordSound') as HTMLMediaElement;
-    element.play();
+  async turnAudioOn(target: HTMLElement) {
+    if (target.classList.contains('volume-button')) {
+      const volumeBtn: HTMLDivElement | null = document.querySelector('.volume-button');
+      if (volumeBtn?.style.display === '' || volumeBtn?.style.display === 'block') {
+        volumeBtn!.style.display = 'none';
+        const wordParams = await this.getWordById(target.id);
+        const wordAudio = new Audio();
+        wordAudio.src = `${this.base}/${wordParams.audio}`;
+        wordAudio.autoplay = true;
+        wordAudio.addEventListener('ended', () => {
+          const audioMeanSrc = wordParams.audioMeaning;
+          const audioExampleSrc = wordParams.audioExample;
+          setTimeout(() => {
+            const wordAudioMeaning = new Audio();
+            wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
+            wordAudioMeaning.play();
+            wordAudioMeaning.addEventListener('ended', () => {
+              setTimeout(() => {
+                const wordAudioExample = new Audio();
+                wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
+                wordAudioExample.play();
+                wordAudioExample.addEventListener('ended', () => {
+                  volumeBtn!.style.display = 'block';
+                });
+              }, 1000);
+            });
+          }, 1000);
+        });
+      }
+    }
   }
 
   renderSprintGame(target: HTMLElement) {
@@ -328,7 +355,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async getWords(group: number, page: number) {
     const pathVars = { [PATH.WORDS]: null };
-    const queryParams = { group: group, page };
+    const queryParams = { group, page };
     const params = { pathVars, queryParams };
     const response = await super.getResponse(params);
     const words = await response.json();
@@ -432,6 +459,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       this.prevPage();
     } else if (target.id === 'dictionary') {
       this.render();
+    } else if (target.classList.contains('card-click-dictionary')) {
+      this.render();
     }
   }
 
@@ -480,13 +509,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   updatePageAndGroup(page: number, group: number) {
     // ниже идет обращение к прошлой подсвеченной группе и удаление подсветки этой группы
     const choosenComplexity = document.querySelector('.choosen-complexity');
-    choosenComplexity?.classList.remove(`choosen-complexity-${choosenComplexity.id[0]}`);
     choosenComplexity?.classList.remove('choosen-complexity');
     // здесь(ниже) уже идет обращение к новой, кликнутой группе и добавление к этой группе класс который его подсветит
     const choosenComplexityId = `${group + 1} ${group + 1}-${group}`;
     const newChoosenComplexity = document.getElementById(choosenComplexityId);
+    newChoosenComplexity?.classList.add('controls-level_selected');
     newChoosenComplexity?.classList.add('choosen-complexity');
-    newChoosenComplexity?.classList.add(`choosen-complexity-${group + 1}`);
     // далее обновление страницы
     const currentPageBlock = document.querySelector('.current-page') as HTMLElement;
     currentPageBlock!.id = `${page}`;

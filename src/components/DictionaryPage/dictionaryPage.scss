@@ -154,6 +154,7 @@
           font-size: 1.125rem;
 
           .volume-img {
+            position: relative;
             width: 20px;
             margin: 0 0 0 5px;
 
@@ -169,6 +170,14 @@
             margin: 0 0 0 10px;
             height: 30px;
             width: 120px;
+
+          .volume-button{
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
           }
         }
       }
