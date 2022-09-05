@@ -238,7 +238,7 @@ class Auth {
       }).catch((err) => {
         let message = '';
         if (err.status === 417) {
-          message = 'User already exists';
+          message = 'Пользователь уже существует';
         } else if (err.status === 422) {
           message = `<p>Ваш адрес электронной почты или пароль неверны</p>
           <p>Пароль должен быть не менее 8 символов<p>`;
