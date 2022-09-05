@@ -1,0 +1,68 @@
+.footer {
+  @include center-content;
+  font-family: $font-primary;
+  background-color: $color-light-gray;
+  color: $color-dark-blue;
+  height: 200px;
+
+  .footer-content {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: space-between;
+
+
+    .rs-content {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 180px;
+      height: 55px;
+
+      .rs-course-link {
+        margin: 0 20px 0 0;
+
+        svg {
+          fill: $color-dark-blue;
+          height: 50px;
+        }
+      }
+
+      .rs-other-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .rs-github-link {
+          margin: 0 0 5px;
+        }
+      }
+    }
+
+    .year {
+      height: 100%;
+      margin: auto 0 0;
+    }
+
+    .content-developers {
+      .developers-title {
+        font-family: $font-secondary;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin: 0 0 10px;
+      }
+
+      .developers {
+        a {
+          color: $color-dark-blue;
+          text-decoration: none;
+
+          &:not(:last-child) {
+            margin: 0 20px 0 0;
+          }
+        }
+      }
+    }
+  }
+
+}

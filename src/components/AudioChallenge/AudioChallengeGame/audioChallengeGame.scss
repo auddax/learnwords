@@ -1,0 +1,97 @@
+.audio-game {
+  @include center-content;
+  height: calc(100vh - 150px);
+
+  .audio-game__card {
+    @include center-content;
+    flex-direction: column;
+    // width: 830px;
+  
+    .audio-game__word {
+      .audio-game__img {
+        max-height: 200px;
+        border-radius: 5px;
+      }
+  
+      .audio-game__audio {
+        width: 5rem;
+        height: 5rem;
+        border: 2px solid $color-dark-blue;
+        border-radius: 50px;
+      }
+      
+      .audio-game__description {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.25rem;
+
+        .description__translation {
+          @include center-content;
+          font-family: $font-primary;
+          font-weight: 700;
+          font-size: 2rem;
+          margin: 50px 0 0;
+
+          h3 {
+            margin: 0 15px 0 0;
+          }
+        }
+
+        svg {
+          height: 2rem;
+          width: 2rem;
+        }
+      }
+    }
+  
+    .audio-game__answer {
+      width: 100%;
+  
+      .answer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        margin: 80px 0 60px;
+  
+        .button__audio-game-answer {
+          @include button-primary;
+          border: 1.5px solid $color-dark-blue;
+          background-color: transparent;
+          color: $color-dark-blue;
+          margin: 0 20px 20px 0;
+
+          &:last-child {
+            margin-right: 0;
+          }
+    
+          &:hover {
+            cursor: pointer;
+            background-color: $color-dark-blue;
+            color: $color-white;
+          }
+        }
+        
+        .button__audio-game-answer_right {
+          background-color: $color-dark-blue;
+          color: $color-white;
+        }
+
+        .button__audio-game-answer_wrong {
+          background-color: $color-red;
+          border: 1.5px solid $color-red;
+          color: $color-white;
+        }
+      }
+  
+      .noanswer {
+        @include center-content;
+  
+        .button-next {
+          @include button-primary;
+        }  
+      }
+    }
+  }
+}

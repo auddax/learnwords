@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: $font-primary;
+  color: $color-dark-blue;
+  height: 150px;
+
+  .header__logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .header__menu {
+    @include center-content;
+    
+    .menu-item {
+      &:not(:last-child) {
+        @include button-simple;
+        display: flex;
+        font-weight: 500;  
+        margin: 0 40px 0 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .menu__button-signin,
+  .menu__button-signout {
+    @include button-primary;
+    height: 40px;
+    width: 125px;
+  }
+
+  .menu__username {
+    margin: 0 20px 0 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+}
