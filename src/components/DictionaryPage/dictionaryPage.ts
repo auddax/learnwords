@@ -305,10 +305,13 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   updatePageAndGroup(page: number, group: number) {
     // ниже идет обращение к прошлой подсвеченной группе и удаление подсветки этой группы
+    const choosenComplexity = document.querySelector('.choosen-complexity');
+    choosenComplexity?.classList.remove('choosen-complexity');
     // здесь(ниже) уже идет обращение к новой, кликнутой группе и добавление к этой группе класс который его подсветит
     const choosenComplexityId = `${group + 1} ${group + 1}-${group}`;
     const newChoosenComplexity = document.getElementById(choosenComplexityId);
     newChoosenComplexity?.classList.add('controls-level_selected');
+    newChoosenComplexity?.classList.add('choosen-complexity');
     // далее обновление страницы
     const currentPageBlock = document.querySelector('.current-page');
     currentPageBlock!.id = `${page}`;
