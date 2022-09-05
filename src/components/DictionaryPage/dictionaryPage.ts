@@ -128,8 +128,14 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async setWordCard(currentPage = 0, currentGroup = 0) {
     const wordsOnpage = await this.getWords(currentGroup, currentPage);
-    const wordsHard = await this.getHardWords();
-    const wordsLearned = await this.getLearnedWords();
+    const isLogin = Boolean(localStorage.getItem('userName'));
+    console.log(isLogin);
+    let wordsHard = null;
+    let wordsLearned = null;
+    if (isLogin) {
+      wordsHard = await this.getHardWords();
+      wordsLearned = await this.getLearnedWords();
+    }
     const wordsBlock = document.querySelector('.words');
     if (wordsBlock) {
       wordsBlock!.innerHTML = ' ';
@@ -137,12 +143,16 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const FIRSTPAGE = 0;
     for (let i = 0; i < wordsOnpage.length; i += 1) {
       const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
-      if (wordsHard.some((item) => item.wordId === wordsOnpage[i].id)) {
-        renderedWordBlock.classList.add('words-hard_selected');
+      if (wordsHard) {
+        if (wordsHard.some((item) => item.wordId === wordsOnpage[i].id)) {
+          renderedWordBlock.classList.add('words-hard_selected');
+        }
       }
 
-      if (wordsLearned.some((item) => item.wordId === wordsOnpage[i].id)) {
-        renderedWordBlock.classList.add('words-learned_selected');
+      if (wordsLearned) {
+        if (wordsLearned.some((item) => item.wordId === wordsOnpage[i].id)) {
+          renderedWordBlock.classList.add('words-learned_selected');
+        }
       }
 
       wordsBlock!.append(renderedWordBlock);
@@ -167,20 +177,29 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   async setWordInfo(wordId: string) {
     this.selectedWordId = wordId;
     const wordParams = await this.getWordById(wordId);
-    const wordsHard = await this.getHardWords();
-    const wordsLearned = await this.getLearnedWords();
+    const isLogin = Boolean(localStorage.getItem('userName'));
+    let wordsHard = null;
+    let wordsLearned = null;
+    if (isLogin) {
+      wordsHard = await this.getHardWords();
+      wordsLearned = await this.getLearnedWords();
+    }
     const wordInfoBlock = document.querySelector('.words-info') as HTMLElement;
     const wordHardRemove = '<button type="button" class="word-hard" id="wordHardRemove">Remove</button>';
     let wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
     let wordLearned = '<button type="button" class="word-hard" id="wordLearnedAdd">Learned</button>';
 
-    if (wordsHard.some((item) => item.wordId === wordId)) {
-      wordHardAdd = '<button type="button" class="word-hard word-hard_selected" id="wordHardAdd">Hard</button>';
+    if (wordsHard) {
+      if (wordsHard.some((item) => item.wordId === wordId)) {
+        wordHardAdd = '<button type="button" class="word-hard word-hard_selected" id="wordHardAdd">Hard</button>';
+      }
     }
 
-    if (wordsLearned.some((item) => item.wordId === wordId)) {
-      wordLearned = '<button type="button" class="word-hard word-learned_selected" id="wordLearnedAdd">Learned</button>';
-      wordHardAdd = '<button type="button" class="word-hard word-hard_inactive">Hard</button>';
+    if (wordsLearned) {
+      if (wordsLearned.some((item) => item.wordId === wordId)) {
+        wordLearned = '<button type="button" class="word-hard word-learned_selected" id="wordLearnedAdd">Learned</button>';
+        wordHardAdd = '<button type="button" class="word-hard word-hard_inactive">Hard</button>';
+      }
     }
 
     const wordHardButtonsBlock = `
