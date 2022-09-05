@@ -139,9 +139,9 @@ class Auth {
       }).catch((err) => {
         let message = '';
         if (err.status === 404) {
-          message = 'User not found';
+          message = 'Пользователь не найден';
         } else if (err.status === 403) {
-          message = 'Wrong password';
+          message = 'Пароль неверен';
         }
         if (elFormResult) elFormResult.innerHTML = message;
       });
@@ -153,7 +153,7 @@ class Auth {
     const menu = document.querySelector('.header__menu .menu-item:last-child');
     if (menu) {
       menu.innerHTML = `
-        <button class="menu__button-signin" id="signin">Sign in</button>
+        <button class="menu__button-signin" id="signin">Войти</button>
       `;
     }
     this.logout();
@@ -167,7 +167,7 @@ class Auth {
     if (menu) {
       menu.innerHTML = `
         <span class="menu__username">${name}</span>
-        <button class="menu__button-signout" id="signout">Sign out</button>
+        <button class="menu__button-signout" id="signout">Выйти</button>
       `;
     }
   }
@@ -240,8 +240,8 @@ class Auth {
         if (err.status === 417) {
           message = 'User already exists';
         } else if (err.status === 422) {
-          message = `<p>Your email or your password is wrong.</p>
-          <p>Password needs at least 8 characters<p>`;
+          message = `<p>Ваш адрес электронной почты или пароль неверны</p>
+          <p>Пароль должен быть не менее 8 символов<p>`;
         }
 
         if (elFormResult) elFormResult.innerHTML = message;
