@@ -121,6 +121,10 @@
       .words-hard_selected {
         background-color: $color-light-blue;
       }
+
+      .words-learned_selected {
+        background-color: $color-light-lime;
+      }
     }
 
     .words-info {
@@ -186,6 +190,14 @@
         }
 
         .word-hard_selected {
+          @include button-secondary-selected;
+        }
+
+        .word-hard_inactive {
+          @include button-secondary-inactive;
+        }
+
+        .word-learned_selected {
           @include button-secondary-selected;
         }
       }
