@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev",
     "build": "webpack --config ./webpack.config.js --env mode=prod",
+    "deploy": "webpack build && gh-pages -d ./dist",
     "lint": "eslint . --ext .ts"
   },
   "author": "Kirill Konovalov",

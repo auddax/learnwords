@@ -15,7 +15,7 @@
   color: #462A69;
 }
 .info-content-title{
-  margin: 0 0 0 -2.5px;
+  margin: 0 0 110px -2.5px;
   font-style: normal;
   font-weight: 800;
   font-size: 70px;
@@ -37,7 +37,7 @@
 
 //demonstration section
 .demonstration{
-  font-family: 'Poppins';
+  font-family: $font-secondary;
 }
 .demonstration-title h2{
   font-style: normal;
@@ -68,7 +68,7 @@
   margin: 230px 50px 215px 50px;
 }
 .features-title h2 {
-  font-family: 'Poppins';
+  font-family: $font-secondary;
   font-style: normal;
   font-weight: 700;
   font-size: 56px;
@@ -81,7 +81,7 @@
   margin-top: 100px;
 }
 .card {
-  cursor: pointer;
+  // cursor: pointer;
   background-color: rgb(249, 249, 249);
 }
 .card-subtitle {
@@ -132,7 +132,6 @@
 }
 .card-click{
   position: absolute;
-  width: 100%;
   height: 100%;
 }
 
@@ -204,7 +203,7 @@
   width: 440px;
 }
 .team-title{
-  font-family: 'Poppins';
+  font-family: $font-secondary;
   font-style: normal;
   font-weight: 700;
   font-size: 56px;
@@ -215,7 +214,7 @@
   margin-top: 115px;
 }
 .member-kirill, .member-kuanyshbek{
-  margin-bottom: 445px;
+  margin-bottom: 250px;
 }
 .member-oomat{
   margin-bottom: 205px;

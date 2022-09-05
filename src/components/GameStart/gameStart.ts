@@ -33,7 +33,7 @@ class GameStart implements IGameStart {
           </header>
           <p class="game-start__description">${this.description}</p>
           <form class="game-start__form">
-            <h4 class="form__title">Select Level</h4>
+            <h4 class="form__title">Выбери уровень</h4>
             <div class="form__button-group">
               <button type="button" class="form__button-level form__button-level_selected" id="level0">A1</button>
               <button type="button" class="form__button-level" id="level1">A2</button>
@@ -42,7 +42,7 @@ class GameStart implements IGameStart {
               <button type="button" class="form__button-level" id="level4">C1</button>
               <button type="button" class="form__button-level" id="level5">C2</button>
             </div>
-            <button type="button" class="form__button-primary" id="${id}">Start Game</button>
+            <button type="button" class="form__button-primary" id="${id}">Начать игру</button>
           </form>
         </section>
       `;

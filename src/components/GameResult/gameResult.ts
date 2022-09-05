@@ -24,13 +24,13 @@ class GameResult implements IGameResult {
           <article class="game-result__card">
             <header class="card__header">
               <form class="card__navbar">
-                <button type="button" class="button button-navbar" id="gameResultsCard">Results</button>
-                <button type="button" class="button button-navbar" id="gameWordsCard">My words</button>
+                <button type="button" class="button button-navbar" id="gameResultsCard">Результаты</button>
+                <button type="button" class="button button-navbar" id="gameWordsCard">Мои слова</button>
               </form>
             </header>
             <div class="card__content">
-              <h2>${rightAnswers} words learned</h2>
-              <h2>${(totalWordsNumber - rightAnswers)} words to learn</h2>
+              <h2>${rightAnswers} слов изучено</h2>
+              <h2>${(totalWordsNumber - rightAnswers)} слов на изучении</h2>
             </div>
             <div class="card__circular-progress">
               <div class="circular-progress">
@@ -39,8 +39,8 @@ class GameResult implements IGameResult {
             </div>
           </article>
           <form class="game-result__form">
-            <button type="button" class="button" id="new${this.gameType}Game">Change Level</button>
-            <button type="button" class="button" id="start${this.gameType}Game">Try again</button>
+            <button type="button" class="button" id="new${this.gameType}Game">Изменить уровень</button>
+            <button type="button" class="button" id="start${this.gameType}Game">Попробовать снова</button>
           </form>
         </section>
       `;

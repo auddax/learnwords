@@ -258,7 +258,7 @@ class SprintGame implements ISprintGame {
                 </svg>
               </div>
               <div class="answers__points">
-                <span>${points} points for right answer<span>
+                <span>${points} баллов за правильный ответ<span>
               </div>
             </div>
             <div class="sprint-game__timer">

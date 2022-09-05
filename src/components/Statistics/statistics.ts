@@ -11,7 +11,7 @@ class Statistics implements IStatistics {
       main.innerHTML = `
         <section class="statistics-page">
           <header class="statistics-page__header">
-            <h1>Statistics</h1>
+            <h1>Статистика</h1>
           </header>
           <article class="statistics-page__card">
             <header class="card__header">

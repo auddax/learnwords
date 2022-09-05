@@ -29,8 +29,8 @@ class AudioChallenge extends Loader implements IAudioChallenge {
     this.level = environment.levelDefault;
     this.gameType = GAMES.AUDIO;
     this.start = new GameStart(
-      'Audio Challenge',
-      'The Audio Challenge training improves your listening comprehension.',
+      'Аудиовызов',
+      'Игра Аудиовызов улучшит твое понимание ангийской устной речи',
       this.gameType,
     );
     this.game = new AudioChallengeGame(this.gameType);

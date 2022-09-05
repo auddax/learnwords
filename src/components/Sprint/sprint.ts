@@ -29,8 +29,8 @@ class Sprint extends Loader implements ISprint {
     this.level = environment.levelDefault;
     this.gameType = GAMES.SPRINT;
     this.start = new GameStart(
-      'Sprint',
-      'Sprint is speed training. Try to guess as many words as you can in 30 seconds.',
+      'Спринт',
+      'Спринт — это тренировка на скорость. Попробуй угадать как можно больше слов за 30 секунд.',
       this.gameType,
     );
     this.game = new SprintGame(this.gameType);

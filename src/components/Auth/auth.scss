@@ -82,6 +82,7 @@
     .body__link {
       @include center-content;
       font-family: $font-secondary;
+      font-size: 0.9rem;
       font-weight: 500;
 
       .link-text {
