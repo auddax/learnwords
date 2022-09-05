@@ -117,6 +117,10 @@
           cursor: pointer;
         }  
       }
+
+      .words-hard_selected {
+        background-color: $color-light-blue;
+      }
     }
 
     .words-info {
@@ -163,15 +167,15 @@
             }
           }
 
-          .word-hard {
-            @include button-secondary;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            margin: 0 0 0 10px;
-            height: 30px;
-            width: 120px;
+        .word-hard {
+          @include button-secondary;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          margin: 0 0 0 10px;
+          height: 30px;
+          width: 120px;
 
-          .volume-button{
+          .volume-button {
             cursor: pointer;
             position: absolute;
             top: 0;
@@ -179,6 +183,10 @@
             width: 100%;
             height: 100%;
           }
+        }
+
+        .word-hard_selected {
+          @include button-secondary-selected;
         }
       }
 
@@ -206,6 +214,7 @@
         .word-example-translate {
           margin: 5px 0 0 0;
         }
+      }
       }
     }
   }

@@ -127,6 +127,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async setWordCard(currentPage = 0, currentGroup = 0) {
     const wordsOnpage = await this.getWords(currentGroup, currentPage);
+    const wordsHard = await this.getHardWords();
+    console.log(wordsHard);
     const wordsBlock = document.querySelector('.words');
     if (wordsBlock) {
       wordsBlock!.innerHTML = ' ';
@@ -134,6 +136,9 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const FIRSTPAGE = 0;
     for (let i = 0; i < wordsOnpage.length; i += 1) {
       const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
+      if (wordsHard.some((item) => item.wordId === wordsOnpage[i].id)) {
+        renderedWordBlock.classList.add('words-hard_selected');
+      }
       wordsBlock!.append(renderedWordBlock);
       if (i === FIRSTPAGE) {
         this.setWordInfo(wordsOnpage[i].id);
@@ -156,9 +161,13 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   async setWordInfo(wordId: string) {
     this.selectedWordId = wordId;
     const wordParams = await this.getWordById(wordId);
+    const wordsHard = await this.getHardWords();
     const wordInfoBlock = document.querySelector('.words-info') as HTMLElement;
-    const wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
     const wordHardRemove = '<button type="button" class="word-hard" id="wordHardRemove">Remove</button>';
+    let wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
+    if (wordsHard.some((item) => item.wordId === wordId)) {
+      wordHardAdd = '<button type="button" class="word-hard word-hard_selected" id="wordHardAdd">Hard</button>';
+    }
     const wordHardButtonsBlock = `
       ${this.view === DICTIONARY.WORDS ? wordHardAdd : wordHardRemove}
       <button type="button" class="word-hard" id="wordHardLearned">Learned</button>
@@ -267,6 +276,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async wordHardAdd(target: HTMLElement) {
     if (target.id !== 'wordHardAdd') return;
+    target.classList.add('word-hard_selected');
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
 
@@ -292,9 +302,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
     const params = { pathVars };
     await super.getResponse(params, requestOptions);
+
+    const wordCard = document.getElementById(this.selectedWordId);
+    if (wordCard) wordCard.classList.add('words-hard_selected');
   }
 
-  async wordHardRemove(target: HTMLElement) {
+  async wordHardRemove(target: HTMLElement): Promise<void> {
     if (target.id !== 'wordHardRemove') return;
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
@@ -315,16 +328,34 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     await super.getResponse(params, requestOptions);
 
+    const wordsHard = await this.getHardWords();
     const wordCard = document.getElementById(this.selectedWordId);
-    const wordInfo = document.querySelector('.words-info') as HTMLElement;
     if (wordCard) wordCard.remove();
-    if (wordInfo) wordInfo.innerHTML = '';
+    if (wordsHard.length !== 0) {
+      this.setWordInfo(wordsHard[0].wordId);
+    } else {
+      const wordInfo = document.querySelector('.words-info') as HTMLElement;
+      if (wordInfo) wordInfo.innerHTML = '';
+    }
   }
 
-  async wordHardShow(target: HTMLElement) {
+  async wordHardShow(target: HTMLElement): Promise<void> {
     if (target.id !== 'wordHardShow') return;
     const wordsBlock = document.querySelector('.words') as HTMLElement;
     if (wordsBlock) wordsBlock.innerHTML = '';
+
+    const words = await this.getHardWords();
+
+    words.forEach(async (item: IWords) => {
+      const word = await this.getWordById(item.wordId);
+      const wordCard = this.renderWordCard(word.word, word.wordTranslate, word.id);
+      wordsBlock?.append(wordCard);
+    });
+
+    this.setWordInfo(words[0].wordId);
+  }
+
+  async getHardWords(): Promise<IWords[]> {
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
 
@@ -346,11 +377,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const response = await super.getResponse(params, requestOptions);
     const words = await response.json();
 
-    words.forEach(async (item: IWords) => {
-      const word = await this.getWordById(item.wordId);
-      const wordCard = this.renderWordCard(word.word, word.wordTranslate, word.id);
-      wordsBlock?.append(wordCard);
-    });
+    return words;
   }
 
   async getWords(group: number, page: number) {
