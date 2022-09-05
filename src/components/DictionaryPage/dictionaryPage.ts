@@ -47,6 +47,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     if (key === 'userName') {
       this.userName = localStorage.getItem('userName');
       this.render();
+      this.view = DICTIONARY.WORDS;
     }
   }
 
@@ -127,6 +128,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async setWordCard(currentPage = 0, currentGroup = 0) {
     const wordsOnpage = await this.getWords(currentGroup, currentPage);
+    const wordsHard = await this.getHardWords();
+    const wordsLearned = await this.getLearnedWords();
     const wordsBlock = document.querySelector('.words');
     if (wordsBlock) {
       wordsBlock!.innerHTML = ' ';
@@ -134,6 +137,14 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const FIRSTPAGE = 0;
     for (let i = 0; i < wordsOnpage.length; i += 1) {
       const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
+      if (wordsHard.some((item) => item.wordId === wordsOnpage[i].id)) {
+        renderedWordBlock.classList.add('words-hard_selected');
+      }
+
+      if (wordsLearned.some((item) => item.wordId === wordsOnpage[i].id)) {
+        renderedWordBlock.classList.add('words-learned_selected');
+      }
+
       wordsBlock!.append(renderedWordBlock);
       if (i === FIRSTPAGE) {
         this.setWordInfo(wordsOnpage[i].id);
@@ -156,12 +167,25 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   async setWordInfo(wordId: string) {
     this.selectedWordId = wordId;
     const wordParams = await this.getWordById(wordId);
+    const wordsHard = await this.getHardWords();
+    const wordsLearned = await this.getLearnedWords();
     const wordInfoBlock = document.querySelector('.words-info') as HTMLElement;
-    const wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
     const wordHardRemove = '<button type="button" class="word-hard" id="wordHardRemove">Remove</button>';
+    let wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
+    let wordLearned = '<button type="button" class="word-hard" id="wordLearnedAdd">Learned</button>';
+
+    if (wordsHard.some((item) => item.wordId === wordId)) {
+      wordHardAdd = '<button type="button" class="word-hard word-hard_selected" id="wordHardAdd">Hard</button>';
+    }
+
+    if (wordsLearned.some((item) => item.wordId === wordId)) {
+      wordLearned = '<button type="button" class="word-hard word-learned_selected" id="wordLearnedAdd">Learned</button>';
+      wordHardAdd = '<button type="button" class="word-hard word-hard_inactive">Hard</button>';
+    }
+
     const wordHardButtonsBlock = `
       ${this.view === DICTIONARY.WORDS ? wordHardAdd : wordHardRemove}
-      <button type="button" class="word-hard" id="wordHardLearned">Learned</button>
+      ${wordLearned}
     `;
 
     wordInfoBlock!.innerHTML = `
@@ -265,8 +289,48 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     this.audio.render();
   }
 
+  async wordLearnedAdd(target: HTMLElement) {
+    if (target.id !== 'wordLearnedAdd') return;
+    target.classList.add('word-learned_selected');
+
+    const userId = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('userToken');
+
+    const pathVars = {
+      [PATH.USERS]: userId,
+      [PATH.WORDS]: this.selectedWordId,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const raw = JSON.stringify({
+      difficulty: 'learned',
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+    };
+
+    const params = { pathVars };
+    await super.getResponse(params, requestOptions);
+
+    const wordCard = document.getElementById(this.selectedWordId);
+    const buttonWordHardAdd = document.getElementById('wordHardAdd');
+    if (wordCard) wordCard.classList.add('words-learned_selected');
+    if (buttonWordHardAdd) {
+      buttonWordHardAdd.classList.add('word-hard_inactive');
+      buttonWordHardAdd.id = '';
+    }
+  }
+
   async wordHardAdd(target: HTMLElement) {
     if (target.id !== 'wordHardAdd') return;
+    target.classList.add('word-hard_selected');
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
 
@@ -292,9 +356,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
     const params = { pathVars };
     await super.getResponse(params, requestOptions);
+
+    const wordCard = document.getElementById(this.selectedWordId);
+    if (wordCard) wordCard.classList.add('words-hard_selected');
   }
 
-  async wordHardRemove(target: HTMLElement) {
+  async wordHardRemove(target: HTMLElement): Promise<void> {
     if (target.id !== 'wordHardRemove') return;
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
@@ -315,16 +382,34 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     await super.getResponse(params, requestOptions);
 
+    const wordsHard = await this.getHardWords();
     const wordCard = document.getElementById(this.selectedWordId);
-    const wordInfo = document.querySelector('.words-info') as HTMLElement;
     if (wordCard) wordCard.remove();
-    if (wordInfo) wordInfo.innerHTML = '';
+    if (wordsHard.length !== 0) {
+      this.setWordInfo(wordsHard[0].wordId);
+    } else {
+      const wordInfo = document.querySelector('.words-info') as HTMLElement;
+      if (wordInfo) wordInfo.innerHTML = '';
+    }
   }
 
-  async wordHardShow(target: HTMLElement) {
+  async wordHardShow(target: HTMLElement): Promise<void> {
     if (target.id !== 'wordHardShow') return;
     const wordsBlock = document.querySelector('.words') as HTMLElement;
     if (wordsBlock) wordsBlock.innerHTML = '';
+
+    const words = await this.getHardWords();
+
+    words.forEach(async (item: IWords) => {
+      const word = await this.getWordById(item.wordId);
+      const wordCard = this.renderWordCard(word.word, word.wordTranslate, word.id);
+      wordsBlock?.append(wordCard);
+    });
+
+    this.setWordInfo(words[0].wordId);
+  }
+
+  async getHardWords(): Promise<IWords[]> {
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
 
@@ -345,12 +430,33 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const words = await response.json();
+    const wordsHard = words.filter((item: IWords) => item.difficulty === 'hard');
+    return wordsHard;
+  }
 
-    words.forEach(async (item: IWords) => {
-      const word = await this.getWordById(item.wordId);
-      const wordCard = this.renderWordCard(word.word, word.wordTranslate, word.id);
-      wordsBlock?.append(wordCard);
-    });
+  async getLearnedWords(): Promise<IWords[]> {
+    const userId = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('userToken');
+
+    const pathVars = {
+      [PATH.USERS]: userId,
+      [PATH.WORDS]: null,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    const params = { pathVars };
+    const response = await super.getResponse(params, requestOptions);
+    const words = await response.json();
+    const wordsHard = words.filter((item: IWords) => item.difficulty === 'learned');
+    return wordsHard;
   }
 
   async getWords(group: number, page: number) {
@@ -423,6 +529,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     this.turnAudioOn(target);
     this.renderSprintGame(target);
     this.renderAudioGame(target);
+    this.wordLearnedAdd(target);
     this.wordHardAdd(target);
     this.wordHardRemove(target);
     this.wordHardShow(target);
