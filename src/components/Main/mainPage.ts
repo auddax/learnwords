@@ -10,6 +10,7 @@ import {
 import Games from '../Games/games';
 import Statistics from '../Statistics/statistics';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
+import { showFooter } from '../../utils/utils';
 
 class Main implements MainPage {
   games: IGames;
@@ -26,6 +27,7 @@ class Main implements MainPage {
 
   render() {
     localStorage.setItem('rsview', 'main');
+    showFooter();
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `

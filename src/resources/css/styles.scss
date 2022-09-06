@@ -107,6 +107,10 @@ body {
   margin: 0 100px;
 }
 
+.hidden {
+  display: none;
+}
+
 .button {
   &:hover {
     cursor: pointer;
