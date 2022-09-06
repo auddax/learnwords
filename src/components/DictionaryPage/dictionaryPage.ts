@@ -118,7 +118,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       </section>
       `;
       if (localStorage.page || localStorage.group) {
-        const currentPage = Number(localStorage.page) || 1;
+        const currentPage = Number.isNaN(Number(localStorage.page)) ? 0 : Number(localStorage.page);
         const currentGroup = Number(localStorage.group);
         this.setWordCard(currentPage, currentGroup);
         this.updatePageAndGroup(currentPage, currentGroup);
@@ -523,6 +523,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       await this.setWordCard(0, newGroup);
       this.updatePageAndGroup(0, newGroup);
       localStorage.setItem('group', `${newGroup}`);
+      localStorage.setItem('page', '0');
     }
   }
 
