@@ -555,7 +555,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   async listen(target: HTMLElement) {
-    this.turnAudioOn(target);
+    // this.turnAudioOn(target);
     this.renderSprintGame(target);
     this.renderAudioGame(target);
     this.wordLearnedAdd(target);

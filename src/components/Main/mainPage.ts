@@ -44,11 +44,25 @@ class Main implements MainPage {
       </div>
     </div>
   </section>
+  <section class="demonstration">
+  <div class="container">
+    <div class="demonstration-content">
+      <div class="demonstration-title">
+        <h2 class="title">О приложении</h2>
+      </div>
+      <div class="demonstration-video">
+        <iframe width="800" height="400" src="https://www.youtube.com/watch?v=cFUpyQpPS2M"
+        title="YouTube video player" frameborder="0">
+        </iframe>
+      </div>
+    </div>
+  </div>
+  </section>
   <section class="features">
     <div class="container">
       <div class="features-content">
         <div class="features-title">
-          <h2 class="title">О приложении</h2>
+          <h2 class="title">Учи английский вместе с нами!</h2>
         </div>
         <div class="features-card">
           <div class="card card-dictionary">
