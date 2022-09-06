@@ -25,6 +25,7 @@ class Main implements MainPage {
   }
 
   render() {
+    localStorage.setItem('rsview', 'main');
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `

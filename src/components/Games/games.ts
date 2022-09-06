@@ -39,6 +39,7 @@ class Games implements IGames {
   }
 
   render() {
+    localStorage.setItem('rsview', 'games');
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `

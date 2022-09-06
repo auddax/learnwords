@@ -22,7 +22,9 @@ class App implements IApp {
   constructor() {
     this.root = document.getElementById('root') as HTMLElement;
     this.pageHeader = new PageHeader();
-    this.pageContent = new PageContent(View.MAIN);
+    this.pageContent = new PageContent(localStorage.getItem('rsview')
+      ? localStorage.getItem('rsview') as View
+      : View.MAIN);
     this.pageFooter = new PageFooter();
   }
 

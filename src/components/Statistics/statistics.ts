@@ -6,6 +6,7 @@ import './statistics.scss';
 
 class Statistics implements IStatistics {
   render() {
+    localStorage.setItem('rsview', 'statistics');
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `

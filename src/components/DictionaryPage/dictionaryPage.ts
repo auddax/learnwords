@@ -55,6 +55,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   render() {
+    localStorage.setItem('rsview', 'dictionary');
     const mainBlock = document.querySelector('.page-content');
     const complexityHeaderUnauth = `
       <h2 class="complexity-title">Выбери уровень</h2>
