@@ -114,8 +114,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         </section>
       </section>
       `;
-      if (localStorage.page && localStorage.group) {
-        const currentPage = Number(localStorage.page);
+      if (localStorage.page || localStorage.group) {
+        const currentPage = Number(localStorage.page) || 1;
         const currentGroup = Number(localStorage.group);
         this.setWordCard(currentPage, currentGroup);
         this.updatePageAndGroup(currentPage, currentGroup);
