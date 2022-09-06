@@ -18,6 +18,12 @@
         height: 5rem;
         border: 2px solid $color-dark-blue;
         border-radius: 50px;
+        cursor: pointer;
+
+        svg {
+          fill: $color-dark-blue;
+          pointer-events: none;
+        }
       }
       
       .audio-game__description {
@@ -32,15 +38,24 @@
           font-weight: 700;
           font-size: 2rem;
           margin: 50px 0 0;
+          color: $color-dark-blue;
 
           h3 {
             margin: 0 15px 0 0;
           }
-        }
 
-        svg {
-          height: 2rem;
-          width: 2rem;
+          .translation-button {
+            @include center-content;
+            border-radius: 50%;
+            cursor: pointer;
+
+            svg {
+              fill: $color-dark-blue;
+              pointer-events: none;
+              height: 2rem;
+              width: 2rem;
+            }
+          }
         }
       }
     }

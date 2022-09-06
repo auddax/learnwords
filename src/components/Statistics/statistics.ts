@@ -1,5 +1,3 @@
-/* eslint-disable max-lines-per-function */
-/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 import { IStatistics } from '../../types/interfaces';
 import './statistics.scss';
