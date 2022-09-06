@@ -33,6 +33,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   selectedWordId: string;
 
+  timerId: NodeJS.Timeout | null;
+
   constructor() {
     super();
     this.base = environment.baseUrl;
@@ -41,6 +43,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     this.sprint = new Sprint();
     this.userName = localStorage.getItem('userName');
     this.selectedWordId = '';
+    this.timerId = null;
   }
 
   listenStorage(key: string | null) {
@@ -175,6 +178,9 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async setWordInfo(wordId: string) {
     this.selectedWordId = wordId;
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+    }
     const wordParams = await this.getWordById(wordId);
     const isLogin = Boolean(localStorage.getItem('userName'));
     let wordsHard = null;
@@ -262,38 +268,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       <p id="${wordBlockId}"class="translate-word wordElement">${wordTranslate}</p>
     `;
     return wordCard;
-  }
-
-  async turnAudioOn(target: HTMLElement) {
-    if (target.classList.contains('volume-button')) {
-      const volumeBtn: HTMLDivElement | null = document.querySelector('.volume-button');
-      if (volumeBtn?.style.display === '' || volumeBtn?.style.display === 'block') {
-        volumeBtn!.style.display = 'none';
-        const wordParams = await this.getWordById(target.id);
-        const wordAudio = new Audio();
-        wordAudio.src = `${this.base}/${wordParams.audio}`;
-        wordAudio.autoplay = true;
-        wordAudio.addEventListener('ended', () => {
-          const audioMeanSrc = wordParams.audioMeaning;
-          const audioExampleSrc = wordParams.audioExample;
-          setTimeout(() => {
-            const wordAudioMeaning = new Audio();
-            wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
-            wordAudioMeaning.play();
-            wordAudioMeaning.addEventListener('ended', () => {
-              setTimeout(() => {
-                const wordAudioExample = new Audio();
-                wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
-                wordAudioExample.play();
-                wordAudioExample.addEventListener('ended', () => {
-                  volumeBtn!.style.display = 'block';
-                });
-              }, 1000);
-            });
-          }, 1000);
-        });
-      }
-    }
   }
 
   renderSprintGame(target: HTMLElement) {
@@ -519,7 +493,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       const pagination = document.querySelector('.dictionary-pagination');
       if (pagination) pagination.innerHTML = '';
     } else if (target.classList.contains('complexity')) {
-      // const buttonHard = document.getElementById('wordHardRemove') as HTMLElement;
       if (this.view === DICTIONARY.HARD) {
         this.view = DICTIONARY.WORDS;
         const buttonHard = document.getElementById('wordHardRemove') as HTMLElement;
@@ -554,7 +527,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   async listen(target: HTMLElement) {
-    // this.turnAudioOn(target);
     this.renderSprintGame(target);
     this.renderAudioGame(target);
     this.wordLearnedAdd(target);
@@ -567,6 +539,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     if (target.classList.contains('wordElement')) {
       await this.setWordInfo(target.id);
     } else if (target.classList.contains('volume-button')) {
+      target.classList.add('volume-button_disabled');
       document.querySelector('.audio > audio')?.remove();
       const wordParams = await this.getWordById(target.id);
       const wordAudio = new Audio();
@@ -575,12 +548,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       wordAudio.addEventListener('ended', () => {
         const audioMeanSrc = wordParams.audioMeaning;
         const audioExampleSrc = wordParams.audioExample;
-        setTimeout(() => {
+        this.timerId = setTimeout(() => {
           const wordAudioMeaning = new Audio();
           wordAudioMeaning.src = `${this.base}/${audioMeanSrc}`;
           wordAudioMeaning.play();
           wordAudioMeaning.addEventListener('ended', () => {
-            setTimeout(() => {
+            this.timerId = setTimeout(() => {
               const wordAudioExample = new Audio();
               wordAudioExample.src = `${this.base}/${audioExampleSrc}`;
               wordAudioExample.play();
