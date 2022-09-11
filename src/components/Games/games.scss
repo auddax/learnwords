@@ -23,6 +23,9 @@
       color: $color-dark-blue;
       font-family: $font-secondary;
 
+      p {
+        text-align: center;
+      }
 
       .card__img {
         margin: 0 0 32px;

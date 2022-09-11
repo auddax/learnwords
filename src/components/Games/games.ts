@@ -1,5 +1,6 @@
 import { View } from '../../types/enums';
 import { IAudioChallenge, IGames, ISprint } from '../../types/interfaces';
+import { showFooter } from '../../utils/utils';
 import AudioChallenge from '../AudioChallenge/audioChallenge';
 import Sprint from '../Sprint/sprint';
 import './games.scss';
@@ -39,6 +40,8 @@ class Games implements IGames {
   }
 
   render() {
+    localStorage.setItem('rsview', 'games');
+    showFooter();
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `

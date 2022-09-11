@@ -1,5 +1,6 @@
 import { GAMES } from '../../types/enums';
 import { IGameStart } from '../../types/interfaces';
+import { hideFooter } from '../../utils/utils';
 import './gameStart.scss';
 
 class GameStart implements IGameStart {
@@ -21,6 +22,7 @@ class GameStart implements IGameStart {
       : './img/sprint-game-logo.svg';
     const id = `start${this.gameType}Game`;
     const main = document.querySelector('.page-content') as HTMLElement;
+    hideFooter();
 
     if (main) {
       main.innerHTML = `

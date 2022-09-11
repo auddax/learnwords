@@ -10,6 +10,7 @@ import {
 import Games from '../Games/games';
 import Statistics from '../Statistics/statistics';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
+import { showFooter } from '../../utils/utils';
 
 class Main implements MainPage {
   games: IGames;
@@ -25,6 +26,8 @@ class Main implements MainPage {
   }
 
   render() {
+    localStorage.setItem('rsview', 'main');
+    showFooter();
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `
@@ -34,7 +37,7 @@ class Main implements MainPage {
         <div class="info-content-text">
           <h1 class="info-content-title">RS Lang</h1>
           <p class="info-content-subtitle">
-            Начни изучать английский с нами прямо сейчас. 
+            Начни изучать английский язык с нами прямо сейчас!
           <p>
           <button class="info-content-btn btn">Начать</button>
         </div>
@@ -51,7 +54,7 @@ class Main implements MainPage {
         <h2 class="title">О приложении</h2>
       </div>
       <div class="demonstration-video">
-        <iframe width="800" height="400" src="https://www.youtube.com/embed/39miz6qt2aY"
+        <iframe width="800" height="400" src="https://www.youtube.com/embed/cFUpyQpPS2M"
         title="YouTube video player" frameborder="0">
         </iframe>
       </div>
@@ -62,7 +65,7 @@ class Main implements MainPage {
     <div class="container">
       <div class="features-content">
         <div class="features-title">
-          <h2 class="title">Начни учить английский с нами прямо сейчас!</h2>
+          <h2 class="title">Учи английский вместе с нами!</h2>
         </div>
         <div class="features-card">
           <div class="card card-dictionary">
@@ -70,7 +73,7 @@ class Main implements MainPage {
             <div class="card-content card-dictionary-content">
               <img class="card-img card-dictionary-img" src="./img/dictionary-card.svg" alt="Dictionary"></img>
               <h3 class="card-title">Учебник</h3>
-              <p class="card-subtitle">Отличное пособие для изучения новых слов. Создай свой собственный словарь для закрепления трудных слов. </p>
+              <p class="card-subtitle">Отличное пособие для изучения новых слов. Создай свой собственный словарь для закрепления трудных слов.</p>
             </div>
           </div>
           <div class="card card-games">
@@ -78,7 +81,7 @@ class Main implements MainPage {
             <div class="card-content card-games-content">
               <img class="card-img card-games-img" src="./img/sprint-game-logo.svg" alt="Brain"></img>
               <h3 class="card-title">Игры</h3>
-              <p class="card-subtitle">Изучение английского больше не скучно. Играй в игры и запоминай слова и произношения!</p>
+              <p class="card-subtitle">Изучение английского больше не скучно. Играй и запоминай слова и их произношение!</p>
             </div>
           </div>
           <div class="card card-statistic">
@@ -86,7 +89,7 @@ class Main implements MainPage {
             <div class="card-content card-statistic-content">
               <img class="card-img card-statistic-img" src="./img/statistic-card.svg" alt="dictionary-image"></img>
               <h3 class="card-title">Статистика</h3>
-              <p class="card-subtitle">Весь прогресс твоего изучения ты можешь видеть в одном разделе</p>
+              <p class="card-subtitle">Весь прогресс твоего изучения ты можешь видеть в одном разделе.</p>
             </div>
           </div>
         </div>
@@ -149,7 +152,7 @@ class Main implements MainPage {
                   </a>
                 </div>
               </div>
-              <p class="member-history">Разработал словарь правил верстку</p>
+              <p class="member-history">Разработал словарь и правил верстку.</p>
             </div>
           </div>
         </div>

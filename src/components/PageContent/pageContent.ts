@@ -14,7 +14,7 @@ import Auth from '../Auth/auth';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
 
 class PageContent implements IPageContent {
-  view: View;
+  view: View | string | null;
 
   main: MainPage;
 

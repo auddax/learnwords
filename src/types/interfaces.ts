@@ -9,7 +9,7 @@ export interface IApp {
 }
 
 export interface IPageContent {
-  view: View;
+  view: View | string | null;
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
   listenStorage: (key: string | null) => void;
