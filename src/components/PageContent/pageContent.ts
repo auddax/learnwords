@@ -8,7 +8,7 @@ import {
   IDictionaryPage,
 } from '../../types/interfaces';
 import Games from '../Games/games';
-import Main from '../Main/mainPage';
+import Main from '../MainPage/mainPage';
 import Statistics from '../Statistics/statistics';
 import Auth from '../Auth/auth';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';

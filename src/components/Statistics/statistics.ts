@@ -1,12 +1,10 @@
 /* eslint-disable class-methods-use-this */
 import { IStatistics } from '../../types/interfaces';
-import { showFooter } from '../../utils/utils';
 import './statistics.scss';
 
 class Statistics implements IStatistics {
   render() {
     localStorage.setItem('rsview', 'statistics');
-    showFooter();
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {
       main.innerHTML = `

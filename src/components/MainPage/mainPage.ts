@@ -1,6 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable max-lines-per-function */
-/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 import {
   MainPage,
   IGames,
@@ -10,7 +7,6 @@ import {
 import Games from '../Games/games';
 import Statistics from '../Statistics/statistics';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
-import { showFooter } from '../../utils/utils';
 
 class Main implements MainPage {
   games: IGames;
@@ -27,7 +23,6 @@ class Main implements MainPage {
 
   render() {
     localStorage.setItem('rsview', 'main');
-    showFooter();
     const main = document.querySelector('.page-content');
     if (main) {
       main.innerHTML = `
@@ -161,17 +156,17 @@ class Main implements MainPage {
   </section>
 `;
     }
-    const gamesCard = document.querySelector('.card-click-games');
-    const statisticCard = document.querySelector('.card-click-statistic');
+    const gamesCard = document.querySelector('.card-click-games') as HTMLElement;
+    const statisticCard = document.querySelector('.card-click-statistic') as HTMLElement;
     if (gamesCard) {
       gamesCard.addEventListener('click', () => {
         this.games.render();
       });
-      statisticCard!.addEventListener('click', () => {
+      statisticCard.addEventListener('click', () => {
         this.statistic.render();
       });
-      const startBtn: HTMLButtonElement | null = document.querySelector('.info-content-btn');
-      startBtn!.addEventListener('click', () => this.dictionary.render());
+      const startBtn = document.querySelector('.info-content-btn') as HTMLElement;
+      startBtn.addEventListener('click', () => this.dictionary.render());
     }
   }
 }
