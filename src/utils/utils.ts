@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { IWords } from '../types/interfaces';
 
 export function getRandomNumber(ceil: number, floor = 0): number {

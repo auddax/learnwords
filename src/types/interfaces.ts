@@ -38,7 +38,7 @@ export interface ILoader {
   ) => Promise<Response>;
 }
 
-export interface MainPage {
+export interface IMainPage {
   render: () => void;
 }
 

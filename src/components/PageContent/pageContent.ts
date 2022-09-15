@@ -3,7 +3,7 @@ import {
   IGames,
   IPageContent,
   IStatistics,
-  MainPage,
+  IMainPage,
   IAuth,
   IDictionaryPage,
 } from '../../types/interfaces';
@@ -16,7 +16,7 @@ import DictionaryPage from '../DictionaryPage/dictionaryPage';
 class PageContent implements IPageContent {
   view: View | string | null;
 
-  main: MainPage;
+  main: IMainPage;
 
   dictionary: IDictionaryPage;
 
