@@ -44,7 +44,7 @@ class Main implements IMainPage {
                   <img src="./img/statistic-card.svg" alt="Tablet">
                 </figure>
                 <h3 class="card__title">Статистика</h3>
-                <p class="card__text">Весь прогресс твоего изучения ты можешь видеть в одном разделе.</p>
+                <p class="card__text">Весь прогресс твоего изучения ты можешь увидеть в одном разделе.</p>
               </article>
             </section>
           </section>

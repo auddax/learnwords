@@ -33,13 +33,36 @@
         margin: 100px 0 0;
       }
     }
+
+    .info__img {
+      img {
+        max-width: 570px;
+      }
+    }
+
+    @media screen and (max-width: $screen-large) {
+      flex-direction: column;
+      align-items: center;
+
+      .info__content {
+        align-items: center;
+
+        .content__button {
+          margin: 100px auto;
+        }
+      }
+
+      .info__img {
+        margin: 0 auto;
+      }
+    }
   }
 
   .main-page__features {
     margin: 175px 0;
 
     .features__header {
-      @include center-content;
+      text-align: center;
       font-size: 3.5rem;
       font-weight: 700;
     }
@@ -47,12 +70,13 @@
     .features__cardbox {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: space-evenly;
       margin: 105px 0 0;
 
       .main-page__card {
         @include card-common;
         align-items: center;
+        margin: 15px;
         padding: 40px;
         height: 450px;
         width: 300px;
