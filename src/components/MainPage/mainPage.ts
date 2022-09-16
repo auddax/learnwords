@@ -16,13 +16,13 @@ class Main implements IMainPage {
             </div>
             <div class="info__img">
               <figure>
-                <img class="welcome-img" src="./img/welcome-img.svg" alt="RSLang">
+                <img class="welcome-img" src="./img/welcome-img.svg" alt="English Teacher Cartoon">
               </figure>
             </div>
           </section>
           <section class="main-page__features">
             <header class="features__header">
-              <h2>Учи английский вместе с нами!</h2>
+              <h2>Учи англий&shyский вместе с нами!</h2>
             </header>
             <section class="features__cardbox">
               <article class="main-page__card">

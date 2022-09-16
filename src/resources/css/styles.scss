@@ -108,6 +108,14 @@ body {
 
 .container {
   margin: 0 100px;
+
+  @media screen and (max-width: $screen-large) {
+    margin: 0 75px;
+  }
+
+  @media screen and (max-width: $screen-medium) {
+    margin: 0 25px;
+  }
 }
 
 .hidden {

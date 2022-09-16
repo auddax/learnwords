@@ -31,6 +31,7 @@ class App implements IApp {
     this.root.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
       this.pageContent.listen(target);
+      this.pageHeader.listen(target);
     });
     this.root.addEventListener('keydown', (event) => {
       const eventCode = (<KeyboardEvent>event).code;

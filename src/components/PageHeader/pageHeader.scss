@@ -15,22 +15,103 @@
     }
   }
 
-  .header__menu {
-    @include center-content;
-    
-    .menu-item {
-      &:not(:last-child) {
-        @include button-simple;
-        display: flex;
-        font-weight: 500;  
-        margin: 0 40px 0 0;
+  .header__toggler {
+    @media screen and (max-width: $screen-medium) {
+      cursor: pointer;
+      z-index: 50;
+      display: inline-block;
+
+      span {
+        display: block;
+        width: 33px;
+        height: 3px;
+        margin-bottom: 5px;
+        position: relative;
+        pointer-events: none;
+        
+        background: $color-dark-blue;
+        border-radius: 3px;
+        
+        transform-origin: 4px 0px;
+        
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                    background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                    opacity 0.55s ease;
+        
       }
 
-      &:hover {
-        cursor: pointer;
+      &.active span {
+        opacity: 1;
+        transform: rotate(-45deg) translate(-2px, -1px);
+
+        &:nth-last-child(2) {
+          opacity: 0;
+          transform: rotate(0deg) scale(0.2, 0.2);  
+        }
+
+        &:nth-last-child(3) {
+          transform: rotate(45deg) translate(0, -1px);
+        }
       }
     }
   }
+
+  .header__overlay {
+  
+    .header__menu {
+      @include center-content;
+      
+      
+      .menu-item {
+        &:not(:last-child) {
+          @include button-simple;
+          display: flex;
+          font-weight: 500;  
+          margin: 0 3vw 0 0;
+        }
+  
+        &:hover {
+          cursor: pointer;
+        }
+      }
+  
+      @media screen and (max-width: $screen-medium) {
+        flex-direction: column;
+        width: 0;
+        height: 100vh;
+        background-color: $color-light-gray;
+        overflow-x: hidden;
+        position: fixed;
+        top: 0;
+        transition: $transition-time ease-out;
+        right: -100vw;
+  
+        &.active {
+          width: 320px;
+          right: 0px;
+  
+          .menu-item {
+            margin: 0 0 50px;
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: $screen-medium) {
+      position: fixed;
+      top: 0;
+      width: 100vw;
+      transition: $transition-time;
+      
+      &.active {
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        right: 0;
+      }
+    }
+  }
+
 
   .menu__button-signin,
   .menu__button-signout {

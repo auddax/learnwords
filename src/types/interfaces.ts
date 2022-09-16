@@ -17,6 +17,7 @@ export interface IPageContent {
 }
 
 export interface IPageHeader {
+  listen: (target: HTMLElement) => void;
   render: () => void;
 }
 

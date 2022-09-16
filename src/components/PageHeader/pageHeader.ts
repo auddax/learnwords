@@ -10,6 +10,27 @@ class PageHeader implements IPageHeader {
     this.userName = localStorage.getItem('userName');
   }
 
+  listen(target: HTMLElement): void {
+    this.menuToggler(target);
+  }
+
+  menuToggler(target: HTMLElement): void {
+    if (target.id !== 'menuToggler') return;
+    const headerOverlay = document.querySelector('.header__overlay') as HTMLElement;
+    const headerMenu = document.querySelector('.header__menu') as HTMLElement;
+    if (!target.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+      target.classList.add('active');
+      headerOverlay.classList.add('active');
+      headerMenu.classList.add('active');
+    } else {
+      document.body.style.overflow = 'auto';
+      target.classList.remove('active');
+      headerOverlay.classList.remove('active');
+      headerMenu.classList.remove('active');
+    }
+  }
+
   render() {
     const header = document.querySelector('.page-header');
     const menuSignIn = `
@@ -26,13 +47,20 @@ class PageHeader implements IPageHeader {
         <div class="header__logo">
           <h1 class="logo-text" id="${View.MAIN}">RS Lang</h1>
         </div>
-        <ul class="header__menu">
-          <li class="menu-item" id="${View.MAIN}">Главная</li>
-          <li class="menu-item" id="${View.DICTIONARY}">Учебник</li>
-          <li class="menu-item" id="${View.GAMES}">Игры</li>
-          <li class="menu-item" id="${View.STATISTICS}">Статистика</li>
-          <li class="menu-item">${this.userName ? menuSignOut : menuSignIn}</li>
-        </ul>
+        <div class="header__toggler" id="menuToggler">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="header__overlay">
+          <ul class="header__menu">
+            <li class="menu-item" id="${View.MAIN}">Главная</li>
+            <li class="menu-item" id="${View.DICTIONARY}">Учебник</li>
+            <li class="menu-item" id="${View.GAMES}">Игры</li>
+            <li class="menu-item" id="${View.STATISTICS}">Статистика</li>
+            <li class="menu-item">${this.userName ? menuSignOut : menuSignIn}</li>
+          </ul>
+        </div>
       </div>
       `;
     }
