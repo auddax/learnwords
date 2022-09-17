@@ -17,6 +17,7 @@ export interface IPageContent {
 }
 
 export interface IPageHeader {
+  listen: (target: HTMLElement) => void;
   render: () => void;
 }
 
@@ -38,7 +39,7 @@ export interface ILoader {
   ) => Promise<Response>;
 }
 
-export interface MainPage {
+export interface IMainPage {
   render: () => void;
 }
 

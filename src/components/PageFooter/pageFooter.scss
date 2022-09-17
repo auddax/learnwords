@@ -7,6 +7,7 @@
 
   .footer-content {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     align-items: flex-end;
     justify-content: space-between;
@@ -21,10 +22,10 @@
 
       .rs-course-link {
         margin: 0 20px 0 0;
+        width: 135px;
 
         svg {
           fill: $color-dark-blue;
-          height: 50px;
         }
       }
 
@@ -32,6 +33,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        max-width: 25px;
 
         .rs-github-link {
           margin: 0 0 5px;
@@ -41,7 +43,11 @@
 
     .year {
       height: 100%;
-      margin: auto 0 0;
+      margin: 20px 0 0;
+
+      @media screen and (max-width: 562px){
+        order: 3
+      }
     }
 
     .content-developers {
@@ -49,7 +55,7 @@
         font-family: $font-secondary;
         font-weight: 700;
         font-size: 1.25rem;
-        margin: 0 0 10px;
+        margin: 20px 0 10px;
       }
 
       .developers {

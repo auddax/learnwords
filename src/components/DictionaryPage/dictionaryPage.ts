@@ -17,7 +17,7 @@ import environment from '../../environment/environment';
 import Loader from '../Loader/loader';
 import Sprint from '../Sprint/sprint';
 import AudioChallenge from '../AudioChallenge/audioChallenge';
-import { classToggler, showFooter } from '../../utils/utils';
+import { classToggler } from '../../utils/utils';
 import './dictionaryPage.scss';
 
 class DictionaryPage extends Loader implements IDictionaryPage {
@@ -56,7 +56,6 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   render() {
     localStorage.setItem('rsview', 'dictionary');
-    showFooter();
     const mainBlock = document.querySelector('.page-content');
     const complexityHeaderUnauth = `
       <h2 class="complexity-title">Выбери уровень</h2>

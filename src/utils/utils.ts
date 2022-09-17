@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { IWords } from '../types/interfaces';
 
 export function getRandomNumber(ceil: number, floor = 0): number {
@@ -63,16 +62,4 @@ export function progressBar(
     if (progressValue === progressEndValue) clearInterval(progress);
     if (progressValue > 100) clearInterval(progress);
   }, speed);
-}
-
-export function hideFooter(): void {
-  const footer = document.querySelector('.page-footer') as HTMLElement;
-  if (footer) footer.classList.add('hidden');
-}
-
-export function showFooter(): void {
-  const footer = document.querySelector('.page-footer') as HTMLElement;
-  if (footer) {
-    if (footer.classList.contains('hidden')) footer.classList.remove('hidden');
-  }
 }
