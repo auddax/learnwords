@@ -1,5 +1,7 @@
 /* eslint-disable class-methods-use-this */
+import { VIEW } from '../../types/enums';
 import { IMainPage } from '../../types/interfaces';
+import './mainPage.scss';
 
 class Main implements IMainPage {
   render() {
@@ -12,7 +14,7 @@ class Main implements IMainPage {
             <div class="info__content">
               <h1 class="content__header">RS Lang</h1>
               <p class="content__description">Начни изучать английский язык с нами прямо сейчас!</p>
-              <button class="content__button">Начать</button>
+              <button class="content__button link" data-href="${VIEW.DICTIONARY}">Начать</button>
             </div>
             <div class="info__img">
               <figure>
@@ -25,21 +27,21 @@ class Main implements IMainPage {
               <h2>Учи англий&shyский вместе с нами!</h2>
             </header>
             <section class="features__cardbox">
-              <article class="main-page__card">
+              <article class="main-page__card link" data-href="${VIEW.DICTIONARY}">
                 <figure class="card__img" >
                   <img src="./img/dictionary-card.svg" alt="Dictionary">
                 </figure>
                 <h3 class="card__title">Учебник</h3>
                 <p class="card__text">Отличное пособие для изучения новых слов. Создай свой собственный словарь для закрепления трудных слов.</p>
               </article>
-              <article class="main-page__card">
+              <article class="main-page__card link" data-href="${VIEW.GAMES}">
                 <figure class="card__img" >
                   <img src="./img/sprint-game-logo.svg" alt="Brain">
                 </figure>
                 <h3 class="card__title">Игры</h3>
                 <p class="card__text">Изучение английского больше не скучно. Играй и запоминай слова и их произношение!</p>
               </article>
-              <article class="main-page__card">
+              <article class="main-page__card link" data-href="${VIEW.STATISTICS}">
                 <figure class="card__img" >
                   <img src="./img/statistic-card.svg" alt="Tablet">
                 </figure>

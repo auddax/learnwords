@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable max-lines-per-function */
 import { IPageFooter } from '../../types/interfaces';
+import './pageFooter.scss';
 
 class PageFooter implements IPageFooter {
   render() {

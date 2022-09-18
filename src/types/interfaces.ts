@@ -1,4 +1,4 @@
-import { GAMES, LEVEL, View } from './enums';
+import { GAMES, LEVEL, VIEW } from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -9,10 +9,11 @@ export interface IApp {
 }
 
 export interface IPageContent {
-  view: View | string | null;
+  view: VIEW | string | null;
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
   listenStorage: (key: string | null) => void;
+  router: (path: string | undefined, popstate?: boolean) => void
   render: () => void;
 }
 

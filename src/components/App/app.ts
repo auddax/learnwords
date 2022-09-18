@@ -4,7 +4,7 @@ import {
   IPageHeader,
   IPageFooter,
 } from '../../types/interfaces';
-import { View } from '../../types/enums';
+import { VIEW } from '../../types/enums';
 import PageContent from '../PageContent/pageContent';
 import PageHeader from '../PageHeader/pageHeader';
 import PageFooter from '../PageFooter/pageFooter';
@@ -22,13 +22,14 @@ class App implements IApp {
     this.root = document.getElementById('root') as HTMLElement;
     this.pageHeader = new PageHeader();
     this.pageContent = new PageContent(localStorage.getItem('rsview')
-      ? localStorage.getItem('rsview') as View
-      : View.MAIN);
+      ? localStorage.getItem('rsview') as VIEW
+      : VIEW.MAIN);
     this.pageFooter = new PageFooter();
   }
 
   listen(): void {
     this.root.addEventListener('click', (event) => {
+      event.preventDefault();
       const target = event.target as HTMLElement;
       this.pageContent.listen(target);
       this.pageHeader.listen(target);
@@ -40,6 +41,10 @@ class App implements IApp {
     document.addEventListener('storage', (event) => {
       const { key } = <StorageEvent>event;
       this.pageContent.listenStorage(key);
+    });
+    window.addEventListener('popstate', () => {
+      const { path } = window.history.state;
+      this.pageContent.router(path, true);
     });
   }
 
@@ -55,6 +60,7 @@ class App implements IApp {
     this.pageHeader.render();
     this.pageContent.render();
     this.pageFooter.render();
+    this.pageContent.router(VIEW.MAIN);
   }
 }
 

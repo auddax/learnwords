@@ -1,9 +1,10 @@
-export enum View {
+export enum VIEW {
   MAIN = 'main',
   DICTIONARY = 'dictionary',
   GAMES = 'games',
   STATISTICS = 'statistics',
   SIGNIN = 'signin',
+  SIGNOUT = 'signout',
 }
 
 export enum PATH {

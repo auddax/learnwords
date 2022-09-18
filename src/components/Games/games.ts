@@ -1,4 +1,4 @@
-import { View } from '../../types/enums';
+import { VIEW } from '../../types/enums';
 import { IAudioChallenge, IGames, ISprint } from '../../types/interfaces';
 import AudioChallenge from '../AudioChallenge/audioChallenge';
 import Sprint from '../Sprint/sprint';
@@ -9,12 +9,12 @@ class Games implements IGames {
 
   audio: IAudioChallenge;
 
-  classPrefix: View;
+  classPrefix: VIEW;
 
   constructor() {
     this.sprint = new Sprint();
     this.audio = new AudioChallenge();
-    this.classPrefix = View.GAMES;
+    this.classPrefix = VIEW.GAMES;
   }
 
   listen(target: HTMLElement) {

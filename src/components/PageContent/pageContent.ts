@@ -1,4 +1,4 @@
-import { View } from '../../types/enums';
+import { VIEW } from '../../types/enums';
 import {
   IGames,
   IPageContent,
@@ -14,7 +14,7 @@ import Auth from '../Auth/auth';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
 
 class PageContent implements IPageContent {
-  view: View | string | null;
+  view: VIEW | string | null;
 
   main: IMainPage;
 
@@ -26,7 +26,7 @@ class PageContent implements IPageContent {
 
   auth: IAuth;
 
-  constructor(view: View) {
+  constructor(view: VIEW) {
     this.view = view;
     this.main = new Main();
     this.dictionary = new DictionaryPage();
@@ -35,27 +35,33 @@ class PageContent implements IPageContent {
     this.auth = new Auth();
   }
 
-  listen(target: HTMLElement) {
-    this.changeView(target);
+  listen(target: HTMLElement): void {
+    this.linkHandler(target);
     this.games.listen(target);
     this.dictionary.listen(target);
     this.auth.listen(target);
   }
 
-  listenKey(eventCode: string) {
+  listenKey(eventCode: string): void {
     this.games.listenKey(eventCode);
   }
 
-  listenStorage(key: string | null) {
+  listenStorage(key: string | null): void {
     this.dictionary.listenStorage(key);
   }
 
-  changeView(target: HTMLElement) {
-    if (!(target.classList.contains('menu-item')
-        || target.classList.contains('logo-text')
-        || target.classList.contains('menu__button-signin'))
-    ) return;
-    this.view = target.id as View;
+  linkHandler(target: HTMLElement): void {
+    if (!target.classList.contains('link')) return;
+    const path = target.dataset.href;
+    this.router(path);
+  }
+
+  router(path: string | undefined, popstate = false): void {
+    if (!popstate) window.history.pushState({ path }, '', path);
+    if (path) {
+      document.title = `RS Lang | ${path[0].toUpperCase() + path.slice(1)}`;
+    }
+    this.view = path as VIEW;
     this.render();
   }
 
