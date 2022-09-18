@@ -56,8 +56,8 @@ class PageContent implements IPageContent {
     this.router(path);
   }
 
-  router(path: string | undefined): void {
-    window.history.pushState({}, '', path);
+  router(path: string | undefined, popstate = false): void {
+    if (!popstate) window.history.pushState({ path }, '', path);
     if (path) {
       document.title = `RS Lang | ${path[0].toUpperCase() + path.slice(1)}`;
     }

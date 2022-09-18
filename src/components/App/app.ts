@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   IApp,
   IPageContent,
@@ -43,6 +42,10 @@ class App implements IApp {
       const { key } = <StorageEvent>event;
       this.pageContent.listenStorage(key);
     });
+    window.addEventListener('popstate', () => {
+      const { path } = window.history.state;
+      this.pageContent.router(path, true);
+    });
   }
 
   async render() {
@@ -57,6 +60,7 @@ class App implements IApp {
     this.pageHeader.render();
     this.pageContent.render();
     this.pageFooter.render();
+    this.pageContent.router(VIEW.MAIN);
   }
 }
 

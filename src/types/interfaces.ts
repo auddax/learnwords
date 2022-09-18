@@ -13,7 +13,7 @@ export interface IPageContent {
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
   listenStorage: (key: string | null) => void;
-  router: (path: string | undefined) => void
+  router: (path: string | undefined, popstate?: boolean) => void
   render: () => void;
 }
 
