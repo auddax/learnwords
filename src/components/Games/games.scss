@@ -7,18 +7,22 @@
     font-family: $font-primary;
     font-weight: 700;
     font-size: 3.5rem;
-    margin: 20px 0 95px;
+    margin: 20px 0 0;
   }
 
   .games-page__cardbox {
     @include center-content;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 100px 0;
 
     .games-page__card {
       @include center-content;
 
       max-width: 300px;
       min-height: 400px;
-      margin: 0 110px 150px;
+      margin: 0 0 50px;
       padding: 42px;
       color: $color-dark-blue;
       font-family: $font-secondary;

@@ -1,13 +1,14 @@
 .game-result {
   @include center-content;
   flex-direction: column;
-  height: calc(100vh - 150px);
+  height: 100vh;
 
   .game-result__card {
     @include card-common;
     display: flex;
     align-items: center;
-    width: 800px;
+    width: 55%;
+    min-width: 340px;
     height: 400px;
     margin: 0 0 85px;
 
@@ -22,7 +23,7 @@
 
         .button-navbar {
           @include button-simple;
-          font-size: 1.25rem;
+          font-size: 1.15rem;
         }
       }
     }
@@ -72,14 +73,19 @@
   .game-result__form {
     @include center-content;
     flex-wrap: wrap;
+    width: 40%;
+    min-width: 340px;
+    justify-content: space-between;
 
     .button {
       @include button-primary;
       width: 210px;
+      max-width: 0 0 20px;
+      margin: 0 20px 20px;
+    }
 
-      &:first-child {
-        margin-right: 50px;
-      }
+    @media screen and (max-width: $screen-large) {
+      justify-content: center;
     }
   }
 }

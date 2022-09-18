@@ -45,14 +45,14 @@ class Games implements IGames {
       main.innerHTML = `
         <section class="${this.classPrefix}-page container">
           <header class="${this.classPrefix}-page__header">
-            <h1>Игры</h1>
+            <h2>Игры</h2>
           </header>
           <section class="${this.classPrefix}-page__cardbox">
             <article class="${this.classPrefix}-page__card card-common">
               <figure class="card__img">
                 <img src="./img/audio-challenge-game-logo.svg" alt="Headphones">
               </figure>
-              <h2 class="card__title">Аудиовызов</h2>
+              <h3 class="card__title">Аудиовызов</h3>
               <p>Угадай слова по произношению и выбери правильный вариант перевода.</p>
               <button type="button" class="card__button-primary" id="audioCardButton">Начать игру</button>
             </article>
@@ -60,7 +60,7 @@ class Games implements IGames {
               <figure class="card__img">
                 <img src="./img/sprint-game-logo.svg" alt="Brain">
               </figure>
-              <h2 class="card__title">Спринт</h2>
+              <h3 class="card__title">Спринт</h3>
               <p>Тренируй скорость перевода, выбирая правильные варианты за ограниченное время.</p>
               <button type="button" class="card__button-primary" id="sprintCardButton">Начать игру</button>
             </article>

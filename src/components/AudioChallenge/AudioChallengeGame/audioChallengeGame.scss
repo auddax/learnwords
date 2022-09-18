@@ -1,12 +1,14 @@
 .audio-game {
   @include center-content;
-  height: calc(100vh - 150px);
 
   .audio-game__card {
     @include center-content;
     flex-direction: column;
+    margin: 0 0 175px;
   
     .audio-game__word {
+      height: 285px;
+
       .audio-game__img {
         max-height: 200px;
         border-radius: 5px;
@@ -17,6 +19,7 @@
         height: 5rem;
         border: 2px solid $color-dark-blue;
         border-radius: 50px;
+        margin: 150px 0 0;
         cursor: pointer;
 
         svg {

@@ -29,7 +29,7 @@ class AudioChallenge extends Loader implements IAudioChallenge {
     this.level = environment.levelDefault;
     this.gameType = GAMES.AUDIO;
     this.start = new GameStart(
-      'Аудиовызов',
+      'Аудио&shyвызов',
       'Игра Аудиовызов улучшит твое понимание ангийской устной речи',
       this.gameType,
     );
