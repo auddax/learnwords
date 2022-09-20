@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
+import { VIEW } from '../../types/enums';
 import './auth.scss';
 
 class Auth {
@@ -44,6 +45,7 @@ class Auth {
     if (!target.classList.contains('popup')) return;
     document.body.style.overflow = 'auto';
     target.remove();
+    window.history.back();
   }
 
   addModal(target: HTMLElement): void {
@@ -149,11 +151,11 @@ class Auth {
   }
 
   sign_out_action(target: HTMLElement): void {
-    if (target.id !== 'signout') return;
+    if (!target.classList.contains('menu__button-signout')) return;
     const menu = document.querySelector('.header__menu .menu-item:last-child');
     if (menu) {
       menu.innerHTML = `
-        <button class="menu__button-signin" id="signin">Войти</button>
+      <button class="menu__button-signin link" data-href="${VIEW.SIGNIN}">Войти</button>
       `;
     }
     this.logout();
@@ -167,9 +169,10 @@ class Auth {
     if (menu) {
       menu.innerHTML = `
         <span class="menu__username">${name}</span>
-        <button class="menu__button-signout" id="signout">Выйти</button>
+        <button class="menu__button-signout" data-href="${VIEW.SIGNOUT}">Выйти</button>
       `;
     }
+    window.history.back();
   }
 
   get_datetime(set_hours = 0) {

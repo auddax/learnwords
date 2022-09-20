@@ -1,8 +1,8 @@
-import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
 import { pickRandomItems, shuffleArray } from '../../../utils/utils';
 import GameResult from '../../GameResult/gameResult';
+import environment from '../../../environment/environment';
 import './audioChallengeGame.scss';
 
 class AudioChallengeGame implements IAudioChallengeGame {
