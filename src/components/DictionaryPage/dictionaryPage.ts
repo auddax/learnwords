@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
-/* eslint-disable object-shorthand */
-/* eslint-disable  @typescript-eslint/lines-between-class-members */
 /* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
@@ -47,7 +44,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   listenStorage(key: string | null) {
-    if (key === 'userName') {
+    const path = window.location.pathname.slice(1);
+    if (key === 'userName' && path === 'dictionary') {
       this.userName = localStorage.getItem('userName');
       this.render();
       this.view = DICTIONARY.WORDS;
