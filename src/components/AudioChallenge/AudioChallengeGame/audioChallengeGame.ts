@@ -12,9 +12,9 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   rightAnswers: number;
 
-  rightAnswerWords: string[];
+  rightAnswerWords: IWords[];
 
-  wrongAnswerWords: string[];
+  wrongAnswerWords: IWords[];
 
   gameType: GAMES;
 
@@ -43,6 +43,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.answerAudioGame(target);
     this.turnAudioOn(target);
     this.nextCard(target);
+    this.result.listen(target);
   }
 
   start(words: IWords[]) {
@@ -68,14 +69,14 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
     const currentWord = this.currentWord.word;
     const selectedWord = target.id.split('-')[1];
-    const currentWordId = this.currentWord.id;
+    const currentWordAnswer = { [currentWord]: this.currentWord.wordTranslate };
 
     if (currentWord === selectedWord) {
       this.rightAnswers += 1;
-      this.rightAnswerWords.push(currentWordId);
+      this.rightAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_right');
     } else {
-      this.wrongAnswerWords.push(currentWordId);
+      this.wrongAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_wrong');
       const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
       if (currentWordElement) currentWordElement.classList.add('button__audio-game-answer_right');
@@ -83,12 +84,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
-      this.result.render(
-        this.rightAnswers,
-        this.rightAnswerWords,
-        this.wrongAnswerWords,
-        environment.audioWordsNumber,
-      );
+      this.result.rightAnswerWords = this.rightAnswerWords;
+      this.result.wrongAnswerWords = this.wrongAnswerWords;
+      this.result.rightAnswers = this.rightAnswers;
+      this.result.totalWordsNumber = environment.audioWordsNumber;
+      this.result.render();
     } else {
       this.showResult();
     }

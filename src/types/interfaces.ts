@@ -1,4 +1,6 @@
-import { GAMES, LEVEL, VIEW } from './enums';
+import {
+  GAMES, LEVEL, RESULTS, VIEW,
+} from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -66,8 +68,8 @@ export interface IForm {
 export interface ISprintGame {
   currentWordIndex: number;
   rightAnswers: number;
-  rightAnswerWords: string[];
-  wrongAnswerWords: string[];
+  rightAnswerWords: IWords[];
+  wrongAnswerWords: IWords[];
   rowAnswers: number;
   score: number;
   words: IWords[];
@@ -97,12 +99,14 @@ export interface IGameStart {
 }
 
 export interface IGameResult {
-  render: (
-    rightAnswers: number,
-    rightAnswerWords: string[],
-    wrongAnswerWords: string[],
-    totalWordsNumber: number,
-  ) => void;
+  gameType: GAMES;
+  view: RESULTS;
+  rightAnswers: number;
+  totalWordsNumber: number;
+  rightAnswerWords: IWords[];
+  wrongAnswerWords: IWords[];
+  listen: (target: HTMLElement) => void;
+  render: () => void;
 }
 
 export interface IAudioChallenge {
@@ -117,8 +121,8 @@ export interface IAudioChallenge {
 export interface IAudioChallengeGame {
   currentWordIndex: number;
   rightAnswers: number;
-  rightAnswerWords: string[];
-  wrongAnswerWords: string[];
+  rightAnswerWords: IWords[];
+  wrongAnswerWords: IWords[];
   words: IWords[];
   pickedWords: IWords[];
   classPrefix: string;

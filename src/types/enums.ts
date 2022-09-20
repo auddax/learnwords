@@ -21,6 +21,11 @@ export enum GAMES {
   AUDIO = 'Audio',
 }
 
+export enum RESULTS {
+  ACCURACY = 'accuracy',
+  WORDS = 'words',
+}
+
 export enum DICTIONARY {
   WORDS = 'words',
   HARD = 'hard',
