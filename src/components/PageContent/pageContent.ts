@@ -59,7 +59,7 @@ class PageContent implements IPageContent {
   router(path: string | undefined, popstate = false): void {
     if (!popstate) window.history.pushState({ path }, '', path);
     if (path) {
-      document.title = `RS Lang | ${path[0].toUpperCase() + path.slice(1)}`;
+      document.title = `LearnWords | ${path[0].toUpperCase() + path.slice(1)}`;
     }
     this.view = path as VIEW;
     this.render();

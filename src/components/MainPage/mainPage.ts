@@ -12,7 +12,7 @@ class Main implements IMainPage {
         <section class="main-page container">
           <section class="main-page__info">
             <div class="info__content">
-              <h1 class="content__header">RS Lang</h1>
+              <h1 class="content__header">LearnWords</h1>
               <p class="content__description">Начни изучать английский язык с нами прямо сейчас!</p>
               <button class="content__button link" data-href="${VIEW.DICTIONARY}">Начать</button>
             </div>

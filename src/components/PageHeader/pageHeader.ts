@@ -45,7 +45,7 @@ class PageHeader implements IPageHeader {
       header.innerHTML = `
       <div class="header container">
         <div class="header__logo">
-          <h1 class="logo-text link" data-href="${VIEW.MAIN}">RS Lang</h1>
+          <img src="./img/learnwords-logo-dark-blue.svg" class="link" data-href="${VIEW.MAIN}">
         </div>
         <div class="header__toggler" id="menuToggler">
           <span></span>
