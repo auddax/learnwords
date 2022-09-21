@@ -10,10 +10,6 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   currentWord: IWords;
 
-  rightAnswers: number;
-
-  rightAnswerWords: IWords[];
-
   wrongAnswerWords: IWords[];
 
   gameType: GAMES;
@@ -26,13 +22,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   classPrefix: string;
 
-  constructor(gameType: GAMES) {
+  constructor() {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.currentWord = {};
-    this.rightAnswers = environment.scoreDefault;
-    this.rightAnswerWords = [];
     this.wrongAnswerWords = [];
-    this.gameType = gameType;
+    this.gameType = GAMES.AUDIO;
     this.words = [];
     this.pickedWords = [];
     this.result = new GameResult(this.gameType);
@@ -43,11 +37,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.answerAudioGame(target);
     this.turnAudioOn(target);
     this.nextCard(target);
-    this.result.listen(target);
+    this.result.changeView(target);
   }
 
   start(words: IWords[]) {
-    this.rightAnswers = environment.scoreDefault;
+    this.result = new GameResult(this.gameType);
     this.currentWordIndex = environment.wordsIndexDefault;
     this.words = words;
     this.pickedWords = pickRandomItems(this.words, environment.audioWordsNumber);
@@ -72,11 +66,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
     const currentWordAnswer = { [currentWord]: this.currentWord.wordTranslate };
 
     if (currentWord === selectedWord) {
-      this.rightAnswers += 1;
-      this.rightAnswerWords.push(currentWordAnswer);
+      this.result.rightAnswers += 1;
+      this.result.rightAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_right');
     } else {
-      this.wrongAnswerWords.push(currentWordAnswer);
+      this.result.wrongAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_wrong');
       const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
       if (currentWordElement) currentWordElement.classList.add('button__audio-game-answer_right');
@@ -84,10 +78,6 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
-      this.result.rightAnswerWords = this.rightAnswerWords;
-      this.result.wrongAnswerWords = this.wrongAnswerWords;
-      this.result.rightAnswers = this.rightAnswers;
-      this.result.totalWordsNumber = environment.audioWordsNumber;
       this.result.render();
     } else {
       this.showResult();

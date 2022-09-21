@@ -33,7 +33,7 @@ class Sprint extends Loader implements ISprint {
       'Спринт — это тренировка на скорость. Попробуй угадать как можно больше слов за 30 секунд.',
       this.gameType,
     );
-    this.game = new SprintGame(this.gameType);
+    this.game = new SprintGame();
     this.words = [];
   }
 

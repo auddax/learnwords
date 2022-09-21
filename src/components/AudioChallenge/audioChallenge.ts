@@ -31,7 +31,7 @@ class AudioChallenge extends Loader implements IAudioChallenge {
       'Игра Аудиовызов улучшит твое понимание ангийской устной речи',
       this.gameType,
     );
-    this.game = new AudioChallengeGame(this.gameType);
+    this.game = new AudioChallengeGame();
     this.words = [];
   }
 

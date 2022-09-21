@@ -24,6 +24,10 @@
         .button-navbar {
           @include button-simple;
           font-size: 1.15rem;
+
+          &.button-navbar_selected {
+            text-decoration: underline;
+          }
         }
       }
     }

@@ -67,9 +67,6 @@ export interface IForm {
 
 export interface ISprintGame {
   currentWordIndex: number;
-  rightAnswers: number;
-  rightAnswerWords: IWords[];
-  wrongAnswerWords: IWords[];
   rowAnswers: number;
   score: number;
   words: IWords[];
@@ -105,7 +102,7 @@ export interface IGameResult {
   totalWordsNumber: number;
   rightAnswerWords: IWords[];
   wrongAnswerWords: IWords[];
-  listen: (target: HTMLElement) => void;
+  changeView: (target: HTMLElement) => void;
   render: () => void;
 }
 
@@ -120,9 +117,6 @@ export interface IAudioChallenge {
 
 export interface IAudioChallengeGame {
   currentWordIndex: number;
-  rightAnswers: number;
-  rightAnswerWords: IWords[];
-  wrongAnswerWords: IWords[];
   words: IWords[];
   pickedWords: IWords[];
   classPrefix: string;

@@ -1,5 +1,5 @@
-/* eslint-disable max-lines-per-function */
 /* eslint-disable no-console */
+/* eslint-disable max-lines-per-function */
 import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { ISprintGame, IGameResult, IWords } from '../../../types/interfaces';
@@ -10,13 +10,7 @@ import './sprintGame.scss';
 class SprintGame implements ISprintGame {
   currentWordIndex: number;
 
-  rightAnswers: number;
-
   rowAnswers: number;
-
-  rightAnswerWords: IWords[];
-
-  wrongAnswerWords: IWords[];
 
   score: number;
 
@@ -34,17 +28,14 @@ class SprintGame implements ISprintGame {
 
   result: IGameResult;
 
-  constructor(gameType: GAMES) {
+  constructor() {
     this.currentWordIndex = environment.wordsIndexDefault;
-    this.rightAnswers = environment.scoreDefault;
-    this.rightAnswerWords = [];
-    this.wrongAnswerWords = [];
     this.rowAnswers = environment.scoreDefault;
     this.score = environment.scoreDefault;
     this.scoreIncrementIndex = environment.scoreDefault;
     this.time = environment.timerSprintDefault;
     this.timerId = undefined;
-    this.gameType = gameType;
+    this.gameType = GAMES.SPRINT;
     this.words = [];
     this.shuffledWords = [];
     this.result = new GameResult(this.gameType);
@@ -53,11 +44,12 @@ class SprintGame implements ISprintGame {
   listen(target: HTMLElement) {
     this.answerSprintGameMouse(target);
     this.stopSprintGame(target);
+    this.result.changeView(target);
   }
 
   start(words: IWords[]) {
     this.stop();
-    this.rightAnswers = environment.scoreDefault;
+    this.result = new GameResult(this.gameType);
     this.rowAnswers = environment.scoreDefault;
     this.score = environment.scoreDefault;
     this.scoreIncrementIndex = environment.scoreIncrementIndex;
@@ -96,38 +88,34 @@ class SprintGame implements ISprintGame {
 
     if (wordOrigin === wordShuffled) {
       if (target.id === 'sprintGameTrue') {
-        this.rightAnswers += 1;
+        this.result.rightAnswers += 1;
         this.rowAnswers += 1;
-        this.rightAnswerWords.push(wordAnswer);
+        this.result.rightAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
-        this.wrongAnswerWords.push(wordAnswer);
+        this.result.wrongAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (target.id === 'sprintGameFalse') {
-      this.rightAnswers += 1;
+      this.result.rightAnswers += 1;
       this.rowAnswers += 1;
-      this.rightAnswerWords.push(wordAnswer);
+      this.result.rightAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
-      this.wrongAnswerWords.push(wordAnswer);
+      this.result.wrongAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.result.rightAnswerWords = this.rightAnswerWords;
-        this.result.wrongAnswerWords = this.wrongAnswerWords;
-        this.result.rightAnswers = this.rightAnswers;
-        this.result.totalWordsNumber = environment.wordsNumber;
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -162,38 +150,34 @@ class SprintGame implements ISprintGame {
 
     if (wordOrigin === wordShuffled) {
       if (eventCode === 'ArrowRight') {
-        this.rightAnswers += 1;
+        this.result.rightAnswers += 1;
         this.rowAnswers += 1;
-        this.rightAnswerWords.push(wordAnswer);
+        this.result.rightAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         this.score += environment.scoreIncrement * this.scoreIncrementIndex;
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
-        this.wrongAnswerWords.push(wordAnswer);
+        this.result.wrongAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (eventCode === 'ArrowLeft') {
-      this.rightAnswers += 1;
+      this.result.rightAnswers += 1;
       this.rowAnswers += 1;
-      this.rightAnswerWords.push(wordAnswer);
+      this.result.rightAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       this.score += environment.scoreIncrement * this.scoreIncrementIndex;
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
-      this.wrongAnswerWords.push(wordAnswer);
+      this.result.wrongAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
     }
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.result.rightAnswerWords = this.rightAnswerWords;
-        this.result.wrongAnswerWords = this.wrongAnswerWords;
-        this.result.rightAnswers = this.rightAnswers;
-        this.result.totalWordsNumber = environment.wordsNumber;
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -221,10 +205,6 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        this.result.rightAnswerWords = this.rightAnswerWords;
-        this.result.wrongAnswerWords = this.wrongAnswerWords;
-        this.result.rightAnswers = this.rightAnswers;
-        this.result.totalWordsNumber = environment.wordsNumber;
         this.result.render();
         this.stop();
         return;

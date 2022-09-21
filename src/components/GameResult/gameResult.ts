@@ -20,18 +20,17 @@ class GameResult implements IGameResult {
 
   constructor(gameType: GAMES) {
     this.gameType = gameType;
-    this.view = RESULTS.WORDS;
-    this.rightAnswers = environment.rightAnswersDefault;
-    this.totalWordsNumber = environment.wordsNumber;
+    this.view = RESULTS.ACCURACY;
+    this.rightAnswers = environment.scoreDefault;
+    this.totalWordsNumber = gameType === 'Sprint'
+      ? environment.wordsNumber
+      : environment.audioWordsNumber;
     this.rightAnswerWords = [];
     this.wrongAnswerWords = [];
   }
 
-  listen(target: HTMLElement): void {
-    this.changeView(target);
-  }
-
   changeView(target: HTMLElement): void {
+    if (!target.classList.contains(`game-${this.gameType.toLowerCase()}`)) return;
     if (target.id === 'gameAccuracyCard') {
       this.view = RESULTS.ACCURACY;
       this.render();
@@ -84,8 +83,8 @@ class GameResult implements IGameResult {
           <article class="game-result__card">
             <header class="card__header">
               <form class="card__navbar">
-                <button type="button" class="button button-navbar" id="gameAccuracyCard">Результаты</button>
-                <button type="button" class="button button-navbar" id="gameWordsCard">Мои слова</button>
+                <button type="button" class="button button-navbar game-${this.gameType.toLowerCase()}" id="gameAccuracyCard">Результаты</button>
+                <button type="button" class="button button-navbar game-${this.gameType.toLowerCase()}" id="gameWordsCard">Мои слова</button>
               </form>
             </header>
             ${this.view === RESULTS.ACCURACY ? cardContentAccuracy : cardContentWords}
@@ -96,6 +95,12 @@ class GameResult implements IGameResult {
           </form>
         </section>
       `;
+    }
+
+    if (this.view === RESULTS.ACCURACY) {
+      document.getElementById('gameAccuracyCard')?.classList.add('button-navbar_selected');
+    } else {
+      document.getElementById('gameWordsCard')?.classList.add('button-navbar_selected');
     }
 
     const bar = document.querySelector('.circular-progress') as HTMLElement;
