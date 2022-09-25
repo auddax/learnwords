@@ -1,7 +1,6 @@
 .game-result {
   @include center-content;
   flex-direction: column;
-  height: 100vh;
 
   .game-result__card {
     @include card-common;

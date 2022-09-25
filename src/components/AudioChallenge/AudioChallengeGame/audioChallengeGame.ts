@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { GAMES } from '../../../types/enums';
 import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
 import { pickRandomItems, shuffleArray } from '../../../utils/utils';
@@ -57,6 +58,128 @@ class AudioChallengeGame implements IAudioChallengeGame {
     return answerWords;
   }
 
+  saveAudioAnswers(): void {
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const answersAudio = localStorage.getItem('answersAudio');
+
+    if (answersAudio) {
+      const answersAudioSaved = JSON.parse(answersAudio);
+      if (currentDate in answersAudioSaved) {
+        const answersAudioSavedToday = answersAudioSaved[currentDate];
+        const answersAudioRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+        const answersAudioWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioRight: IWords[] = [];
+        const answersAudioWrong: string[] = [];
+
+        // Check saved right answers
+        answersAudioSavedToday.answersAudioRight.forEach((word: IWords) => {
+          if (answersAudioRightWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push({
+              [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+            });
+          } else if (!answersAudioWrongWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push(word);
+          }
+        });
+
+        // Check saved wrong answers
+        answersAudioSavedToday.answersAudioWrong.forEach((word: string) => {
+          if (!answersAudioRightWords.includes(word)) {
+            answersAudioWrong.push(word);
+          }
+        });
+
+        // Add new right answers
+        answersAudioRightWords.forEach((currentAnswer) => {
+          if (answersAudioRight.every((word: IWords) => Object.keys(word)[0] !== currentAnswer)) {
+            answersAudioRight.push({ [currentAnswer]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersAudioWrong.push(...answersAudioWrongWords);
+
+        answersAudioSaved[currentDate] = {
+          answersAudioRight,
+          answersAudioWrong,
+        };
+      } else {
+        const answersAudioRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioRight: IWords[] = [];
+        const answersAudioWrong: string[] = [];
+
+        Object.keys(answersAudioSaved).forEach((date) => {
+          // Check saved right answers
+          answersAudioSaved[date].answersAudioRight.forEach((word: IWords) => {
+            if (answersAudioRightWords.includes(Object.keys(word)[0])) {
+              answersAudioRight.push({
+                [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+              });
+            } else if (!answersAudioWrongWords.includes(Object.keys(word)[0])) {
+              answersAudioRight.push(word);
+            }
+          });
+
+          // Check saved wrong answers
+          answersAudioSaved[date].answersAudioWrong.forEach((word: string) => {
+            if (!answersAudioRightWords.includes(word)) {
+              answersAudioWrong.push(word);
+            }
+          });
+        });
+
+        // Add new right answers
+        answersAudioRight.forEach((word: IWords) => {
+          if (!answersAudioRightWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push({ [Object.keys(word)[0]]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersAudioWrong.push(...answersAudioWrongWords);
+
+        answersAudioSaved[currentDate] = {
+          answersAudioRight,
+          answersAudioWrong,
+        };
+      }
+      localStorage.setItem('answersAudio', JSON.stringify(answersAudioSaved));
+    } else {
+      const answersAudioRight = this.result.rightAnswerWords.map((answer) => {
+        const answerSaved = { [Object.keys(answer)[0]]: 1 };
+        return answerSaved;
+      });
+      const answersAudioWrong = this.result.wrongAnswerWords.map((answer) => {
+        const answerSaved = Object.keys(answer)[0];
+        return answerSaved;
+      });
+
+      const answersAudioNew = {
+        [currentDate]: {
+          answersAudioRight,
+          answersAudioWrong,
+        },
+      };
+      localStorage.setItem('answersAudio', JSON.stringify(answersAudioNew));
+    }
+  }
+
   answerAudioGame(target: HTMLElement): void {
     if (!target.id.includes('audioGameAnswer')
       || target.classList.contains('button_disabled')) return;
@@ -78,6 +201,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
+      this.saveAudioAnswers();
       this.result.render();
     } else {
       this.showResult();

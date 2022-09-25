@@ -69,6 +69,128 @@ class SprintGame implements ISprintGame {
     this.currentWordIndex = environment.wordsIndexDefault;
   }
 
+  saveSprintAnswers(): void {
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const answersSprint = localStorage.getItem('answersSprint');
+
+    if (answersSprint) {
+      const answersSprintSaved = JSON.parse(answersSprint);
+      if (currentDate in answersSprintSaved) {
+        const answersSprintSavedToday = answersSprintSaved[currentDate];
+        const answersSprintRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+        const answersSprintWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersSprintRight: IWords[] = [];
+        const answersSprintWrong: string[] = [];
+
+        // Check saved right answers
+        answersSprintSavedToday.answersSprintRight.forEach((word: IWords) => {
+          if (answersSprintRightWords.includes(Object.keys(word)[0])) {
+            answersSprintRight.push({
+              [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+            });
+          } else if (!answersSprintWrongWords.includes(Object.keys(word)[0])) {
+            answersSprintRight.push(word);
+          }
+        });
+
+        // Check saved wrong answers
+        answersSprintSavedToday.answersSprintWrong.forEach((word: string) => {
+          if (!answersSprintRightWords.includes(word)) {
+            answersSprintWrong.push(word);
+          }
+        });
+
+        // Add new right answers
+        answersSprintRightWords.forEach((currentAnswer) => {
+          if (answersSprintRight.every((word: IWords) => Object.keys(word)[0] !== currentAnswer)) {
+            answersSprintRight.push({ [currentAnswer]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersSprintWrong.push(...answersSprintWrongWords);
+
+        answersSprintSaved[currentDate] = {
+          answersSprintRight,
+          answersSprintWrong,
+        };
+      } else {
+        const answersSprintRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersSprintWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersSprintRight: IWords[] = [];
+        const answersSprintWrong: string[] = [];
+
+        Object.keys(answersSprintSaved).forEach((date) => {
+          // Check saved right answers
+          answersSprintSaved[date].answersSprintRight.forEach((word: IWords) => {
+            if (answersSprintRightWords.includes(Object.keys(word)[0])) {
+              answersSprintRight.push({
+                [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+              });
+            } else if (!answersSprintWrongWords.includes(Object.keys(word)[0])) {
+              answersSprintRight.push(word);
+            }
+          });
+
+          // Check saved wrong answers
+          answersSprintSaved[date].answersSprintWrong.forEach((word: string) => {
+            if (!answersSprintRightWords.includes(word)) {
+              answersSprintWrong.push(word);
+            }
+          });
+        });
+
+        // Add new right answers
+        answersSprintRight.forEach((word: IWords) => {
+          if (!answersSprintRightWords.includes(Object.keys(word)[0])) {
+            answersSprintRight.push({ [Object.keys(word)[0]]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersSprintWrong.push(...answersSprintWrongWords);
+
+        answersSprintSaved[currentDate] = {
+          answersSprintRight,
+          answersSprintWrong,
+        };
+      }
+      localStorage.setItem('answersSprint', JSON.stringify(answersSprintSaved));
+    } else {
+      const answersSprintRight = this.result.rightAnswerWords.map((answer) => {
+        const answerSaved = { [Object.keys(answer)[0]]: 1 };
+        return answerSaved;
+      });
+      const answersSprintWrong = this.result.wrongAnswerWords.map((answer) => {
+        const answerSaved = Object.keys(answer)[0];
+        return answerSaved;
+      });
+
+      const answersSprintNew = {
+        [currentDate]: {
+          answersSprintRight,
+          answersSprintWrong,
+        },
+      };
+      localStorage.setItem('answersSprint', JSON.stringify(answersSprintNew));
+    }
+  }
+
   answerSprintGameMouse(target: HTMLElement) {
     if (!target.classList.contains('button__answer-sprint')) return;
     const wordOrigin = this.words[this.currentWordIndex].word;
@@ -116,6 +238,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
+        this.saveSprintAnswers();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -178,6 +301,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
+        this.saveSprintAnswers();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -205,6 +329,7 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
+        this.saveSprintAnswers();
         this.result.render();
         this.stop();
         return;
