@@ -6,6 +6,7 @@ const environment = {
   wordsNumber: 20,
   wordsPagesNumber: 30,
   wordsIndexDefault: 0,
+  wordsStatisticsDefault: 0,
   rowAnswersNumber: 4,
   rightAnswersDefault: 0,
   scoreIncrement: 10,

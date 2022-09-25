@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { GAMES } from '../../../types/enums';
 import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
 import { pickRandomItems, shuffleArray } from '../../../utils/utils';
@@ -162,7 +161,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
       localStorage.setItem('answersAudio', JSON.stringify(answersAudioSaved));
     } else {
       const answersAudioRight = this.result.rightAnswerWords.map((answer) => {
-        const answerSaved = { [Object.keys(answer)[0]]: 1 };
+        const answerSaved = { [Object.keys(answer)[0]]: '1' };
         return answerSaved;
       });
       const answersAudioWrong = this.result.wrongAnswerWords.map((answer) => {
