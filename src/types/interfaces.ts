@@ -144,6 +144,7 @@ export interface IDictionaryPage {
 }
 
 export interface IStatistics {
+  listen: (target: HTMLElement) => void;
   render: () => void;
 }
 

@@ -37,8 +37,9 @@ class PageContent implements IPageContent {
 
   listen(target: HTMLElement): void {
     this.linkHandler(target);
-    this.games.listen(target);
     this.dictionary.listen(target);
+    this.games.listen(target);
+    this.statistics.listen(target);
     this.auth.listen(target);
   }
 
@@ -67,19 +68,19 @@ class PageContent implements IPageContent {
 
   async render() {
     switch (this.view) {
-      case 'main':
+      case VIEW.MAIN:
         this.main.render();
         break;
-      case 'dictionary':
+      case VIEW.DICTIONARY:
         this.dictionary.render();
         break;
-      case 'games':
+      case VIEW.GAMES:
         this.games.render();
         break;
-      case 'statistics':
+      case VIEW.STATISTICS:
         this.statistics.render();
         break;
-      case 'signin':
+      case VIEW.SIGNIN:
         this.auth.render();
         break;
       default:

@@ -16,6 +16,11 @@ export enum PATH {
   SIGNIN = 'signin',
 }
 
+export enum DICTIONARY {
+  WORDS = 'words',
+  HARD = 'hard',
+}
+
 export enum GAMES {
   SPRINT = 'Sprint',
   AUDIO = 'Audio',
@@ -26,9 +31,9 @@ export enum RESULTS {
   WORDS = 'words',
 }
 
-export enum DICTIONARY {
-  WORDS = 'words',
-  HARD = 'hard',
+export enum STATISTICS {
+  TODAY = 'today',
+  ALL = 'all',
 }
 
 export enum LEVEL {
