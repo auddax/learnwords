@@ -22,9 +22,9 @@ class Statistics implements IStatistics {
 
   learnedWordsSprint: number;
 
-  audioAccuracy: number;
+  accuracyAudio: number;
 
-  sprintAccuracy: number;
+  accuracySprint: number;
 
   constructor() {
     this.view = STATISTICS.TODAY;
@@ -35,8 +35,8 @@ class Statistics implements IStatistics {
     this.newWordsSprint = environment.wordsStatisticsDefault;
     this.learnedWordsAudio = environment.wordsStatisticsDefault;
     this.learnedWordsSprint = environment.wordsStatisticsDefault;
-    this.audioAccuracy = environment.wordsStatisticsDefault;
-    this.sprintAccuracy = environment.wordsStatisticsDefault;
+    this.accuracyAudio = environment.wordsStatisticsDefault;
+    this.accuracySprint = environment.wordsStatisticsDefault;
   }
 
   listen(target: HTMLElement): void {
@@ -72,7 +72,7 @@ class Statistics implements IStatistics {
 
         this.newWordsAudio = environment.wordsStatisticsDefault;
         this.learnedWordsAudio = environment.wordsStatisticsDefault;
-        this.audioAccuracy = environment.wordsStatisticsDefault;
+        this.accuracyAudio = environment.wordsStatisticsDefault;
 
         if (answersAudioToday) {
           rightAnswersNumberAudio = answersAudioToday.answersAudioRight.length;
@@ -81,12 +81,12 @@ class Statistics implements IStatistics {
 
           const learnedWordsAudio = answersAudioToday.answersAudioRight.filter((word: IWords) => {
             const rightAnswers = Number(Object.values(word)[0]);
-            return rightAnswers > 3;
+            return rightAnswers >= environment.wordsStatisticsLearned;
           });
 
           this.learnedWordsAudio = learnedWordsAudio.length;
 
-          this.audioAccuracy = Math.round(
+          this.accuracyAudio = Math.round(
             (rightAnswersNumberAudio / this.newWordsAudio) * 100,
           );
         }
@@ -104,12 +104,12 @@ class Statistics implements IStatistics {
 
         const learnedWordsAudio = rightAnswersAudio.filter((word: IWords) => {
           const rightAnswers = Number(Object.values(word)[0]);
-          return rightAnswers > 3;
+          return rightAnswers >= environment.wordsStatisticsLearned;
         });
 
         this.learnedWordsAudio = learnedWordsAudio.length;
 
-        this.audioAccuracy = Math.round(
+        this.accuracyAudio = Math.round(
           (rightAnswersNumberAudio / this.newWordsAudio) * 100,
         );
       }
@@ -121,7 +121,7 @@ class Statistics implements IStatistics {
 
         this.newWordsSprint = environment.wordsStatisticsDefault;
         this.learnedWordsSprint = environment.wordsStatisticsDefault;
-        this.sprintAccuracy = environment.wordsStatisticsDefault;
+        this.accuracySprint = environment.wordsStatisticsDefault;
 
         if (answersSprintToday) {
           rightAnswersNumberSprint = answersSprintToday.answersSprintRight.length;
@@ -131,13 +131,13 @@ class Statistics implements IStatistics {
           const learnedWordsSprint = answersSprintToday.answersSprintRight.filter(
             (word: IWords) => {
               const rightAnswers = Number(Object.values(word)[0]);
-              return rightAnswers > 3;
+              return rightAnswers >= environment.wordsStatisticsLearned;
             },
           );
 
           this.learnedWordsSprint = learnedWordsSprint.length;
 
-          this.sprintAccuracy = Math.round(
+          this.accuracySprint = Math.round(
             (rightAnswersNumberSprint / this.newWordsSprint) * 100,
           );
         }
@@ -155,12 +155,12 @@ class Statistics implements IStatistics {
 
         const learnedWordsSprint = rightAnswersSprint.filter((word: IWords) => {
           const rightAnswers = Number(Object.values(word)[0]);
-          return rightAnswers > 3;
+          return rightAnswers >= environment.wordsStatisticsLearned;
         });
 
         this.learnedWordsSprint = learnedWordsSprint.length;
 
-        this.sprintAccuracy = Math.round(
+        this.accuracySprint = Math.round(
           (rightAnswersNumberSprint / this.newWordsSprint) * 100,
         );
       }
@@ -216,7 +216,7 @@ class Statistics implements IStatistics {
                 <h3 class="card__subheader">Ответы</h3>
                 <div class="card__circular-progress">
                   <div class="circular-progress" id="circularProgressAudio">
-                    <div class="value-container" id="valueContainerAudio">${this.audioAccuracy}%</div>
+                    <div class="value-container" id="valueContainerAudio">${this.accuracyAudio}%</div>
                   </div>
                 </div>
               </div>
@@ -229,7 +229,7 @@ class Statistics implements IStatistics {
                 <h3 class="card__subheader">Ответы</h3>
                 <div class="card__circular-progress">
                   <div class="circular-progress" id="circularProgressSprint">
-                    <div class="value-container" id="valueContainerSprint">${this.sprintAccuracy}%</div>
+                    <div class="value-container" id="valueContainerSprint">${this.accuracySprint}%</div>
                   </div>
                 </div>
               </div>
@@ -251,11 +251,11 @@ class Statistics implements IStatistics {
 
     const barAudio = document.getElementById('circularProgressAudio') as HTMLElement;
     const valueAudio = document.querySelector('valueContainerAudio') as HTMLElement;
-    if (this.audioAccuracy) progressBar(barAudio, valueAudio, this.audioAccuracy);
+    if (this.accuracyAudio) progressBar(barAudio, valueAudio, this.accuracyAudio);
 
     const barSprint = document.getElementById('circularProgressSprint') as HTMLElement;
     const valueSprint = document.querySelector('valueContainerSprint') as HTMLElement;
-    if (this.sprintAccuracy) progressBar(barSprint, valueSprint, this.sprintAccuracy);
+    if (this.accuracySprint) progressBar(barSprint, valueSprint, this.accuracySprint);
   }
 }
 

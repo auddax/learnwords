@@ -188,10 +188,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
     const currentWordAnswer = { [currentWord]: this.currentWord.wordTranslate };
 
     if (currentWord === selectedWord) {
-      this.result.rightAnswers += 1;
+      this.result.rightAnswers.push(this.currentWord.id);
       this.result.rightAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_right');
     } else {
+      this.result.wrongAnswers.push(this.currentWord.id);
       this.result.wrongAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_wrong');
       const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
@@ -201,6 +202,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
     if (this.currentWordIndex >= this.pickedWords.length) {
       this.saveAudioAnswers();
+      this.result.updateUserWords();
       this.result.render();
     } else {
       this.showResult();

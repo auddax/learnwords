@@ -173,7 +173,7 @@ class SprintGame implements ISprintGame {
       localStorage.setItem('answersSprint', JSON.stringify(answersSprintSaved));
     } else {
       const answersSprintRight = this.result.rightAnswerWords.map((answer) => {
-        const answerSaved = { [Object.keys(answer)[0]]: 1 };
+        const answerSaved = { [Object.keys(answer)[0]]: '1' };
         return answerSaved;
       });
       const answersSprintWrong = this.result.wrongAnswerWords.map((answer) => {
@@ -210,7 +210,7 @@ class SprintGame implements ISprintGame {
 
     if (wordOrigin === wordShuffled) {
       if (target.id === 'sprintGameTrue') {
-        this.result.rightAnswers += 1;
+        this.result.rightAnswers.push(this.words[this.currentWordIndex].id);
         this.rowAnswers += 1;
         this.result.rightAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
@@ -218,12 +218,13 @@ class SprintGame implements ISprintGame {
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
+        this.result.wrongAnswers.push(this.words[this.currentWordIndex].id);
         this.result.wrongAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (target.id === 'sprintGameFalse') {
-      this.result.rightAnswers += 1;
+      this.result.rightAnswers.push(this.words[this.currentWordIndex].id);
       this.rowAnswers += 1;
       this.result.rightAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
@@ -231,6 +232,7 @@ class SprintGame implements ISprintGame {
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
+      this.result.wrongAnswers.push(this.words[this.currentWordIndex].id);
       this.result.wrongAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
@@ -239,6 +241,7 @@ class SprintGame implements ISprintGame {
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
         this.saveSprintAnswers();
+        this.result.updateUserWords();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -273,7 +276,7 @@ class SprintGame implements ISprintGame {
 
     if (wordOrigin === wordShuffled) {
       if (eventCode === 'ArrowRight') {
-        this.result.rightAnswers += 1;
+        this.result.rightAnswers.push(this.words[this.currentWordIndex].id);
         this.rowAnswers += 1;
         this.result.rightAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
@@ -281,12 +284,13 @@ class SprintGame implements ISprintGame {
         mark.innerHTML = checkMark;
       } else {
         this.rowAnswers = environment.scoreDefault;
+        this.result.wrongAnswers.push(this.words[this.currentWordIndex].id);
         this.result.wrongAnswerWords.push(wordAnswer);
         this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
         mark.innerHTML = crossMark;
       }
     } else if (eventCode === 'ArrowLeft') {
-      this.result.rightAnswers += 1;
+      this.result.rightAnswers.push(this.words[this.currentWordIndex].id);
       this.rowAnswers += 1;
       this.result.rightAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
@@ -294,6 +298,7 @@ class SprintGame implements ISprintGame {
       mark.innerHTML = checkMark;
     } else {
       this.rowAnswers = environment.scoreDefault;
+      this.result.wrongAnswers.push(this.words[this.currentWordIndex].id);
       this.result.wrongAnswerWords.push(wordAnswer);
       this.scoreIncrementIndex = Math.floor(this.rowAnswers / environment.rowAnswersNumber) + 1;
       mark.innerHTML = crossMark;
@@ -302,6 +307,7 @@ class SprintGame implements ISprintGame {
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
         this.saveSprintAnswers();
+        this.result.updateUserWords();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -330,6 +336,7 @@ class SprintGame implements ISprintGame {
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
         this.saveSprintAnswers();
+        this.result.updateUserWords();
         this.result.render();
         this.stop();
         return;

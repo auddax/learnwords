@@ -21,6 +21,12 @@ export enum DICTIONARY {
   HARD = 'hard',
 }
 
+export enum DIFFICULTY {
+  LEARNED = 'learned',
+  NORMAL = 'normal',
+  HARD = 'hard',
+}
+
 export enum GAMES {
   SPRINT = 'Sprint',
   AUDIO = 'Audio',
@@ -29,6 +35,11 @@ export enum GAMES {
 export enum RESULTS {
   ACCURACY = 'accuracy',
   WORDS = 'words',
+}
+
+export enum UPDATE {
+  UPSCORE = 'upscore',
+  DOWNSCORE = 'downscore',
 }
 
 export enum STATISTICS {

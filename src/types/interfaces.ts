@@ -61,6 +61,16 @@ export interface IWords {
   [index: string]: string;
 }
 
+export interface IResponseWords {
+  difficulty: string;
+  id: string;
+  optional: {
+    audio: number;
+    sprint: number;
+  };
+  wordId: string;
+}
+
 export interface IForm {
   [index: string]: string | FormDataEntryValue;
 }
@@ -98,10 +108,12 @@ export interface IGameStart {
 export interface IGameResult {
   gameType: GAMES;
   view: RESULTS;
-  rightAnswers: number;
+  rightAnswers: string[];
+  wrongAnswers: string[];
   totalWordsNumber: number;
   rightAnswerWords: IWords[];
   wrongAnswerWords: IWords[];
+  updateUserWords: () => Promise<void>;
   changeView: (target: HTMLElement) => void;
   render: () => void;
 }

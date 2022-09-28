@@ -3,7 +3,7 @@
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { DICTIONARY, PATH } from '../../types/enums';
+import { DICTIONARY, DIFFICULTY, PATH } from '../../types/enums';
 import {
   IAudioChallenge,
   IDictionaryPage,
@@ -298,7 +298,11 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     myHeaders.append('Authorization', `Bearer ${userToken}`);
 
     const raw = JSON.stringify({
-      difficulty: 'learned',
+      difficulty: DIFFICULTY.LEARNED,
+      optional: {
+        audio: environment.wordsStatisticsLearned,
+        sprint: environment.wordsStatisticsLearned,
+      },
     });
 
     let requestOptions = {};
@@ -346,7 +350,11 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     myHeaders.append('Authorization', `Bearer ${userToken}`);
 
     const raw = JSON.stringify({
-      difficulty: 'hard',
+      difficulty: DIFFICULTY.HARD,
+      optional: {
+        audio: environment.wordsStatisticsDefault,
+        sprint: environment.wordsStatisticsDefault,
+      },
     });
 
     const requestOptions = {
@@ -431,7 +439,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const words = await response.json();
-    const wordsHard = words.filter((item: IWords) => item.difficulty === 'hard');
+    const wordsHard = words.filter((item: IWords) => item.difficulty === DIFFICULTY.HARD);
     return wordsHard;
   }
 
@@ -456,8 +464,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const words = await response.json();
-    const wordsHard = words.filter((item: IWords) => item.difficulty === 'learned');
-    return wordsHard;
+    const wordsLearned = words.filter((item: IWords) => item.difficulty === DIFFICULTY.LEARNED);
+    return wordsLearned;
   }
 
   async getWords(group: number, page: number) {
