@@ -1,4 +1,3 @@
-import environment from '../../environment/environment';
 import {
   GAMES,
   PATH,
@@ -6,7 +5,13 @@ import {
   DIFFICULTY,
   UPDATE,
 } from '../../types/enums';
-import { IGameResult, IResponseWords, IWords } from '../../types/interfaces';
+import {
+  IGameResult,
+  IOptional,
+  IResponseWords,
+  IWords,
+} from '../../types/interfaces';
+import environment from '../../environment/environment';
 import { progressBar } from '../../utils/utils';
 import Loader from '../Loader/loader';
 import './gameResult.scss';
@@ -100,6 +105,7 @@ class GameResult extends Loader implements IGameResult {
     update = UPDATE.UPSCORE,
   ): Promise<void> {
     const userToken = localStorage.getItem('userToken');
+    const currentDate = new Date().toJSON().slice(0, 10);
     const pathVars = {
       [PATH.USERS]: this.userId,
       [PATH.WORDS]: wordId,
@@ -110,16 +116,20 @@ class GameResult extends Loader implements IGameResult {
     myHeaders.append('Accept', 'application/json');
     myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    let optional = {
-      audio: gameType === GAMES.AUDIO ? 1 : environment.wordsStatisticsDefault,
-      sprint: gameType === GAMES.SPRINT ? 1 : environment.wordsStatisticsDefault,
+    const optional: IOptional = {
+      dateAdd: currentDate,
     };
 
-    if (update === UPDATE.DOWNSCORE) {
-      optional = {
-        audio: environment.wordsStatisticsDefault,
-        sprint: environment.wordsStatisticsDefault,
-      };
+    if (this.gameType === GAMES.AUDIO) {
+      if (update === UPDATE.DOWNSCORE) {
+        optional.audio = environment.wordsStatisticsDefault;
+      } else {
+        optional.audio = 1;
+      }
+    } else if (update === UPDATE.DOWNSCORE) {
+      optional.sprint = environment.wordsStatisticsDefault;
+    } else {
+      optional.sprint = 1;
     }
 
     const raw = JSON.stringify({
@@ -137,13 +147,10 @@ class GameResult extends Loader implements IGameResult {
     await super.getResponse(params, requestOptions);
   }
 
-  async updateUserWord(
-    wordId: string,
-    gameType: GAMES,
-    update = UPDATE.UPSCORE,
-  ): Promise<void> {
+  async updateUserWord(wordId: string, gameType: GAMES, update = UPDATE.UPSCORE): Promise<void> {
     const userToken = localStorage.getItem('userToken');
     const word = await this.getUserWord(wordId);
+    const currentDate = new Date().toJSON().slice(0, 10);
     const pathVars = {
       [PATH.USERS]: this.userId,
       [PATH.WORDS]: wordId,
@@ -154,24 +161,36 @@ class GameResult extends Loader implements IGameResult {
     myHeaders.append('Accept', 'application/json');
     myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    let optional = {
-      audio: gameType === GAMES.AUDIO ? word.optional.audio + 1 : word.optional.audio,
-      sprint: gameType === GAMES.SPRINT ? word.optional.sprint + 1 : word.optional.sprint,
+    const optional: IOptional = {
+      dateAdd: word.optional.dateAdd,
     };
 
-    if (update === UPDATE.DOWNSCORE) {
-      optional = {
-        audio: gameType === GAMES.AUDIO ? 0 : word.optional.audio,
-        sprint: gameType === GAMES.SPRINT ? 0 : word.optional.sprint,
-      };
+    if (this.gameType === GAMES.AUDIO) {
+      if (update === UPDATE.DOWNSCORE) {
+        optional.audio = environment.wordsStatisticsDefault;
+        if (word.optional.sprint) optional.sprint = word.optional.sprint;
+      } else if (word.optional.audio) {
+        optional.audio = word.optional.audio + 1;
+      } else {
+        optional.audio = 1;
+      }
+    } else if (update === UPDATE.DOWNSCORE) {
+      optional.sprint = environment.wordsStatisticsDefault;
+      if (word.optional.audio) optional.audio = word.optional.audio;
+    } else if (word.optional.sprint) {
+      optional.sprint = word.optional.sprint + 1;
+    } else {
+      optional.sprint = 1;
     }
 
     const difficulty = (
-      (optional.audio > environment.wordsStatisticsLearned
-        || optional.sprint >= environment.wordsStatisticsLearned
+      ((optional.audio && optional.audio >= environment.wordsStatisticsLearned)
+        || (optional.sprint && optional.sprint >= environment.wordsStatisticsLearned)
       ) && (optional.audio !== environment.wordsStatisticsDefault
       || optional.sprint !== environment.wordsStatisticsDefault)
     ) ? DIFFICULTY.LEARNED : DIFFICULTY.NORMAL;
+
+    if (difficulty === DIFFICULTY.LEARNED) optional.dateLearned = currentDate;
 
     const raw = JSON.stringify({
       difficulty,

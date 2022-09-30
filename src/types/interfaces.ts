@@ -64,11 +64,15 @@ export interface IWords {
 export interface IResponseWords {
   difficulty: string;
   id: string;
-  optional: {
-    audio: number;
-    sprint: number;
-  };
+  optional: IOptional;
   wordId: string;
+}
+
+export interface IOptional {
+  audio?: number;
+  sprint?: number;
+  dateAdd: string;
+  dateLearned?: string;
 }
 
 export interface IForm {

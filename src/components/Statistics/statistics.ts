@@ -1,12 +1,15 @@
 /* eslint-disable no-console */
 import environment from '../../environment/environment';
-import { STATISTICS } from '../../types/enums';
-import { IStatistics, IWords } from '../../types/interfaces';
+import { DIFFICULTY, PATH, STATISTICS } from '../../types/enums';
+import { IResponseWords, IStatistics, IWords } from '../../types/interfaces';
 import { progressBar } from '../../utils/utils';
+import Loader from '../Loader/loader';
 import './statistics.scss';
 
-class Statistics implements IStatistics {
+class Statistics extends Loader implements IStatistics {
   view: STATISTICS;
+
+  userId: string | null;
 
   newWords: number;
 
@@ -27,7 +30,9 @@ class Statistics implements IStatistics {
   accuracySprint: number;
 
   constructor() {
+    super();
     this.view = STATISTICS.TODAY;
+    this.userId = localStorage.getItem('userId');
     this.newWords = environment.wordsStatisticsDefault;
     this.learnedWords = environment.wordsStatisticsDefault;
     this.accuracy = environment.wordsStatisticsDefault;
@@ -52,6 +57,28 @@ class Statistics implements IStatistics {
       this.view = STATISTICS.ALL;
       this.render();
     }
+  }
+
+  async getUserWords(): Promise<IResponseWords[]> {
+    const userToken = localStorage.getItem('userToken');
+    const pathVars = {
+      [PATH.USERS]: this.userId,
+      [PATH.WORDS]: null,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    const params = { pathVars };
+    const response = await super.getResponse(params, requestOptions);
+    const words = await response.json();
+    return words;
   }
 
   getLocalAnswers(): void {
@@ -175,9 +202,135 @@ class Statistics implements IStatistics {
     }
   }
 
-  render() {
+  async getServerAnswers(): Promise<void> {
+    const userWords = await this.getUserWords();
+    const answersAudio = userWords.filter((word) => 'audio' in word.optional);
+    const answersSprint = userWords.filter((word) => 'sprint' in word.optional);
+    const currentDate = new Date().toJSON().slice(0, 10);
+    this.newWords = environment.wordsStatisticsDefault;
+    this.learnedWords = environment.wordsStatisticsDefault;
+    this.accuracy = environment.wordsStatisticsDefault;
+    let rightAnswersNumberAudio = 0;
+    let rightAnswersNumberSprint = 0;
+
+    if (answersAudio.length > 0) {
+      if (this.view === STATISTICS.TODAY) {
+        const answersAudioToday = answersAudio.filter((word) => {
+          const date = word.optional.dateAdd;
+          return date === currentDate;
+        });
+
+        this.newWordsAudio = environment.wordsStatisticsDefault;
+        this.learnedWordsAudio = environment.wordsStatisticsDefault;
+        this.accuracyAudio = environment.wordsStatisticsDefault;
+
+        if (answersAudioToday.length > 0) {
+          rightAnswersNumberAudio = answersAudioToday.filter((word) => {
+            const answers = word.optional.audio;
+            return Number(answers) > 0;
+          }).length;
+          this.newWordsAudio = answersAudioToday.length;
+
+          const learnedWordsAudio = answersAudioToday.filter((word) => {
+            const { difficulty } = word;
+            return difficulty === DIFFICULTY.LEARNED;
+          });
+
+          this.learnedWordsAudio = learnedWordsAudio.length;
+
+          this.accuracyAudio = Math.round(
+            (rightAnswersNumberAudio / this.newWordsAudio) * 100,
+          );
+        }
+      } else {
+        this.newWordsAudio = environment.wordsStatisticsDefault;
+        this.learnedWordsAudio = environment.wordsStatisticsDefault;
+        this.accuracyAudio = environment.wordsStatisticsDefault;
+
+        if (answersAudio.length > 0) {
+          rightAnswersNumberAudio = answersAudio.filter((word) => {
+            const answers = word.optional.audio;
+            return Number(answers) > 0;
+          }).length;
+          this.newWordsAudio = answersAudio.length;
+
+          const learnedWordsAudio = answersAudio.filter((word) => {
+            const { difficulty } = word;
+            return difficulty === DIFFICULTY.LEARNED;
+          });
+
+          this.learnedWordsAudio = learnedWordsAudio.length;
+
+          this.accuracyAudio = Math.round(
+            (rightAnswersNumberAudio / this.newWordsAudio) * 100,
+          );
+        }
+      }
+    }
+
+    if (answersSprint.length > 0) {
+      if (this.view === STATISTICS.TODAY) {
+        const answersSprintToday = answersSprint.filter((word) => {
+          const date = word.optional.dateAdd;
+          return date === currentDate;
+        });
+
+        this.newWordsSprint = environment.wordsStatisticsDefault;
+        this.learnedWordsSprint = environment.wordsStatisticsDefault;
+        this.accuracySprint = environment.wordsStatisticsDefault;
+
+        if (answersSprintToday.length > 0) {
+          rightAnswersNumberSprint = answersSprintToday.filter((word) => {
+            const answers = word.optional.sprint;
+            return Number(answers) > 0;
+          }).length;
+          this.newWordsSprint = answersSprintToday.length;
+
+          const learnedWordsSprint = answersSprintToday.filter((word) => {
+            const { difficulty } = word;
+            return difficulty === DIFFICULTY.LEARNED;
+          });
+
+          this.learnedWordsSprint = learnedWordsSprint.length;
+
+          this.accuracySprint = Math.round(
+            (rightAnswersNumberSprint / this.newWordsSprint) * 100,
+          );
+        }
+      } else {
+        this.newWordsSprint = environment.wordsStatisticsDefault;
+        this.learnedWordsSprint = environment.wordsStatisticsDefault;
+        this.accuracySprint = environment.wordsStatisticsDefault;
+
+        if (answersSprint.length > 0) {
+          rightAnswersNumberSprint = answersSprint.filter((word) => {
+            const answers = word.optional.sprint;
+            return Number(answers) > 0;
+          }).length;
+          this.newWordsSprint = answersSprint.length;
+
+          const learnedWordsSprint = answersSprint.filter((word) => {
+            const { difficulty } = word;
+            return difficulty === DIFFICULTY.LEARNED;
+          });
+
+          this.learnedWordsSprint = learnedWordsSprint.length;
+
+          this.accuracySprint = Math.round(
+            (rightAnswersNumberSprint / this.newWordsSprint) * 100,
+          );
+        }
+      }
+    }
+  }
+
+  async render() {
     localStorage.setItem('rsview', 'statistics');
-    this.getLocalAnswers();
+    if (this.userId) {
+      await this.getServerAnswers();
+    } else {
+      this.getLocalAnswers();
+    }
 
     const main = document.querySelector('.page-content') as HTMLElement;
     if (main) {

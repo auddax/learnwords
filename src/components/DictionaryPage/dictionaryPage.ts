@@ -286,6 +286,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
     const wordsHard = await this.getHardWords();
+    const currentDate = new Date().toJSON().slice(0, 10);
 
     const pathVars = {
       [PATH.USERS]: userId,
@@ -302,6 +303,8 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       optional: {
         audio: environment.wordsStatisticsLearned,
         sprint: environment.wordsStatisticsLearned,
+        dateAdd: currentDate,
+        dateLearned: currentDate,
       },
     });
 
@@ -338,6 +341,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     target.classList.add('word-hard_selected');
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
+    const currentDate = new Date().toJSON().slice(0, 10);
 
     const pathVars = {
       [PATH.USERS]: userId,
@@ -354,6 +358,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       optional: {
         audio: environment.wordsStatisticsDefault,
         sprint: environment.wordsStatisticsDefault,
+        dateAdd: currentDate,
       },
     });
 
