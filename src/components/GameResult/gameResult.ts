@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   GAMES,
   PATH,
@@ -76,24 +77,44 @@ class GameResult extends Loader implements IGameResult {
     const userWords = await this.getUserWords();
 
     if (userWords.length > 0) {
-      await userWords.forEach(async (word) => {
-        if (this.rightAnswers.includes(word.wordId)) {
-          await this.updateUserWord(word.wordId, this.gameType);
-        } else {
-          await this.setUserWord(word.wordId, this.gameType);
-        }
+      const savedRightWords: string[] = [];
+      const savedWrongWords: string[] = [];
 
-        if (this.wrongAnswers.includes(word.wordId)) {
-          await this.updateUserWord(word.wordId, this.gameType, UPDATE.DOWNSCORE);
-        } else {
-          await this.setUserWord(word.wordId, this.gameType);
+      userWords.forEach((word) => {
+        if (this.rightAnswers.includes(word.wordId)) {
+          savedRightWords.push(word.wordId);
         }
       });
-    } else {
-      await this.rightAnswers.forEach(async (wordId) => {
+
+      userWords.forEach((word) => {
+        if (this.wrongAnswers.includes(word.wordId)) {
+          savedWrongWords.push(word.wordId);
+        }
+      });
+
+      const newRightWords = this.rightAnswers.filter((word) => !savedRightWords.includes(word));
+      const newWrongWords = this.wrongAnswers.filter((word) => !savedWrongWords.includes(word));
+
+      savedRightWords.forEach(async (wordId) => {
+        await this.updateUserWord(wordId, this.gameType);
+      });
+
+      newRightWords.forEach(async (wordId) => {
         await this.setUserWord(wordId, this.gameType);
       });
-      await this.wrongAnswers.forEach(async (wordId) => {
+
+      savedWrongWords.forEach(async (wordId) => {
+        await this.updateUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
+      });
+
+      newWrongWords.forEach(async (wordId) => {
+        await this.setUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
+      });
+    } else {
+      this.rightAnswers.forEach(async (wordId) => {
+        await this.setUserWord(wordId, this.gameType);
+      });
+      this.wrongAnswers.forEach(async (wordId) => {
         await this.setUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
       });
     }
