@@ -14,13 +14,14 @@
     @include card-common;
     display: flex;
     align-items: center;
-    width: 820px;
-    height: 500px;
-    margin: 0 0 100px;
+    width: 55%;
+    min-width: 340px;
+    min-height: 400px;
+    margin: 0 0 85px;
     padding: 35px;
 
     .card__header {
-      width: 80%;
+      width: 90%;
       margin: 0 0 35px;
     
       .card__navbar {
@@ -30,14 +31,19 @@
 
         .button-navbar {
           @include button-simple;
-          font-size: 1.25rem;
+          font-size: 1.15rem;
+
+          &.button-navbar_selected {
+            text-decoration: underline;
+          }
         }
       }
     }
 
     .card__content {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      justify-content: space-around;
       width: 90%;
 
       .card__column {
@@ -89,7 +95,7 @@
           .value-container {
             font-family: $font-primary;
             font-weight: 600;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             position: relative;
           }
         }    

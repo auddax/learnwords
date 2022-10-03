@@ -37,8 +37,9 @@ class PageContent implements IPageContent {
 
   listen(target: HTMLElement): void {
     this.linkHandler(target);
-    this.games.listen(target);
     this.dictionary.listen(target);
+    this.games.listen(target);
+    this.statistics.listen(target);
     this.auth.listen(target);
   }
 
@@ -48,6 +49,7 @@ class PageContent implements IPageContent {
 
   listenStorage(key: string | null): void {
     this.dictionary.listenStorage(key);
+    this.statistics.listenStorage(key);
   }
 
   linkHandler(target: HTMLElement): void {
@@ -59,7 +61,7 @@ class PageContent implements IPageContent {
   router(path: string | undefined, popstate = false): void {
     if (!popstate) window.history.pushState({ path }, '', path);
     if (path) {
-      document.title = `RS Lang | ${path[0].toUpperCase() + path.slice(1)}`;
+      document.title = `LearnWords | ${path[0].toUpperCase() + path.slice(1)}`;
     }
     this.view = path as VIEW;
     this.render();
@@ -67,19 +69,19 @@ class PageContent implements IPageContent {
 
   async render() {
     switch (this.view) {
-      case 'main':
+      case VIEW.MAIN:
         this.main.render();
         break;
-      case 'dictionary':
+      case VIEW.DICTIONARY:
         this.dictionary.render();
         break;
-      case 'games':
+      case VIEW.GAMES:
         this.games.render();
         break;
-      case 'statistics':
+      case VIEW.STATISTICS:
         this.statistics.render();
         break;
-      case 'signin':
+      case VIEW.SIGNIN:
         this.auth.render();
         break;
       default:

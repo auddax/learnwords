@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 import {
   IAudioChallenge, IAudioChallengeGame, IGameStart, IWords,
 } from '../../types/interfaces';
@@ -33,7 +31,7 @@ class AudioChallenge extends Loader implements IAudioChallenge {
       'Игра Аудиовызов улучшит твое понимание ангийской устной речи',
       this.gameType,
     );
-    this.game = new AudioChallengeGame(this.gameType);
+    this.game = new AudioChallengeGame();
     this.words = [];
   }
 

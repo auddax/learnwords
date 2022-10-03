@@ -1,4 +1,6 @@
-import { GAMES, LEVEL, VIEW } from './enums';
+import {
+  GAMES, LEVEL, RESULTS, VIEW,
+} from './enums';
 
 export interface IApp {
   root: HTMLElement;
@@ -59,15 +61,26 @@ export interface IWords {
   [index: string]: string;
 }
 
+export interface IResponseWords {
+  difficulty: string;
+  id: string;
+  optional: IOptional;
+  wordId: string;
+}
+
+export interface IOptional {
+  audio?: number;
+  sprint?: number;
+  dateAdd: string;
+  dateLearned?: string;
+}
+
 export interface IForm {
   [index: string]: string | FormDataEntryValue;
 }
 
 export interface ISprintGame {
   currentWordIndex: number;
-  rightAnswers: number;
-  rightAnswerWords: string[];
-  wrongAnswerWords: string[];
   rowAnswers: number;
   score: number;
   words: IWords[];
@@ -97,12 +110,18 @@ export interface IGameStart {
 }
 
 export interface IGameResult {
-  render: (
-    rightAnswers: number,
-    rightAnswerWords: string[],
-    wrongAnswerWords: string[],
-    totalWordsNumber: number,
-  ) => void;
+  gameType: GAMES;
+  view: RESULTS;
+  rightAnswers: string[];
+  wrongAnswers: string[];
+  totalWordsNumber: number;
+  rightAnswerWords: IWords[];
+  wrongAnswerWords: IWords[];
+  saveAnswers: () => void;
+  saveAnswersLocal: () => void;
+  saveAnswersServer: () => Promise<void>;
+  changeView: (target: HTMLElement) => void;
+  render: () => void;
 }
 
 export interface IAudioChallenge {
@@ -116,9 +135,6 @@ export interface IAudioChallenge {
 
 export interface IAudioChallengeGame {
   currentWordIndex: number;
-  rightAnswers: number;
-  rightAnswerWords: string[];
-  wrongAnswerWords: string[];
   words: IWords[];
   pickedWords: IWords[];
   classPrefix: string;
@@ -146,6 +162,8 @@ export interface IDictionaryPage {
 }
 
 export interface IStatistics {
+  listen: (target: HTMLElement) => void;
+  listenStorage: (key: string | null) => void;
   render: () => void;
 }
 
