@@ -48,6 +48,14 @@ class Statistics extends Loader implements IStatistics {
     this.changeView(target);
   }
 
+  listenStorage(key: string | null) {
+    const view = localStorage.getItem('rsview');
+    if (key === 'userName') {
+      this.userId = localStorage.getItem('userId');
+      if (view === 'statistics') this.render();
+    }
+  }
+
   changeView(target: HTMLElement): void {
     if (target.id === 'statisticsToday') {
       this.view = STATISTICS.TODAY;
@@ -88,6 +96,13 @@ class Statistics extends Loader implements IStatistics {
     this.newWords = environment.wordsStatisticsDefault;
     this.learnedWords = environment.wordsStatisticsDefault;
     this.accuracy = environment.wordsStatisticsDefault;
+    this.newWordsAudio = environment.wordsStatisticsDefault;
+    this.newWordsSprint = environment.wordsStatisticsDefault;
+    this.learnedWordsAudio = environment.wordsStatisticsDefault;
+    this.learnedWordsSprint = environment.wordsStatisticsDefault;
+    this.accuracyAudio = environment.wordsStatisticsDefault;
+    this.accuracySprint = environment.wordsStatisticsDefault;
+
     let rightAnswersNumberAudio = 0;
     let rightAnswersNumberSprint = 0;
     let wrongAnswersNumberAudio = 0;
@@ -102,11 +117,11 @@ class Statistics extends Loader implements IStatistics {
         this.accuracyAudio = environment.wordsStatisticsDefault;
 
         if (answersAudioToday) {
-          rightAnswersNumberAudio = answersAudioToday.answersAudioRight.length;
-          wrongAnswersNumberAudio = answersAudioToday.answersAudioWrong.length;
+          rightAnswersNumberAudio = answersAudioToday.answersRight.length;
+          wrongAnswersNumberAudio = answersAudioToday.answersWrong.length;
           this.newWordsAudio = rightAnswersNumberAudio + wrongAnswersNumberAudio;
 
-          const learnedWordsAudio = answersAudioToday.answersAudioRight.filter((word: IWords) => {
+          const learnedWordsAudio = answersAudioToday.answersRight.filter((word: IWords) => {
             const rightAnswers = Number(Object.values(word)[0]);
             return rightAnswers >= environment.wordsStatisticsLearned;
           });
@@ -122,8 +137,8 @@ class Statistics extends Loader implements IStatistics {
         const rightAnswersAudio: IWords[] = [];
         const wrongAnswersAudio: string[] = [];
         Object.keys(answersAudioAll).forEach((date) => {
-          rightAnswersAudio.push(...answersAudioAll[date].answersAudioRight);
-          wrongAnswersAudio.push(...answersAudioAll[date].answersAudioWrong);
+          rightAnswersAudio.push(...answersAudioAll[date].answersRight);
+          wrongAnswersAudio.push(...answersAudioAll[date].answersWrong);
         });
         rightAnswersNumberAudio = rightAnswersAudio.length;
         wrongAnswersNumberAudio = wrongAnswersAudio.length;
@@ -151,11 +166,11 @@ class Statistics extends Loader implements IStatistics {
         this.accuracySprint = environment.wordsStatisticsDefault;
 
         if (answersSprintToday) {
-          rightAnswersNumberSprint = answersSprintToday.answersSprintRight.length;
-          wrongAnswersNumberSprint = answersSprintToday.answersSprintWrong.length;
+          rightAnswersNumberSprint = answersSprintToday.answersRight.length;
+          wrongAnswersNumberSprint = answersSprintToday.answersWrong.length;
           this.newWordsSprint = rightAnswersNumberSprint + wrongAnswersNumberSprint;
 
-          const learnedWordsSprint = answersSprintToday.answersSprintRight.filter(
+          const learnedWordsSprint = answersSprintToday.answersRight.filter(
             (word: IWords) => {
               const rightAnswers = Number(Object.values(word)[0]);
               return rightAnswers >= environment.wordsStatisticsLearned;
@@ -173,8 +188,8 @@ class Statistics extends Loader implements IStatistics {
         const rightAnswersSprint: IWords[] = [];
         const wrongAnswersSprint: string[] = [];
         Object.keys(answersSprintAll).forEach((date) => {
-          rightAnswersSprint.push(...answersSprintAll[date].answersSprintRight);
-          wrongAnswersSprint.push(...answersSprintAll[date].answersSprintWrong);
+          rightAnswersSprint.push(...answersSprintAll[date].answersRight);
+          wrongAnswersSprint.push(...answersSprintAll[date].answersWrong);
         });
         rightAnswersNumberSprint = rightAnswersSprint.length;
         wrongAnswersNumberSprint = wrongAnswersSprint.length;
@@ -326,6 +341,7 @@ class Statistics extends Loader implements IStatistics {
 
   async render() {
     localStorage.setItem('rsview', 'statistics');
+
     if (this.userId) {
       await this.getServerAnswers();
     } else {

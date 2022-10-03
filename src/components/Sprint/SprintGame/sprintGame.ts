@@ -240,8 +240,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.saveSprintAnswers();
-        this.result.updateUserWords();
+        this.result.saveAnswers();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -306,8 +305,7 @@ class SprintGame implements ISprintGame {
 
     if (this.currentWordIndex + 1 >= environment.wordsNumber) {
       setTimeout(() => {
-        this.saveSprintAnswers();
-        this.result.updateUserWords();
+        this.result.saveAnswers();
         this.result.render();
       }, environment.timeoutSprintRender);
       this.stop();
@@ -335,8 +333,7 @@ class SprintGame implements ISprintGame {
       timePassed = Date.now() - startTime;
       this.time = Math.floor(timePassed / 1000);
       if (this.time > environment.timerSprintMax) {
-        this.saveSprintAnswers();
-        this.result.updateUserWords();
+        this.result.saveAnswers();
         this.result.render();
         this.stop();
         return;

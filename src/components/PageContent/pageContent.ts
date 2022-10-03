@@ -49,6 +49,7 @@ class PageContent implements IPageContent {
 
   listenStorage(key: string | null): void {
     this.dictionary.listenStorage(key);
+    this.statistics.listenStorage(key);
   }
 
   linkHandler(target: HTMLElement): void {

@@ -117,7 +117,9 @@ export interface IGameResult {
   totalWordsNumber: number;
   rightAnswerWords: IWords[];
   wrongAnswerWords: IWords[];
-  updateUserWords: () => Promise<void>;
+  saveAnswers: () => void;
+  saveAnswersLocal: () => void;
+  saveAnswersServer: () => Promise<void>;
   changeView: (target: HTMLElement) => void;
   render: () => void;
 }
@@ -161,6 +163,7 @@ export interface IDictionaryPage {
 
 export interface IStatistics {
   listen: (target: HTMLElement) => void;
+  listenStorage: (key: string | null) => void;
   render: () => void;
 }
 

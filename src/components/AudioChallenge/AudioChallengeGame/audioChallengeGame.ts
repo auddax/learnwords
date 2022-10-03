@@ -201,8 +201,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
-      this.saveAudioAnswers();
-      this.result.updateUserWords();
+      this.result.saveAnswers();
       this.result.render();
     } else {
       this.showResult();

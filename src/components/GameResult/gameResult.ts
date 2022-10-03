@@ -51,29 +51,137 @@ class GameResult extends Loader implements IGameResult {
     this.wrongAnswerWords = [];
   }
 
-  async getUserWords(): Promise<IResponseWords[]> {
-    const userToken = localStorage.getItem('userToken');
-    const pathVars = {
-      [PATH.USERS]: this.userId,
-      [PATH.WORDS]: null,
-    };
-
-    const myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${userToken}`);
-
-    const requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-    };
-
-    const params = { pathVars };
-    const response = await super.getResponse(params, requestOptions);
-    const words = await response.json();
-    return words;
+  saveAnswers(): void {
+    if (this.userId) {
+      this.saveAnswersServer();
+    } else {
+      this.saveAnswersLocal();
+    }
   }
 
-  async updateUserWords(): Promise<void> {
+  saveAnswersLocal(): void {
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const answers = localStorage.getItem(`answers${this.gameType}`);
+
+    if (answers) {
+      const answersSaved = JSON.parse(answers);
+      if (currentDate in answersSaved) {
+        const answersSavedToday = answersSaved[currentDate];
+        const answersRightWords = this.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+        const answersWrongWords = this.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersRight: IWords[] = [];
+        const answersWrong: string[] = [];
+
+        // Check saved right answers
+        answersSavedToday.answersAudioRight.forEach((word: IWords) => {
+          if (answersRightWords.includes(Object.keys(word)[0])) {
+            answersRight.push({
+              [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+            });
+          } else if (!answersWrongWords.includes(Object.keys(word)[0])) {
+            answersRight.push(word);
+          }
+        });
+
+        // Check saved wrong answers
+        answersSavedToday.answersAudioWrong.forEach((word: string) => {
+          if (!answersRightWords.includes(word)) {
+            answersWrong.push(word);
+          }
+        });
+
+        // Add new right answers
+        answersRightWords.forEach((currentAnswer) => {
+          if (answersRight.every((word: IWords) => Object.keys(word)[0] !== currentAnswer)) {
+            answersRight.push({ [currentAnswer]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersWrong.push(...answersWrongWords);
+
+        answersSaved[currentDate] = {
+          answersRight,
+          answersWrong,
+        };
+      } else {
+        const answersRightWords = this.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersWrongWords = this.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersRight: IWords[] = [];
+        const answersWrong: string[] = [];
+
+        Object.keys(answersSaved).forEach((date) => {
+          // Check saved right answers
+          answersSaved[date].answersAudioRight.forEach((word: IWords) => {
+            if (answersRightWords.includes(Object.keys(word)[0])) {
+              answersRight.push({
+                [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+              });
+            } else if (!answersWrongWords.includes(Object.keys(word)[0])) {
+              answersRight.push(word);
+            }
+          });
+
+          // Check saved wrong answers
+          answersSaved[date].answersAudioWrong.forEach((word: string) => {
+            if (!answersRightWords.includes(word)) {
+              answersWrong.push(word);
+            }
+          });
+        });
+
+        // Add new right answers
+        answersRight.forEach((word: IWords) => {
+          if (!answersRightWords.includes(Object.keys(word)[0])) {
+            answersRight.push({ [Object.keys(word)[0]]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersWrong.push(...answersWrongWords);
+
+        answersSaved[currentDate] = {
+          answersRight,
+          answersWrong,
+        };
+      }
+      localStorage.setItem(`answers${this.gameType}`, JSON.stringify(answersSaved));
+    } else {
+      const answersRight = this.rightAnswerWords.map((answer) => {
+        const answerSaved = { [Object.keys(answer)[0]]: '1' };
+        return answerSaved;
+      });
+      const answersWrong = this.wrongAnswerWords.map((answer) => {
+        const answerSaved = Object.keys(answer)[0];
+        return answerSaved;
+      });
+
+      const answersAudioNew = {
+        [currentDate]: {
+          answersRight,
+          answersWrong,
+        },
+      };
+      localStorage.setItem(`answers${this.gameType}`, JSON.stringify(answersAudioNew));
+    }
+  }
+
+  async saveAnswersServer(): Promise<void> {
     const userWords = await this.getUserWords();
 
     if (userWords.length > 0) {
@@ -96,35 +204,53 @@ class GameResult extends Loader implements IGameResult {
       const newWrongWords = this.wrongAnswers.filter((word) => !savedWrongWords.includes(word));
 
       savedRightWords.forEach(async (wordId) => {
-        await this.updateUserWord(wordId, this.gameType);
+        await this.updateUserWord(wordId);
       });
 
       newRightWords.forEach(async (wordId) => {
-        await this.setUserWord(wordId, this.gameType);
+        await this.setUserWord(wordId);
       });
 
       savedWrongWords.forEach(async (wordId) => {
-        await this.updateUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
+        await this.updateUserWord(wordId, UPDATE.DOWNSCORE);
       });
 
       newWrongWords.forEach(async (wordId) => {
-        await this.setUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
+        await this.setUserWord(wordId, UPDATE.DOWNSCORE);
       });
     } else {
       this.rightAnswers.forEach(async (wordId) => {
-        await this.setUserWord(wordId, this.gameType);
+        await this.setUserWord(wordId);
       });
       this.wrongAnswers.forEach(async (wordId) => {
-        await this.setUserWord(wordId, this.gameType, UPDATE.DOWNSCORE);
+        await this.setUserWord(wordId, UPDATE.DOWNSCORE);
       });
     }
   }
 
-  async setUserWord(
-    wordId: string,
-    gameType: GAMES,
-    update = UPDATE.UPSCORE,
-  ): Promise<void> {
+  async getUserWords(): Promise<IResponseWords[]> {
+    const userToken = localStorage.getItem('userToken');
+    const pathVars = {
+      [PATH.USERS]: this.userId,
+      [PATH.WORDS]: null,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    const params = { pathVars };
+    const response = await super.getResponse(params, requestOptions);
+    const words = await response.json();
+    return words;
+  }
+
+  async setUserWord(wordId: string, update = UPDATE.UPSCORE): Promise<void> {
     const userToken = localStorage.getItem('userToken');
     const currentDate = new Date().toJSON().slice(0, 10);
     const pathVars = {
@@ -168,7 +294,7 @@ class GameResult extends Loader implements IGameResult {
     await super.getResponse(params, requestOptions);
   }
 
-  async updateUserWord(wordId: string, gameType: GAMES, update = UPDATE.UPSCORE): Promise<void> {
+  async updateUserWord(wordId: string, update = UPDATE.UPSCORE): Promise<void> {
     const userToken = localStorage.getItem('userToken');
     const word = await this.getUserWord(wordId);
     const currentDate = new Date().toJSON().slice(0, 10);

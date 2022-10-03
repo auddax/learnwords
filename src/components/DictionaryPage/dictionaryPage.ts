@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable prefer-const */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -44,10 +43,10 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   listenStorage(key: string | null) {
-    const path = window.location.pathname.slice(1);
-    if (key === 'userName' && path === 'dictionary') {
+    const view = localStorage.getItem('rsview');
+    if (key === 'userName') {
       this.userName = localStorage.getItem('userName');
-      this.render();
+      if (view === 'dictionary') this.render();
       this.view = DICTIONARY.WORDS;
     }
   }
@@ -156,7 +155,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         }
       }
 
-      wordsBlock!.append(renderedWordBlock);
+      if (wordsBlock) wordsBlock.append(renderedWordBlock);
       if (i === FIRSTPAGE) {
         this.setWordInfo(wordsOnpage[i].id);
       }
@@ -211,47 +210,49 @@ class DictionaryPage extends Loader implements IDictionaryPage {
       ${wordLearned}
     `;
 
-    wordInfoBlock!.innerHTML = `
-      <div class="word-img">
-        <img src="${this.base}/${wordParams.image}" alt="">
-      </div>
-      <div class="word-info-content">
-        <div class="word-english">
-          <p>${wordParams.word}</p>
+    if (wordInfoBlock) {
+      wordInfoBlock.innerHTML = `
+        <div class="word-img">
+          <img src="${this.base}/${wordParams.image}" alt="">
         </div>
-        <div class="word-translate">
-          <p>${wordParams.wordTranslate}</p>
-        </div>
-        <div class="word-transcript">
-          <p>${wordParams.transcription}</p>
-          <div id="${wordId}" class="volume-button volume-img">
-            <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
-            </svg>
-            <audio id="audioWordSound">
-              <source src="${environment.baseUrl}/${wordParams.audio}" type="audio/mpeg">
-            </audio>
+        <div class="word-info-content">
+          <div class="word-english">
+            <p>${wordParams.word}</p>
           </div>
-          ${this.userName ? wordHardButtonsBlock : ''}
+          <div class="word-translate">
+            <p>${wordParams.wordTranslate}</p>
+          </div>
+          <div class="word-transcript">
+            <p>${wordParams.transcription}</p>
+            <div id="${wordId}" class="volume-button volume-img">
+              <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+              </svg>
+              <audio id="audioWordSound">
+                <source src="${environment.baseUrl}/${wordParams.audio}" type="audio/mpeg">
+              </audio>
+            </div>
+            ${this.userName ? wordHardButtonsBlock : ''}
+          </div>
+          <div class="word-mean">
+            <h3 class="word-mean-title">Meaning</h3>
+            <p class="word-mean-english">${wordParams.textMeaning}</p>
+            <p class="word-mean-translate">
+              ${wordParams.textMeaningTranslate}
+            </p>
+          </div>
+          <div class="word-examples">
+            <h3 class="word-example-title">Examples</h3>
+            <p class="word-example-english">
+              ${wordParams.textExample}
+            </p>
+            <p class="word-example-translate">
+              ${wordParams.textExampleTranslate}
+            </p>
+          </div>
         </div>
-        <div class="word-mean">
-          <h3 class="word-mean-title">Meaning</h3>
-          <p class="word-mean-english">${wordParams.textMeaning}</p>
-          <p class="word-mean-translate">
-            ${wordParams.textMeaningTranslate}
-          </p>
-        </div>
-        <div class="word-examples">
-          <h3 class="word-example-title">Examples</h3>
-          <p class="word-example-english">
-            ${wordParams.textExample}
-          </p>
-          <p class="word-example-translate">
-            ${wordParams.textExampleTranslate}
-          </p>
-        </div>
-      </div>
-    `;
+      `;
+    }
     const prevChoosenWord = document.querySelector('.choosen-word');
     prevChoosenWord?.classList.remove('choosen-word');
     const wordBlock = document.getElementById(wordId);
