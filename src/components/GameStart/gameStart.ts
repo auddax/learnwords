@@ -24,12 +24,12 @@ class GameStart implements IGameStart {
 
     if (main) {
       main.innerHTML = `
-        <section class="game-start">
+        <section class="game-start container">
           <figure class="game-start__img">
             <img src="${img}">
           </figure>
           <header class="game-start__header">
-            <h1>${this.header}</h1>
+            <h2>${this.header}</h2>
           </header>
           <p class="game-start__description">${this.description}</p>
           <form class="game-start__form">

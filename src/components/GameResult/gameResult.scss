@@ -1,28 +1,32 @@
 .game-result {
   @include center-content;
   flex-direction: column;
-  height: calc(100vh - 150px);
 
   .game-result__card {
     @include card-common;
     display: flex;
     align-items: center;
-    width: 800px;
-    height: 400px;
+    width: 55%;
+    min-width: 340px;
+    min-height: 400px;
     margin: 0 0 85px;
+    padding: 35px;
 
     .card__header {
-      width: 80%;
-      margin: 35px 0 0;
+      width: 100%;
     
       .card__navbar {
         display: flex;
         width: 100%;
-        justify-content: space-between;
+        justify-content: space-around;
 
         .button-navbar {
           @include button-simple;
-          font-size: 1.25rem;
+          font-size: 1.15rem;
+
+          &.button-navbar_selected {
+            text-decoration: underline;
+          }
         }
       }
     }
@@ -34,6 +38,29 @@
       text-transform: uppercase;
       line-height: 24px;
       margin: 15px 0 0;
+      width: 100%;
+
+      .content__results {
+        h2 {
+          text-align: center;
+        }
+      }
+
+      .content__answers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+  
+        .answers__header {
+          text-align: center;
+          font-weight: 600;
+          margin: 15px 0;
+        }
+  
+        .answers__words {
+          text-transform: capitalize;
+        }
+      }
     }
 
     .card__circular-progress {
@@ -72,14 +99,19 @@
   .game-result__form {
     @include center-content;
     flex-wrap: wrap;
+    width: 40%;
+    min-width: 340px;
+    justify-content: space-evenly;
 
     .button {
       @include button-primary;
       width: 210px;
+      max-width: 0 0 20px;
+      margin: 0 20px 20px;
+    }
 
-      &:first-child {
-        margin-right: 50px;
-      }
+    @media screen and (max-width: $screen-large) {
+      justify-content: center;
     }
   }
 }

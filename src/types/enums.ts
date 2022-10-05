@@ -1,9 +1,10 @@
-export enum View {
+export enum VIEW {
   MAIN = 'main',
   DICTIONARY = 'dictionary',
   GAMES = 'games',
   STATISTICS = 'statistics',
   SIGNIN = 'signin',
+  SIGNOUT = 'signout',
 }
 
 export enum PATH {
@@ -15,14 +16,35 @@ export enum PATH {
   SIGNIN = 'signin',
 }
 
+export enum DICTIONARY {
+  WORDS = 'words',
+  HARD = 'hard',
+}
+
+export enum DIFFICULTY {
+  LEARNED = 'learned',
+  NORMAL = 'normal',
+  HARD = 'hard',
+}
+
 export enum GAMES {
   SPRINT = 'Sprint',
   AUDIO = 'Audio',
 }
 
-export enum DICTIONARY {
+export enum RESULTS {
+  ACCURACY = 'accuracy',
   WORDS = 'words',
-  HARD = 'hard',
+}
+
+export enum UPDATE {
+  UPSCORE = 'upscore',
+  DOWNSCORE = 'downscore',
+}
+
+export enum STATISTICS {
+  TODAY = 'today',
+  ALL = 'all',
 }
 
 export enum LEVEL {

@@ -1,8 +1,8 @@
-import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { IAudioChallengeGame, IGameResult, IWords } from '../../../types/interfaces';
 import { pickRandomItems, shuffleArray } from '../../../utils/utils';
 import GameResult from '../../GameResult/gameResult';
+import environment from '../../../environment/environment';
 import './audioChallengeGame.scss';
 
 class AudioChallengeGame implements IAudioChallengeGame {
@@ -10,11 +10,7 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   currentWord: IWords;
 
-  rightAnswers: number;
-
-  rightAnswerWords: string[];
-
-  wrongAnswerWords: string[];
+  wrongAnswerWords: IWords[];
 
   gameType: GAMES;
 
@@ -26,13 +22,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
 
   classPrefix: string;
 
-  constructor(gameType: GAMES) {
+  constructor() {
     this.currentWordIndex = environment.wordsIndexDefault;
     this.currentWord = {};
-    this.rightAnswers = environment.scoreDefault;
-    this.rightAnswerWords = [];
     this.wrongAnswerWords = [];
-    this.gameType = gameType;
+    this.gameType = GAMES.AUDIO;
     this.words = [];
     this.pickedWords = [];
     this.result = new GameResult(this.gameType);
@@ -43,10 +37,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.answerAudioGame(target);
     this.turnAudioOn(target);
     this.nextCard(target);
+    this.result.changeView(target);
   }
 
   start(words: IWords[]) {
-    this.rightAnswers = environment.scoreDefault;
+    this.result = new GameResult(this.gameType);
     this.currentWordIndex = environment.wordsIndexDefault;
     this.words = words;
     this.pickedWords = pickRandomItems(this.words, environment.audioWordsNumber);
@@ -62,20 +57,143 @@ class AudioChallengeGame implements IAudioChallengeGame {
     return answerWords;
   }
 
+  saveAudioAnswers(): void {
+    const currentDate = new Date().toJSON().slice(0, 10);
+    const answersAudio = localStorage.getItem('answersAudio');
+
+    if (answersAudio) {
+      const answersAudioSaved = JSON.parse(answersAudio);
+      if (currentDate in answersAudioSaved) {
+        const answersAudioSavedToday = answersAudioSaved[currentDate];
+        const answersAudioRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+        const answersAudioWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioRight: IWords[] = [];
+        const answersAudioWrong: string[] = [];
+
+        // Check saved right answers
+        answersAudioSavedToday.answersAudioRight.forEach((word: IWords) => {
+          if (answersAudioRightWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push({
+              [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+            });
+          } else if (!answersAudioWrongWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push(word);
+          }
+        });
+
+        // Check saved wrong answers
+        answersAudioSavedToday.answersAudioWrong.forEach((word: string) => {
+          if (!answersAudioRightWords.includes(word)) {
+            answersAudioWrong.push(word);
+          }
+        });
+
+        // Add new right answers
+        answersAudioRightWords.forEach((currentAnswer) => {
+          if (answersAudioRight.every((word: IWords) => Object.keys(word)[0] !== currentAnswer)) {
+            answersAudioRight.push({ [currentAnswer]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersAudioWrong.push(...answersAudioWrongWords);
+
+        answersAudioSaved[currentDate] = {
+          answersAudioRight,
+          answersAudioWrong,
+        };
+      } else {
+        const answersAudioRightWords = this.result.rightAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioWrongWords = this.result.wrongAnswerWords.map((answer) => {
+          const answerSaved = Object.keys(answer)[0];
+          return answerSaved;
+        });
+
+        const answersAudioRight: IWords[] = [];
+        const answersAudioWrong: string[] = [];
+
+        Object.keys(answersAudioSaved).forEach((date) => {
+          // Check saved right answers
+          answersAudioSaved[date].answersAudioRight.forEach((word: IWords) => {
+            if (answersAudioRightWords.includes(Object.keys(word)[0])) {
+              answersAudioRight.push({
+                [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
+              });
+            } else if (!answersAudioWrongWords.includes(Object.keys(word)[0])) {
+              answersAudioRight.push(word);
+            }
+          });
+
+          // Check saved wrong answers
+          answersAudioSaved[date].answersAudioWrong.forEach((word: string) => {
+            if (!answersAudioRightWords.includes(word)) {
+              answersAudioWrong.push(word);
+            }
+          });
+        });
+
+        // Add new right answers
+        answersAudioRight.forEach((word: IWords) => {
+          if (!answersAudioRightWords.includes(Object.keys(word)[0])) {
+            answersAudioRight.push({ [Object.keys(word)[0]]: '1' });
+          }
+        });
+
+        // Add new wrong answers
+        answersAudioWrong.push(...answersAudioWrongWords);
+
+        answersAudioSaved[currentDate] = {
+          answersAudioRight,
+          answersAudioWrong,
+        };
+      }
+      localStorage.setItem('answersAudio', JSON.stringify(answersAudioSaved));
+    } else {
+      const answersAudioRight = this.result.rightAnswerWords.map((answer) => {
+        const answerSaved = { [Object.keys(answer)[0]]: '1' };
+        return answerSaved;
+      });
+      const answersAudioWrong = this.result.wrongAnswerWords.map((answer) => {
+        const answerSaved = Object.keys(answer)[0];
+        return answerSaved;
+      });
+
+      const answersAudioNew = {
+        [currentDate]: {
+          answersAudioRight,
+          answersAudioWrong,
+        },
+      };
+      localStorage.setItem('answersAudio', JSON.stringify(answersAudioNew));
+    }
+  }
+
   answerAudioGame(target: HTMLElement): void {
     if (!target.id.includes('audioGameAnswer')
       || target.classList.contains('button_disabled')) return;
 
     const currentWord = this.currentWord.word;
     const selectedWord = target.id.split('-')[1];
-    const currentWordId = this.currentWord.id;
+    const currentWordAnswer = { [currentWord]: this.currentWord.wordTranslate };
 
     if (currentWord === selectedWord) {
-      this.rightAnswers += 1;
-      this.rightAnswerWords.push(currentWordId);
+      this.result.rightAnswers.push(this.currentWord.id);
+      this.result.rightAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_right');
     } else {
-      this.wrongAnswerWords.push(currentWordId);
+      this.result.wrongAnswers.push(this.currentWord.id);
+      this.result.wrongAnswerWords.push(currentWordAnswer);
       target.classList.add('button__audio-game-answer_wrong');
       const currentWordElement = document.querySelector(`#audioGameAnswer-${currentWord}`);
       if (currentWordElement) currentWordElement.classList.add('button__audio-game-answer_right');
@@ -83,12 +201,8 @@ class AudioChallengeGame implements IAudioChallengeGame {
     this.currentWordIndex += 1;
 
     if (this.currentWordIndex >= this.pickedWords.length) {
-      this.result.render(
-        this.rightAnswers,
-        this.rightAnswerWords,
-        this.wrongAnswerWords,
-        environment.audioWordsNumber,
-      );
+      this.result.saveAnswers();
+      this.result.render();
     } else {
       this.showResult();
     }
@@ -118,9 +232,11 @@ class AudioChallengeGame implements IAudioChallengeGame {
           <figcaption class="center-content ${this.classPrefix}-game__description">
             <div class="description__translation">
               <h3>${this.currentWord.word}</h3>
-              <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
-              </svg>
+              <div class="translation-button" id="turnAudioOn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
+                </svg>
+              </div>
             </div>
             <audio id="${this.classPrefix}WordSound">
               <source src="${environment.baseUrl}/${this.currentWord.audio}" type="audio/mpeg">
@@ -151,8 +267,8 @@ class AudioChallengeGame implements IAudioChallengeGame {
         <section class="${this.classPrefix}-game">
           <div class="${this.classPrefix}-game__card">
             <div class="${this.classPrefix}-game__word">
-              <div class="${this.classPrefix}-game__audio">
-                <svg class="button" id="turnAudioOn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <div class="${this.classPrefix}-game__audio" id="turnAudioOn">
+                <svg class="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path>
                 </svg>
                 <audio autoplay id="${this.classPrefix}WordSound">

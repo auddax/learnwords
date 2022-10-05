@@ -79,10 +79,8 @@
         &:hover {
           cursor: pointer;
         }
-
       }
     }
-  
   }
 
   .dictionary-words {
@@ -162,11 +160,13 @@
           font-size: 1.125rem;
 
           .volume-img {
+            cursor: pointer;
             position: relative;
             width: 20px;
             margin: 0 0 0 5px;
 
             svg {
+              pointer-events: none;
               fill: $color-dark-blue;
             }
           }

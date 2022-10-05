@@ -1,22 +1,22 @@
-import { View } from '../../types/enums';
+import { VIEW } from '../../types/enums';
 import {
   IGames,
   IPageContent,
   IStatistics,
-  MainPage,
+  IMainPage,
   IAuth,
   IDictionaryPage,
 } from '../../types/interfaces';
 import Games from '../Games/games';
-import Main from '../Main/mainPage';
+import Main from '../MainPage/mainPage';
 import Statistics from '../Statistics/statistics';
 import Auth from '../Auth/auth';
 import DictionaryPage from '../DictionaryPage/dictionaryPage';
 
 class PageContent implements IPageContent {
-  view: View;
+  view: VIEW | string | null;
 
-  main: MainPage;
+  main: IMainPage;
 
   dictionary: IDictionaryPage;
 
@@ -26,7 +26,7 @@ class PageContent implements IPageContent {
 
   auth: IAuth;
 
-  constructor(view: View) {
+  constructor(view: VIEW) {
     this.view = view;
     this.main = new Main();
     this.dictionary = new DictionaryPage();
@@ -35,45 +35,53 @@ class PageContent implements IPageContent {
     this.auth = new Auth();
   }
 
-  listen(target: HTMLElement) {
-    this.changeView(target);
-    this.games.listen(target);
+  listen(target: HTMLElement): void {
+    this.linkHandler(target);
     this.dictionary.listen(target);
+    this.games.listen(target);
+    this.statistics.listen(target);
     this.auth.listen(target);
   }
 
-  listenKey(eventCode: string) {
+  listenKey(eventCode: string): void {
     this.games.listenKey(eventCode);
   }
 
-  listenStorage(key: string | null) {
+  listenStorage(key: string | null): void {
     this.dictionary.listenStorage(key);
+    this.statistics.listenStorage(key);
   }
 
-  changeView(target: HTMLElement) {
-    if (!(target.classList.contains('menu-item')
-        || target.classList.contains('logo-text')
-        || target.classList.contains('menu__button-signin'))
-    ) return;
-    this.view = target.id as View;
+  linkHandler(target: HTMLElement): void {
+    if (!target.classList.contains('link')) return;
+    const path = target.dataset.href;
+    this.router(path);
+  }
+
+  router(path: string | undefined, popstate = false): void {
+    if (!popstate) window.history.pushState({ path }, '', path);
+    if (path) {
+      document.title = `LearnWords | ${path[0].toUpperCase() + path.slice(1)}`;
+    }
+    this.view = path as VIEW;
     this.render();
   }
 
   async render() {
     switch (this.view) {
-      case 'main':
+      case VIEW.MAIN:
         this.main.render();
         break;
-      case 'dictionary':
+      case VIEW.DICTIONARY:
         this.dictionary.render();
         break;
-      case 'games':
+      case VIEW.GAMES:
         this.games.render();
         break;
-      case 'statistics':
+      case VIEW.STATISTICS:
         this.statistics.render();
         break;
-      case 'signin':
+      case VIEW.SIGNIN:
         this.auth.render();
         break;
       default:
