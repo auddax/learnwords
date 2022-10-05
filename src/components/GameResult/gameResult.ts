@@ -80,7 +80,7 @@ class GameResult extends Loader implements IGameResult {
         const answersWrong: string[] = [];
 
         // Check saved right answers
-        answersSavedToday.answersAudioRight.forEach((word: IWords) => {
+        answersSavedToday.answersRight.forEach((word: IWords) => {
           if (answersRightWords.includes(Object.keys(word)[0])) {
             answersRight.push({
               [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
@@ -91,7 +91,7 @@ class GameResult extends Loader implements IGameResult {
         });
 
         // Check saved wrong answers
-        answersSavedToday.answersAudioWrong.forEach((word: string) => {
+        answersSavedToday.answersWrong.forEach((word: string) => {
           if (!answersRightWords.includes(word)) {
             answersWrong.push(word);
           }
@@ -127,7 +127,7 @@ class GameResult extends Loader implements IGameResult {
 
         Object.keys(answersSaved).forEach((date) => {
           // Check saved right answers
-          answersSaved[date].answersAudioRight.forEach((word: IWords) => {
+          answersSaved[date].answersRight.forEach((word: IWords) => {
             if (answersRightWords.includes(Object.keys(word)[0])) {
               answersRight.push({
                 [Object.keys(word)[0]]: String(+Object.values(word)[0] + 1),
@@ -138,7 +138,7 @@ class GameResult extends Loader implements IGameResult {
           });
 
           // Check saved wrong answers
-          answersSaved[date].answersAudioWrong.forEach((word: string) => {
+          answersSaved[date].answersWrong.forEach((word: string) => {
             if (!answersRightWords.includes(word)) {
               answersWrong.push(word);
             }
@@ -171,13 +171,13 @@ class GameResult extends Loader implements IGameResult {
         return answerSaved;
       });
 
-      const answersAudioNew = {
+      const answersNew = {
         [currentDate]: {
           answersRight,
           answersWrong,
         },
       };
-      localStorage.setItem(`answers${this.gameType}`, JSON.stringify(answersAudioNew));
+      localStorage.setItem(`answers${this.gameType}`, JSON.stringify(answersNew));
     }
   }
 

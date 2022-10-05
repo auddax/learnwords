@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import environment from '../../environment/environment';
 import { DIFFICULTY, PATH, STATISTICS } from '../../types/enums';
 import { IResponseWords, IStatistics, IWords } from '../../types/interfaces';
