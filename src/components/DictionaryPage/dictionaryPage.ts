@@ -82,13 +82,15 @@ class DictionaryPage extends Loader implements IDictionaryPage {
                 <button type="button" id="6 6-5" class="complexity-c2 complexity controls-level">C2</button>
               </div>
             </div>
-            <div class="links-card audioChallengeGameCard">
-              <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
-              <h2 class="audioChallengeGameCard card-header">Аудиовызов</h2>
-            </div>
-            <div class="links-card sprintGameCard">
-              <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
-              <h2 class="sprintGameCard card-header">Спринт</h2>
+            <div class="controls-links">
+              <div class="links-card audioChallengeGameCard">
+                <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
+                <h2 class="audioChallengeGameCard card-header">Аудиовызов</h2>
+              </div>
+              <div class="links-card sprintGameCard">
+                <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
+                <h2 class="sprintGameCard card-header">Спринт</h2>
+              </div>
             </div>
           </div>
         </header>
