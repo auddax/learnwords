@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
 import {
   IGameStart,
-  ISprint, ISprintGame, IWords,
+  ISprint,
+  ISprintGame,
+  IWords,
 } from '../../types/interfaces';
 import { GAMES, LEVEL, PATH } from '../../types/enums';
 import Loader from '../Loader/loader';

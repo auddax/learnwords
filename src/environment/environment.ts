@@ -7,7 +7,7 @@ const environment = {
   wordsPagesNumber: 30,
   wordsIndexDefault: 0,
   wordsStatisticsDefault: 0,
-  wordsStatisticsLearned: 3,
+  wordsStatisticsLearned: 4,
   rowAnswersNumber: 4,
   rightAnswersDefault: 0,
   scoreIncrement: 10,
