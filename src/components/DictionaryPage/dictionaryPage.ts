@@ -7,6 +7,7 @@ import {
   IDictionaryPage,
   ISprint,
   IResponseWords,
+  IOptional,
 } from '../../types/interfaces';
 import environment from '../../environment/environment';
 import Loader from '../Loader/loader';
@@ -315,58 +316,106 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   async wordLearnedAdd(target: HTMLElement) {
     if (target.id !== 'wordLearnedAdd') return;
-    target.classList.add('word-learned_selected');
-
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
-    const wordsHard = await this.getHardWords();
-    const currentDate = new Date().toJSON().slice(0, 10);
 
-    const pathVars = {
-      [PATH.USERS]: userId,
-      [PATH.WORDS]: this.selectedWordId,
-    };
+    if (target.classList.contains('word-learned_selected')) {
+      target.classList.remove('word-learned_selected');
+      const word = await this.getUserWord(this.selectedWordId);
 
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${userToken}`);
+      const pathVars = {
+        [PATH.USERS]: userId,
+        [PATH.WORDS]: this.selectedWordId,
+      };
 
-    const raw = JSON.stringify({
-      difficulty: DIFFICULTY.LEARNED,
-      optional: {
-        audio: environment.wordsStatisticsLearned,
-        sprint: environment.wordsStatisticsLearned,
-        dateAdd: currentDate,
-        dateLearned: currentDate,
-      },
-    });
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    let requestOptions = {};
+      const optional: IOptional = {
+        dateAdd: word.optional.dateAdd,
+        sprint: 0,
+        audio: 0,
+      };
 
-    if (wordsHard.some((item) => item.wordId === this.selectedWordId)) {
-      requestOptions = {
+      const raw = JSON.stringify({
+        difficulty: DIFFICULTY.NORMAL,
+        optional,
+      });
+
+      const requestOptions = {
         method: 'PUT',
         headers: myHeaders,
         body: raw,
       };
+
+      const params = { pathVars };
+      await super.getResponse(params, requestOptions);
+
+      const wordCard = document.getElementById(this.selectedWordId);
+
+      const buttonWordHardAdd = document.querySelector('.word-hard_inactive');
+      if (wordCard) {
+        wordCard.classList.remove('words-learned_selected');
+        const statusBar = wordCard.querySelector('.status-word') as HTMLElement;
+        if (statusBar) statusBar.removeAttribute('style');
+      }
+      if (buttonWordHardAdd) {
+        buttonWordHardAdd.id = 'wordHardAdd';
+        buttonWordHardAdd.classList.remove('word-hard_inactive');
+      }
     } else {
-      requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
+      target.classList.add('word-learned_selected');
+      const words = await this.getUserWords();
+      const currentDate = new Date().toJSON().slice(0, 10);
+
+      const pathVars = {
+        [PATH.USERS]: userId,
+        [PATH.WORDS]: this.selectedWordId,
       };
-    }
 
-    const params = { pathVars };
-    await super.getResponse(params, requestOptions);
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    const wordCard = document.getElementById(this.selectedWordId);
-    const buttonWordHardAdd = document.getElementById('wordHardAdd');
-    if (wordCard) wordCard.classList.add('words-learned_selected');
-    if (buttonWordHardAdd) {
-      buttonWordHardAdd.classList.add('word-hard_inactive');
-      buttonWordHardAdd.id = '';
+      const raw = JSON.stringify({
+        difficulty: DIFFICULTY.LEARNED,
+        optional: {
+          audio: environment.wordsStatisticsLearned,
+          sprint: environment.wordsStatisticsLearned,
+          dateAdd: currentDate,
+          dateLearned: currentDate,
+        },
+      });
+
+      let requestOptions = {};
+
+      if (words.some((item) => item.wordId === this.selectedWordId)) {
+        requestOptions = {
+          method: 'PUT',
+          headers: myHeaders,
+          body: raw,
+        };
+      } else {
+        requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+      }
+
+      const params = { pathVars };
+      await super.getResponse(params, requestOptions);
+
+      const wordCard = document.getElementById(this.selectedWordId);
+      const buttonWordHardAdd = document.getElementById('wordHardAdd');
+      if (wordCard) wordCard.classList.add('words-learned_selected');
+      if (buttonWordHardAdd) {
+        buttonWordHardAdd.classList.add('word-hard_inactive');
+        buttonWordHardAdd.id = '';
+      }
     }
   }
 
@@ -476,6 +525,30 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const pathVars = {
       [PATH.USERS]: userId,
       [PATH.WORDS]: null,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    const params = { pathVars };
+    const response = await super.getResponse(params, requestOptions);
+    const words = await response.json();
+    return words;
+  }
+
+  async getUserWord(wordId: string): Promise<IResponseWords> {
+    const userId = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('userToken');
+
+    const pathVars = {
+      [PATH.USERS]: userId,
+      [PATH.WORDS]: wordId,
     };
 
     const myHeaders = new Headers();
