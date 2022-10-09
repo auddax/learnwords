@@ -29,9 +29,12 @@ class PageContent implements IPageContent {
   constructor(view: VIEW) {
     this.view = view;
     this.main = new Main();
-    this.dictionary = new DictionaryPage();
     this.games = new Games();
     this.statistics = new Statistics();
+    this.dictionary = new DictionaryPage(
+      this.games.sprint,
+      this.games.audio,
+    );
     this.auth = new Auth();
   }
 
@@ -56,6 +59,15 @@ class PageContent implements IPageContent {
     if (!target.classList.contains('link')) return;
     const path = target.dataset.href;
     this.router(path);
+    const toggler = document.getElementById('menuToggler');
+    if (toggler && toggler.classList.contains('active')) {
+      const headerOverlay = document.querySelector('.header__overlay') as HTMLElement;
+      const headerMenu = document.querySelector('.header__menu') as HTMLElement;
+      document.body.style.overflow = 'auto';
+      toggler.classList.remove('active');
+      headerOverlay.classList.remove('active');
+      headerMenu.classList.remove('active');
+    }
   }
 
   router(path: string | undefined, popstate = false): void {

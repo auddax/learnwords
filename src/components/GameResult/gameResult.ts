@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   GAMES,
   PATH,
@@ -315,24 +314,27 @@ class GameResult extends Loader implements IGameResult {
     if (this.gameType === GAMES.AUDIO) {
       if (update === UPDATE.DOWNSCORE) {
         optional.audio = environment.wordsStatisticsDefault;
-        if (word.optional.sprint) optional.sprint = word.optional.sprint;
       } else if (word.optional.audio) {
         optional.audio = word.optional.audio + 1;
       } else {
         optional.audio = 1;
       }
-    } else if (update === UPDATE.DOWNSCORE) {
-      optional.sprint = environment.wordsStatisticsDefault;
-      if (word.optional.audio) optional.audio = word.optional.audio;
-    } else if (word.optional.sprint) {
-      optional.sprint = word.optional.sprint + 1;
+      if (word.optional.sprint) optional.sprint = word.optional.sprint;
     } else {
-      optional.sprint = 1;
+      if (update === UPDATE.DOWNSCORE) {
+        optional.sprint = environment.wordsStatisticsDefault;
+      } else if (word.optional.sprint) {
+        optional.sprint = word.optional.sprint + 1;
+      } else {
+        optional.sprint = 1;
+      }
+      if (word.optional.audio) optional.audio = word.optional.audio;
     }
 
     const difficulty = (
       ((optional.audio && optional.audio >= environment.wordsStatisticsLearned)
         || (optional.sprint && optional.sprint >= environment.wordsStatisticsLearned)
+        || ((optional.sprint || 0) + (optional.audio || 0) >= environment.wordsStatisticsLearned)
       ) && (optional.audio !== environment.wordsStatisticsDefault
       || optional.sprint !== environment.wordsStatisticsDefault)
     ) ? DIFFICULTY.LEARNED : DIFFICULTY.NORMAL;
@@ -373,7 +375,7 @@ class GameResult extends Loader implements IGameResult {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const word = await response.json();
-    return JSON.parse(word);
+    return word;
   }
 
   async getStatistics(headers: Headers) {

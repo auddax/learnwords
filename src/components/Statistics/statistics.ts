@@ -336,6 +336,14 @@ class Statistics extends Loader implements IStatistics {
         }
       }
     }
+
+    this.newWords = this.newWordsAudio + this.newWordsSprint;
+    this.learnedWords = this.learnedWordsAudio + this.learnedWordsSprint;
+    if (rightAnswersNumberAudio || rightAnswersNumberSprint) {
+      this.accuracy = Math.round(
+        ((rightAnswersNumberAudio + rightAnswersNumberSprint) / this.newWords) * 100,
+      );
+    }
   }
 
   async render() {

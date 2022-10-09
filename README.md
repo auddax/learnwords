@@ -8,12 +8,12 @@ SPA for learning new english words. Built using class components, TypeScript, SC
 
 ## Screenshots
 
-![Main view](https://user-images.githubusercontent.com/9900821/194060024-2ebb7994-3f79-4949-b022-9dedba4f4acb.png)
-![Dictionary view](https://user-images.githubusercontent.com/9900821/194060323-c54e2e68-6395-4119-a52a-10d73ffe7703.png)
+![Main view](https://user-images.githubusercontent.com/9900821/194066359-e8c09f84-f172-4667-b628-0b617726a926.png)
+![Dictionary view](https://user-images.githubusercontent.com/9900821/194066446-317471ff-e4d7-4120-b307-cc3fa2d90de3.png)
 
-![AudioChallenge view](https://user-images.githubusercontent.com/9900821/194060375-2b8854de-1db1-4661-a1d3-5d56ed8e930d.png)
+![Games view](https://user-images.githubusercontent.com/9900821/194066508-f1d238b4-4709-4d64-9a09-443ea4e0628c.png)
 
-![Statistics view](https://user-images.githubusercontent.com/9900821/194060523-537b0fdf-e013-4a70-97d8-5d1aa295314b.png)
+![Statistics view](https://user-images.githubusercontent.com/9900821/194066586-e5fe095f-b012-4007-997e-df42ca3704f1.png)
 
 ## Run Locally
 
