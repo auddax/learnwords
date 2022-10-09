@@ -29,9 +29,12 @@ class PageContent implements IPageContent {
   constructor(view: VIEW) {
     this.view = view;
     this.main = new Main();
-    this.dictionary = new DictionaryPage();
     this.games = new Games();
     this.statistics = new Statistics();
+    this.dictionary = new DictionaryPage(
+      this.games.sprint,
+      this.games.audio,
+    );
     this.auth = new Auth();
   }
 

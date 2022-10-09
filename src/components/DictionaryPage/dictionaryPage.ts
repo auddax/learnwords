@@ -10,8 +10,6 @@ import {
 } from '../../types/interfaces';
 import environment from '../../environment/environment';
 import Loader from '../Loader/loader';
-import Sprint from '../Sprint/sprint';
-import AudioChallenge from '../AudioChallenge/audioChallenge';
 import { classToggler } from '../../utils/utils';
 import './dictionaryPage.scss';
 
@@ -30,12 +28,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   timerId: NodeJS.Timeout | null;
 
-  constructor() {
+  constructor(sprint: ISprint, audio: IAudioChallenge) {
     super();
     this.base = environment.baseUrl;
     this.view = DICTIONARY.WORDS;
-    this.audio = new AudioChallenge();
-    this.sprint = new Sprint();
+    this.sprint = sprint;
+    this.audio = audio;
     this.userName = localStorage.getItem('userName');
     this.selectedWordId = '';
     this.timerId = null;
@@ -129,7 +127,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   async setWordCard(currentPage = 0, currentGroup = 0) {
-    const wordsOnpage = await this.getWords(currentGroup, currentPage);
+    const wordsOnpage = await this.getWords(currentPage, currentGroup);
     const isLogin = Boolean(localStorage.getItem('userName'));
     let wordsUser = null;
     let wordsHard = null;
@@ -152,7 +150,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
         if (word) {
           const learnStatusAudio = Number(word.optional.audio) || 0;
           const learnStatusSprint = Number(word.optional.sprint) || 0;
-          const learnStatus = Math.max(learnStatusAudio, learnStatusSprint);
+          const learnStatus = learnStatusAudio + learnStatusSprint;
           const percentage = (learnStatus / environment.wordsStatisticsLearned) * 100;
           const statusBar = renderedWordBlock.querySelector('.status-word') as HTMLElement;
           if (statusBar) {
@@ -295,14 +293,24 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     return wordCard;
   }
 
-  renderSprintGame(target: HTMLElement) {
+  async renderSprintGame(target: HTMLElement) {
     if (!target.classList.contains('sprintGameCard')) return;
-    this.sprint.render();
+    const page = localStorage.getItem('page');
+    const group = localStorage.getItem('group');
+    if (page && group) {
+      const words = await this.getWords(Number(page), Number(group));
+      this.sprint.game.start(words);
+    }
   }
 
-  renderAudioGame(target: HTMLElement) {
+  async renderAudioGame(target: HTMLElement) {
     if (!target.classList.contains('audioChallengeGameCard')) return;
-    this.audio.render();
+    const page = localStorage.getItem('page');
+    const group = localStorage.getItem('group');
+    if (page && group) {
+      const words = await this.getWords(Number(page), Number(group));
+      this.audio.game.start(words);
+    }
   }
 
   async wordLearnedAdd(target: HTMLElement) {
@@ -485,7 +493,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     return words;
   }
 
-  async getWords(group: number, page: number) {
+  async getWords(page: number, group: number) {
     const pathVars = { [PATH.WORDS]: null };
     const queryParams = { group, page };
     const params = { pathVars, queryParams };

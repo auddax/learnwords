@@ -46,7 +46,7 @@ class Sprint extends Loader implements ISprint {
   }
 
   listenKey(eventCode: string) {
-    this.game.answerSprintGameKey(eventCode);
+    this.game.listenKey(eventCode);
   }
 
   async gameStart(target: HTMLElement) {
