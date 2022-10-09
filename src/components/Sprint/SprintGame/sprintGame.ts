@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable max-lines-per-function */
 import environment from '../../../environment/environment';
 import { GAMES } from '../../../types/enums';
 import { ISprintGame, IGameResult, IWords } from '../../../types/interfaces';
@@ -45,6 +44,10 @@ class SprintGame implements ISprintGame {
     this.answerSprintGameMouse(target);
     this.stopSprintGame(target);
     this.result.changeView(target);
+  }
+
+  listenKey(eventCode: string) {
+    this.answerSprintGameKey(eventCode);
   }
 
   start(words: IWords[]) {

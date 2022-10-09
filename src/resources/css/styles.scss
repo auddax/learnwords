@@ -16,6 +16,7 @@ $transition-time: 0.5s;
 
 $screen-large: 1280px;
 $screen-medium: 950px;
+$screen-small: 650px;
 
 @mixin center-content {
   display: flex;

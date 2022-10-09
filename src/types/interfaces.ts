@@ -87,6 +87,7 @@ export interface ISprintGame {
   shuffledWords: IWords[];
   result: IGameResult;
   listen: (target: HTMLElement) => void;
+  listenKey: (eventCode: string) => void;
   start: (words: IWords[]) => void;
   answerSprintGameMouse: (target: HTMLElement) => void;
   answerSprintGameKey: (eventCode: string) => void;
@@ -98,6 +99,8 @@ export interface IPageFooter {
 }
 
 export interface IGames {
+  sprint: ISprint;
+  audio: IAudioChallenge;
   listen: (target: HTMLElement) => void;
   listenKey: (eventCode: string) => void;
   render: () => void;
@@ -128,6 +131,7 @@ export interface IAudioChallenge {
   baseUrl: string;
   level: LEVEL;
   gameType: GAMES;
+  game: IAudioChallengeGame;
   start: IGameStart;
   listen: (target: HTMLElement) => void;
   render: () => void;

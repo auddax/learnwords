@@ -1,18 +1,16 @@
 /* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { DICTIONARY, DIFFICULTY, PATH } from '../../types/enums';
 import {
   IAudioChallenge,
   IDictionaryPage,
   ISprint,
-  IWords,
+  IResponseWords,
+  IOptional,
 } from '../../types/interfaces';
 import environment from '../../environment/environment';
 import Loader from '../Loader/loader';
-import Sprint from '../Sprint/sprint';
-import AudioChallenge from '../AudioChallenge/audioChallenge';
 import { classToggler } from '../../utils/utils';
 import './dictionaryPage.scss';
 
@@ -31,12 +29,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
   timerId: NodeJS.Timeout | null;
 
-  constructor() {
+  constructor(sprint: ISprint, audio: IAudioChallenge) {
     super();
     this.base = environment.baseUrl;
     this.view = DICTIONARY.WORDS;
-    this.audio = new AudioChallenge();
-    this.sprint = new Sprint();
+    this.sprint = sprint;
+    this.audio = audio;
     this.userName = localStorage.getItem('userName');
     this.selectedWordId = '';
     this.timerId = null;
@@ -82,13 +80,15 @@ class DictionaryPage extends Loader implements IDictionaryPage {
                 <button type="button" id="6 6-5" class="complexity-c2 complexity controls-level">C2</button>
               </div>
             </div>
-            <div class="links-card audioChallengeGameCard">
-              <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
-              <h2 class="audioChallengeGameCard card-header">Аудиовызов</h2>
-            </div>
-            <div class="links-card sprintGameCard">
-              <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
-              <h2 class="sprintGameCard card-header">Спринт</h2>
+            <div class="controls-links">
+              <div class="links-card audioChallengeGameCard">
+                <img class="audioChallengeGameCard card-img" src="./img/audio-challenge-game-logo.svg">
+                <h2 class="audioChallengeGameCard card-header">Аудиовызов</h2>
+              </div>
+              <div class="links-card sprintGameCard">
+                <img class="sprintGameCard card-img" src="./img//sprint-game-logo.svg">
+                <h2 class="sprintGameCard card-header">Спринт</h2>
+              </div>
             </div>
           </div>
         </header>
@@ -128,21 +128,40 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   async setWordCard(currentPage = 0, currentGroup = 0) {
-    const wordsOnpage = await this.getWords(currentGroup, currentPage);
+    const wordsOnpage = await this.getWords(currentPage, currentGroup);
     const isLogin = Boolean(localStorage.getItem('userName'));
+    let wordsUser = null;
     let wordsHard = null;
     let wordsLearned = null;
+
     if (isLogin) {
-      wordsHard = await this.getHardWords();
-      wordsLearned = await this.getLearnedWords();
+      wordsUser = await this.getUserWords();
+      wordsHard = wordsUser.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.HARD);
+      wordsLearned = wordsUser.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.LEARNED);
     }
     const wordsBlock = document.querySelector('.words');
     if (wordsBlock) {
-      wordsBlock!.innerHTML = ' ';
+      wordsBlock.innerHTML = ' ';
     }
     const FIRSTPAGE = 0;
     for (let i = 0; i < wordsOnpage.length; i += 1) {
       const renderedWordBlock = this.renderWordCard(wordsOnpage[i].word, wordsOnpage[i].wordTranslate, wordsOnpage[i].id);
+      if (wordsUser) {
+        const word = wordsUser.find((item) => item.wordId === wordsOnpage[i].id);
+        if (word) {
+          const learnStatusAudio = Number(word.optional.audio) || 0;
+          const learnStatusSprint = Number(word.optional.sprint) || 0;
+          const learnStatus = learnStatusAudio + learnStatusSprint;
+          const percentage = (learnStatus / environment.wordsStatisticsLearned) * 100;
+          const statusBar = renderedWordBlock.querySelector('.status-word') as HTMLElement;
+          if (statusBar) {
+            statusBar.style.backgroundImage = `
+              linear-gradient(90deg, #CEFBE3 ${percentage}%, transparent ${percentage}%)
+            `;
+          }
+        }
+      }
+
       if (wordsHard) {
         if (wordsHard.some((item) => item.wordId === wordsOnpage[i].id)) {
           renderedWordBlock.classList.add('words-hard_selected');
@@ -164,12 +183,12 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const currentPageBlock = document.querySelector('.current-page') as HTMLElement;
     const currentPageBlockId = currentPageBlock ? currentPageBlock.id : Number(localStorage.page);
     if (currentPageBlockId === '0') {
-      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
-      prevBtn!.disabled = true;
+      const prevBtn = document.querySelector('.prev-page') as HTMLButtonElement;
+      prevBtn.disabled = true;
       prevBtn?.classList.add('disabled-btn');
     } else if (currentPageBlockId === '29') {
-      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
-      nextBtn!.disabled = true;
+      const nextBtn = document.querySelector('.next-page') as HTMLButtonElement;
+      nextBtn.disabled = true;
       nextBtn?.classList.add('disabled-btn');
     }
   }
@@ -181,12 +200,16 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     }
     const wordParams = await this.getWordById(wordId);
     const isLogin = Boolean(localStorage.getItem('userName'));
+    let wordsUser = null;
     let wordsHard = null;
     let wordsLearned = null;
+
     if (isLogin) {
-      wordsHard = await this.getHardWords();
-      wordsLearned = await this.getLearnedWords();
+      wordsUser = await this.getUserWords();
+      wordsHard = wordsUser.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.HARD);
+      wordsLearned = wordsUser.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.LEARNED);
     }
+
     const wordInfoBlock = document.querySelector('.words-info') as HTMLElement;
     const wordHardRemove = '<button type="button" class="word-hard" id="wordHardRemove">Remove</button>';
     let wordHardAdd = '<button type="button" class="word-hard" id="wordHardAdd">Hard</button>';
@@ -256,7 +279,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const prevChoosenWord = document.querySelector('.choosen-word');
     prevChoosenWord?.classList.remove('choosen-word');
     const wordBlock = document.getElementById(wordId);
-    wordBlock!.classList.add('choosen-word');
+    if (wordBlock) wordBlock.classList.add('choosen-word');
   }
 
   renderWordCard(wordEnglish: string, wordTranslate: string, wordBlockId: string) {
@@ -266,74 +289,133 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     wordCard.innerHTML = `
       <p id="${wordBlockId}" class="english-word wordElement">${wordEnglish}</p>
       <p id="${wordBlockId}"class="translate-word wordElement">${wordTranslate}</p>
+      <div class="status-word"></div>
     `;
     return wordCard;
   }
 
-  renderSprintGame(target: HTMLElement) {
+  async renderSprintGame(target: HTMLElement) {
     if (!target.classList.contains('sprintGameCard')) return;
-    this.sprint.render();
+    const page = localStorage.getItem('page');
+    const group = localStorage.getItem('group');
+    if (page && group) {
+      const words = await this.getWords(Number(page), Number(group));
+      this.sprint.game.start(words);
+    }
   }
 
-  renderAudioGame(target: HTMLElement) {
+  async renderAudioGame(target: HTMLElement) {
     if (!target.classList.contains('audioChallengeGameCard')) return;
-    this.audio.render();
+    const page = localStorage.getItem('page');
+    const group = localStorage.getItem('group');
+    if (page && group) {
+      const words = await this.getWords(Number(page), Number(group));
+      this.audio.game.start(words);
+    }
   }
 
   async wordLearnedAdd(target: HTMLElement) {
     if (target.id !== 'wordLearnedAdd') return;
-    target.classList.add('word-learned_selected');
-
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
-    const wordsHard = await this.getHardWords();
-    const currentDate = new Date().toJSON().slice(0, 10);
 
-    const pathVars = {
-      [PATH.USERS]: userId,
-      [PATH.WORDS]: this.selectedWordId,
-    };
+    if (target.classList.contains('word-learned_selected')) {
+      target.classList.remove('word-learned_selected');
+      const word = await this.getUserWord(this.selectedWordId);
 
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${userToken}`);
+      const pathVars = {
+        [PATH.USERS]: userId,
+        [PATH.WORDS]: this.selectedWordId,
+      };
 
-    const raw = JSON.stringify({
-      difficulty: DIFFICULTY.LEARNED,
-      optional: {
-        audio: environment.wordsStatisticsLearned,
-        sprint: environment.wordsStatisticsLearned,
-        dateAdd: currentDate,
-        dateLearned: currentDate,
-      },
-    });
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    let requestOptions = {};
+      const optional: IOptional = {
+        dateAdd: word.optional.dateAdd,
+        sprint: 0,
+        audio: 0,
+      };
 
-    if (wordsHard.some((item) => item.wordId === this.selectedWordId)) {
-      requestOptions = {
+      const raw = JSON.stringify({
+        difficulty: DIFFICULTY.NORMAL,
+        optional,
+      });
+
+      const requestOptions = {
         method: 'PUT',
         headers: myHeaders,
         body: raw,
       };
+
+      const params = { pathVars };
+      await super.getResponse(params, requestOptions);
+
+      const wordCard = document.getElementById(this.selectedWordId);
+
+      const buttonWordHardAdd = document.querySelector('.word-hard_inactive');
+      if (wordCard) {
+        wordCard.classList.remove('words-learned_selected');
+        const statusBar = wordCard.querySelector('.status-word') as HTMLElement;
+        if (statusBar) statusBar.removeAttribute('style');
+      }
+      if (buttonWordHardAdd) {
+        buttonWordHardAdd.id = 'wordHardAdd';
+        buttonWordHardAdd.classList.remove('word-hard_inactive');
+      }
     } else {
-      requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
+      target.classList.add('word-learned_selected');
+      const words = await this.getUserWords();
+      const currentDate = new Date().toJSON().slice(0, 10);
+
+      const pathVars = {
+        [PATH.USERS]: userId,
+        [PATH.WORDS]: this.selectedWordId,
       };
-    }
 
-    const params = { pathVars };
-    await super.getResponse(params, requestOptions);
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Accept', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${userToken}`);
 
-    const wordCard = document.getElementById(this.selectedWordId);
-    const buttonWordHardAdd = document.getElementById('wordHardAdd');
-    if (wordCard) wordCard.classList.add('words-learned_selected');
-    if (buttonWordHardAdd) {
-      buttonWordHardAdd.classList.add('word-hard_inactive');
-      buttonWordHardAdd.id = '';
+      const raw = JSON.stringify({
+        difficulty: DIFFICULTY.LEARNED,
+        optional: {
+          audio: environment.wordsStatisticsLearned,
+          sprint: environment.wordsStatisticsLearned,
+          dateAdd: currentDate,
+          dateLearned: currentDate,
+        },
+      });
+
+      let requestOptions = {};
+
+      if (words.some((item) => item.wordId === this.selectedWordId)) {
+        requestOptions = {
+          method: 'PUT',
+          headers: myHeaders,
+          body: raw,
+        };
+      } else {
+        requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          body: raw,
+        };
+      }
+
+      const params = { pathVars };
+      await super.getResponse(params, requestOptions);
+
+      const wordCard = document.getElementById(this.selectedWordId);
+      const buttonWordHardAdd = document.getElementById('wordHardAdd');
+      if (wordCard) wordCard.classList.add('words-learned_selected');
+      if (buttonWordHardAdd) {
+        buttonWordHardAdd.classList.add('word-hard_inactive');
+        buttonWordHardAdd.id = '';
+      }
     }
   }
 
@@ -415,7 +497,7 @@ class DictionaryPage extends Loader implements IDictionaryPage {
 
     const words = await this.getHardWords();
 
-    words.forEach(async (item: IWords) => {
+    words.forEach(async (item: IResponseWords) => {
       const word = await this.getWordById(item.wordId);
       const wordCard = this.renderWordCard(word.word, word.wordTranslate, word.id);
       wordsBlock?.append(wordCard);
@@ -424,32 +506,19 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     this.setWordInfo(words[0].wordId);
   }
 
-  async getHardWords(): Promise<IWords[]> {
-    const userId = localStorage.getItem('userId');
-    const userToken = localStorage.getItem('userToken');
-
-    const pathVars = {
-      [PATH.USERS]: userId,
-      [PATH.WORDS]: null,
-    };
-
-    const myHeaders = new Headers();
-    myHeaders.append('Accept', 'application/json');
-    myHeaders.append('Authorization', `Bearer ${userToken}`);
-
-    const requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-    };
-
-    const params = { pathVars };
-    const response = await super.getResponse(params, requestOptions);
-    const words = await response.json();
-    const wordsHard = words.filter((item: IWords) => item.difficulty === DIFFICULTY.HARD);
+  async getHardWords(): Promise<IResponseWords[]> {
+    const words = await this.getUserWords();
+    const wordsHard = words.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.HARD);
     return wordsHard;
   }
 
-  async getLearnedWords(): Promise<IWords[]> {
+  async getLearnedWords(): Promise<IResponseWords[]> {
+    const words = await this.getUserWords();
+    const wordsLearned = words.filter((item: IResponseWords) => item.difficulty === DIFFICULTY.LEARNED);
+    return wordsLearned;
+  }
+
+  async getUserWords(): Promise<IResponseWords[]> {
     const userId = localStorage.getItem('userId');
     const userToken = localStorage.getItem('userToken');
 
@@ -470,11 +539,34 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const words = await response.json();
-    const wordsLearned = words.filter((item: IWords) => item.difficulty === DIFFICULTY.LEARNED);
-    return wordsLearned;
+    return words;
   }
 
-  async getWords(group: number, page: number) {
+  async getUserWord(wordId: string): Promise<IResponseWords> {
+    const userId = localStorage.getItem('userId');
+    const userToken = localStorage.getItem('userToken');
+
+    const pathVars = {
+      [PATH.USERS]: userId,
+      [PATH.WORDS]: wordId,
+    };
+
+    const myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${userToken}`);
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+    };
+
+    const params = { pathVars };
+    const response = await super.getResponse(params, requestOptions);
+    const words = await response.json();
+    return words;
+  }
+
+  async getWords(page: number, group: number) {
     const pathVars = { [PATH.WORDS]: null };
     const queryParams = { group, page };
     const params = { pathVars, queryParams };
@@ -587,41 +679,41 @@ class DictionaryPage extends Loader implements IDictionaryPage {
   }
 
   async nextPage() {
-    const choosenComplexityBlock = document.querySelector('.choosen-complexity');
-    const choosenComplexity = Number(choosenComplexityBlock!.id[0]) - 1;
-    const currentPageBlock = document.querySelector('.current-page');
-    const nextPage = Number(currentPageBlock!.id) + 1;
+    const choosenComplexityBlock = document.querySelector('.choosen-complexity') as HTMLElement;
+    const choosenComplexity = Number(choosenComplexityBlock.id[0]) - 1;
+    const currentPageBlock = document.querySelector('.current-page') as HTMLElement;
+    const nextPage = Number(currentPageBlock.id) + 1;
     await this.setWordCard(nextPage, choosenComplexity);
-    currentPageBlock!.id = `${nextPage}`;
-    currentPageBlock!.innerHTML = `${nextPage + 1}/30`;
+    currentPageBlock.id = `${nextPage}`;
+    currentPageBlock.innerHTML = `${nextPage + 1}/30`;
     localStorage.setItem('page', `${nextPage}`);
     // ниже выключение кнопки "вперед"
-    if (currentPageBlock!.id === '29') {
-      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
-      nextBtn!.disabled = true;
+    if (currentPageBlock.id === '29') {
+      const nextBtn = document.querySelector('.next-page') as HTMLButtonElement;
+      nextBtn.disabled = true;
       nextBtn?.classList.add('disabled-btn');
-    } else if (+currentPageBlock!.id > 0) {
-      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
-      prevBtn!.disabled = false;
+    } else if (+currentPageBlock.id > 0) {
+      const prevBtn = document.querySelector('.prev-page') as HTMLButtonElement;
+      prevBtn.disabled = false;
       prevBtn?.classList.remove('disabled-btn');
     }
   }
 
   async prevPage() {
-    const choosenComplexityBlock = document.querySelector('.choosen-complexity');
-    const choosenComplexity = Number(choosenComplexityBlock!.id[0]) - 1;
-    const currentPageBlock = document.querySelector('.current-page');
+    const choosenComplexityBlock = document.querySelector('.choosen-complexity') as HTMLElement;
+    const choosenComplexity = Number(choosenComplexityBlock.id[0]) - 1;
+    const currentPageBlock = document.querySelector('.current-page') as HTMLElement;
     const prevPage = Number(currentPageBlock?.id) - 1;
     await this.setWordCard(prevPage, choosenComplexity);
-    currentPageBlock!.id = `${prevPage}`;
-    currentPageBlock!.innerHTML = `${prevPage + 1}/30`;
+    currentPageBlock.id = `${prevPage}`;
+    currentPageBlock.innerHTML = `${prevPage + 1}/30`;
     localStorage.setItem('page', `${prevPage}`);
     // ниже выключение кнопки "назад"
-    if (currentPageBlock!.id === '0') {
+    if (currentPageBlock.id === '0') {
       const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
       // prevBtn!.disabled = true;
       prevBtn?.classList.add('disabled-btn');
-    } else if (+currentPageBlock!.id < 29) {
+    } else if (+currentPageBlock.id < 29) {
       const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
       // nextBtn!.disabled = false;
       nextBtn?.classList.remove('disabled-btn');
@@ -639,16 +731,16 @@ class DictionaryPage extends Loader implements IDictionaryPage {
     newChoosenComplexity?.classList.add('choosen-complexity');
     // далее обновление страницы
     const currentPageBlock = document.querySelector('.current-page') as HTMLElement;
-    currentPageBlock!.id = `${page}`;
-    currentPageBlock!.innerHTML = `${page + 1}/30`;
+    currentPageBlock.id = `${page}`;
+    currentPageBlock.innerHTML = `${page + 1}/30`;
     // ниже выключение кнопок пагинации если страница первая/последняя
-    if (currentPageBlock!.id === '0') {
-      const prevBtn: HTMLButtonElement | null = document.querySelector('.prev-page');
-      prevBtn!.disabled = true;
+    if (currentPageBlock.id === '0') {
+      const prevBtn = document.querySelector('.prev-page') as HTMLButtonElement;
+      prevBtn.disabled = true;
       prevBtn?.classList.add('disabled-btn');
-    } else if (currentPageBlock!.id === '29') {
-      const nextBtn: HTMLButtonElement | null = document.querySelector('.next-page');
-      nextBtn!.disabled = true;
+    } else if (currentPageBlock.id === '29') {
+      const nextBtn = document.querySelector('.next-page') as HTMLButtonElement;
+      nextBtn.disabled = true;
       nextBtn?.classList.add('disabled-btn');
     }
   }
