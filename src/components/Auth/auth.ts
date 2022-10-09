@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-console */
 import { VIEW } from '../../types/enums';
 import './auth.scss';
 
@@ -132,7 +131,6 @@ class Auth {
 
         return Promise.reject(res);
       }).then((data) => {
-        // this.clean_userlocalstorage();
         this.set_userlocalstorage(data);
         this.setLifeTimeTokenCookie();
         this.token = data.token;
@@ -206,8 +204,6 @@ class Auth {
   async register_action(target: HTMLElement) {
     const elFormAction = document.getElementById('register-form-action');
     if (target.id === 'register-form-action') {
-      console.log('register_action = ');
-
       const ELInputFirstName = document.getElementById('reg-input-first-name') as HTMLInputElement;
       const ELInputEmail = document.getElementById('reg-input-email') as HTMLInputElement;
       const ELInputPassword = document.getElementById('reg-input-password') as HTMLInputElement;
@@ -217,9 +213,7 @@ class Auth {
         email: ELInputEmail.value,
         password: ELInputPassword.value,
       };
-      console.log(createUserData);
       const vbody = JSON.stringify(createUserData);
-      console.log(vbody);
 
       const getFetch = fetch('https://rslng.herokuapp.com/users', {
         headers: {
@@ -257,7 +251,6 @@ class Auth {
       const userTokenLifeTime: string | null = localStorage.getItem('userTokenLifeTime');
       if (userTokenLifeTime != null && this.get_datetime() >= userTokenLifeTime) {
         this.updateToken();
-        console.log('islog_in-updateToken');
       }
       return true;
     }
@@ -314,9 +307,6 @@ class Auth {
       method: 'GET',
     }).then((res) => {
       if (res.ok) {
-        console.log('updateToken_OKi');
-        console.log(res);
-
         return res.json();
       }
 
@@ -326,16 +316,11 @@ class Auth {
 
       return Promise.reject(res);
     }).then((data) => {
-      console.log(data);
-
       localStorage.setItem('userToken', data.token);
       localStorage.setItem('userRefreshToken', data.refreshToken);
 
       this.token = data.token;
       this.setLifeTimeTokenCookie();
-    }).catch((err) => {
-      console.warn('catch');
-      console.warn(err);
     });
   }
 }

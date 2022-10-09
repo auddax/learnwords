@@ -373,7 +373,7 @@ class GameResult extends Loader implements IGameResult {
     const params = { pathVars };
     const response = await super.getResponse(params, requestOptions);
     const word = await response.json();
-    return JSON.parse(word);
+    return word;
   }
 
   async getStatistics(headers: Headers) {
