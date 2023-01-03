@@ -1,7 +1,7 @@
 import { LEVEL } from '../types/enums';
 
 const environment = {
-  baseUrl: 'https://rslng.herokuapp.com',
+  baseUrl: 'https://learnwords.onrender.com',
   levelDefault: LEVEL.A1,
   wordsNumber: 20,
   wordsPagesNumber: 30,

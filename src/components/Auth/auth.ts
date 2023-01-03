@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable class-methods-use-this */
+import environment from '../../environment/environment';
 import { VIEW } from '../../types/enums';
 import './auth.scss';
 
@@ -10,10 +11,13 @@ class Auth {
 
   userRefreshToken: string | null;
 
+  baseUrl: string | null;
+
   constructor() {
     this.token = localStorage.getItem('userId');
     this.userId = localStorage.getItem('userToken');
     this.userRefreshToken = localStorage.getItem('userRefreshToken');
+    this.baseUrl = environment.baseUrl;
   }
 
   render(): void {
@@ -117,7 +121,7 @@ class Auth {
 
       const elFormResult = document.getElementById('formResult');
 
-      const getFetch = fetch('https://rslng.herokuapp.com/signin', {
+      const getFetch = fetch(`${this.baseUrl}/signin`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -215,7 +219,7 @@ class Auth {
       };
       const vbody = JSON.stringify(createUserData);
 
-      const getFetch = fetch('https://rslng.herokuapp.com/users', {
+      const getFetch = fetch(`${this.baseUrl}/users`, {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -298,7 +302,7 @@ class Auth {
   }
 
   async updateToken() {
-    const getFetch = fetch(`https://rslng.herokuapp.com/users/${this.userId}/tokens`, {
+    const getFetch = fetch(`${this.baseUrl}/users/${this.userId}/tokens`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('userRefreshToken')}`,
         Accept: 'application/json',
